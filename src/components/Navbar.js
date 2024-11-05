@@ -2,7 +2,7 @@
 // import { styled } from "@mui/material/styles";
 import * as React from "react";
 import { Button } from "@mui/material";
-import Drawer from "@mui/material/Drawer";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -52,7 +52,6 @@ export default function Navbar() {
 					</div>
 				</div> */}
 				<TextField
-					id="outlined-basic"
 					variant="outlined"
 					placeholder="Search..."
 					className="bg-[#f7f7f7] sm:w-96 w-[21rem]  duration-300"
@@ -80,7 +79,11 @@ export default function Navbar() {
 				<Button onClick={toggleDrawer(true)} sx={{ color: "black" }}>
 					<MenuIcon fontSize="medium" />
 				</Button>
-				<Drawer open={open} onClose={toggleDrawer(false)}>
+				<SwipeableDrawer
+					open={open}
+					onClose={toggleDrawer(false)}
+					onOpen={toggleDrawer(true)}
+				>
 					<div className="flex items-center justify-center flex-col gap-8">
 						<h1 className="text-3xl font-bold border-b-[1px] border-slate-200 w-full text-center pb-4 pt-5">
 							Taska
@@ -94,7 +97,6 @@ export default function Navbar() {
 								Login / SignUp
 							</Button>
 							<TextField
-								id="outlined-basic"
 								variant="outlined"
 								placeholder="Search..."
 								className="bg-[#f7f7f7] w-54 duration-300"
@@ -111,7 +113,7 @@ export default function Navbar() {
 							/>
 						</div>
 					</div>
-				</Drawer>
+				</SwipeableDrawer>
 				<a href="/">
 					<h1 className="text-3xl font-bold">Taska</h1>
 				</a>
