@@ -7,6 +7,10 @@ import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
 import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
+
+import Projects from "./Projects";
 // import LinearProgress, {
 // 	linearProgressClasses,
 // } from "@mui/material/LinearProgress";
@@ -30,7 +34,7 @@ export default function Navbar() {
 	return (
 		<>
 			{/* Desktop */}
-			<div className="lg:flex hidden items-center xl:justify-between lg:justify-center lg:gap-48 my-5 lg:right-0 lg:fixed gap-5 lg:px-6 bg-white pb-5 xl:w-[80%] lg:w-[70%] w-full border-b-[1px] border-slate-200">
+			<div className="lg:flex hidden items-center xl:justify-between lg:justify-center lg:gap-48 my-5 lg:right-0 lg:fixed gap-5 lg:px-6 bg-white pb-5 2xl:w-[80%] xl:w-[75%] lg:w-[65%] w-full border-b-2 border-slate-200">
 				{/* <div className="flex items-center md:gap-5 gap-3">
 					<div className="bg-[#c5d8e7] md:p-5 p-3 md:rounded-3xl rounded-xl">
 						<FaRegBuilding className="xl:text-4xl lg:text-3xl md:text-2xl text-xl" />
@@ -68,14 +72,14 @@ export default function Navbar() {
 				/>
 				<Button
 					variant="contained"
-					className="lg:!px-4 lg:!py-4 !px-6 !py-4 !text-xs xl:!text-base lg:!text-sm lg:w-44"
+					className="lg:!px-4 lg:!py-4 !px-6 !py-4 !text-xs xl:!text-base lg:!text-sm lg:w-48 !normal-case"
 					sx={{ fontFamily: "Poppins" }}
 				>
 					Login / SignUp
 				</Button>
 			</div>
 			{/* Mobile */}
-			<div className="lg:hidden flex items-center justify-between my-5 pr-6 bg-white pb-5 w-full border-b-[1px] border-slate-200">
+			<div className="lg:hidden flex items-center justify-between my-5 pr-6 bg-white pb-5 w-full border-b-2 border-slate-200">
 				<Button onClick={toggleDrawer(true)} sx={{ color: "black" }}>
 					<MenuIcon fontSize="medium" />
 				</Button>
@@ -84,14 +88,17 @@ export default function Navbar() {
 					onClose={toggleDrawer(false)}
 					onOpen={toggleDrawer(true)}
 				>
-					<div className="flex items-center justify-center flex-col gap-8">
-						<h1 className="text-3xl font-bold border-b-[1px] border-slate-200 w-full text-center pb-4 pt-5">
-							Taska
-						</h1>
-						<div className="px-6 flex flex-col gap-5 border-b-[1px] border-slate-200 pb-8">
+					<div className="flex items-center justify-center flex-col gap-5">
+						<div className="border-b-2 border-slate-200 w-full flex items-center justify-between px-5 pb-4 pt-5">
+							<h1 className="text-3xl font-bold text-center ">Taska</h1>
+							<IconButton onClick={toggleDrawer(false)} sx={{ color: "black" }}>
+								<CloseIcon fontSize="large" />
+							</IconButton>
+						</div>
+						<div className="flex flex-col gap-5 border-b-2 border-slate-200 pb-8 px-8 pt-3">
 							<Button
 								variant="contained"
-								className="!px-6 !py-4 !text-sm"
+								className="!px-6 !py-4 !text-sm !normal-case"
 								sx={{ fontFamily: "Poppins" }}
 							>
 								Login / SignUp
@@ -99,7 +106,7 @@ export default function Navbar() {
 							<TextField
 								variant="outlined"
 								placeholder="Search..."
-								className="bg-[#f7f7f7] w-54 duration-300"
+								className="bg-[#f7f7f7] w-54 duration-300 border-b-2 border-slate-300"
 								sx={{ fontFamily: "Poppins" }}
 								slotProps={{
 									input: {
@@ -112,6 +119,7 @@ export default function Navbar() {
 								}}
 							/>
 						</div>
+						<Projects className={"lg:hidden flex"} />
 					</div>
 				</SwipeableDrawer>
 				<a href="/">
