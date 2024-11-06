@@ -31,7 +31,7 @@ export default function TaskTitle() {
 							value={13}
 							className="xl:w-80 md:w-72 w-44"
 						/>
-						<h2 className="xl:text-lg lg:text-base text-sm">
+						<h2 className="xl:text-lg lg:text-base text-sm text-slate-600">
 							13% <span className="md:inline hidden">complete</span>
 						</h2>
 					</div>
