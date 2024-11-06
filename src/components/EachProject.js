@@ -7,12 +7,12 @@ export default function EachProject({ isActive, setIsActive, index }) {
 		<>
 			<Button
 				className="!rounded-xl w-full lg:!pl-4 lg:!py-3 !py-2 pr-1 flex items-center !justify-between !shadow-none !border-slate-300"
-				// logic should be re written
 				onClick={() =>
 					setIsActive((isActive) => {
-						if (isActive[index]) isActive = isActive.toSpliced(index, 1, 0);
-						else isActive = isActive.toSpliced(index, 1, 1);
-						return isActive;
+						let newArr = new Array(isActive.length);
+						newArr.fill(0);
+						newArr[index] = 1;
+						return newArr;
 					})
 				}
 				style={

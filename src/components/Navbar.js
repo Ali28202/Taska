@@ -34,6 +34,9 @@ export default function Navbar() {
 	return (
 		<>
 			{/* Desktop */}
+			<h1 className="lg:flex hidden justify-center items-center text-3xl font-bold py-5 border-b-2 border-slate-200">
+				Taska
+			</h1>
 			<div className="lg:flex hidden items-center xl:justify-between lg:justify-center lg:gap-48 my-5 lg:right-0 lg:fixed gap-5 lg:px-6 bg-white pb-5 2xl:w-[80%] xl:w-[75%] lg:w-[65%] w-full border-b-2 border-slate-200">
 				{/* <div className="flex items-center md:gap-5 gap-3">
 					<div className="bg-[#c5d8e7] md:p-5 p-3 md:rounded-3xl rounded-xl">
