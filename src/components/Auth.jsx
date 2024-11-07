@@ -73,12 +73,12 @@ export default function Auth({ isLogged }) {
 							variant="fullWidth"
 						>
 							<Tab
-								label="Login"
+								label="Log in"
 								{...allyProps(0)}
 								sx={{ fontFamily: "Poppins" }}
 							/>
 							<Tab
-								label="SignUp"
+								label="Sign Up"
 								{...allyProps(1)}
 								sx={{ fontFamily: "Poppins" }}
 							/>
