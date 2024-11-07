@@ -16,7 +16,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 	},
 }));
 
-export default function TaskTitle() {
+export default function ProjectTitle() {
 	return (
 		<>
 			<div className="flex items-center md:justify-normal justify-center lg:gap-8 gap-5 md:px-6 lg:pt-3 md:py-7 py-5 border-b-2 border-slate-200">

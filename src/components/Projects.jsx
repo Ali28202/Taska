@@ -2,8 +2,10 @@ import { useState } from "react";
 import EachProject from "./EachProject";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import AddProject from "./AddProject";
 export default function Projects({ className }) {
 	const [isActive, setIsActive] = useState([1, 0, 0, 0, 0]);
+	const [openDialog, setOpenDialog] = useState(false);
 	return (
 		<>
 			<div
@@ -43,10 +45,12 @@ export default function Projects({ className }) {
 					variant="outlined"
 					style={{ fontFamily: "Poppins", borderStyle: "dashed" }}
 					className="w-full !normal-case lg:!mb-5 flex gap-1 lg:!mt-0 md:!mt-16 !mt-24"
+					onClick={() => setOpenDialog(true)}
 				>
 					<AddIcon fontSize="small" />
 					Add Project
 				</Button>
+				<AddProject openDialog={openDialog} setOpenDialog={setOpenDialog} />
 			</div>
 		</>
 	);
