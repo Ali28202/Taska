@@ -35,7 +35,7 @@ export default function AddTask({ openDialog, setOpenDialog }) {
 					centered
 					variant="fullWidth"
 				>
-					<Tab label="Add Task" />
+					<Tab label="Add Task" sx={{ fontFamily: "Poppins" }} />
 				</Tabs>
 				<div className="flex flex-col gap-5 md:px-14 px-8 md:py-12 py-8">
 					<label htmlFor="Title">Title:</label>

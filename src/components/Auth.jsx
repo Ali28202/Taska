@@ -72,8 +72,16 @@ export default function Auth({ isLogged }) {
 							centered
 							variant="fullWidth"
 						>
-							<Tab label="Login" {...allyProps(0)} />
-							<Tab label="SignUp" {...allyProps(1)} />
+							<Tab
+								label="Login"
+								{...allyProps(0)}
+								sx={{ fontFamily: "Poppins" }}
+							/>
+							<Tab
+								label="SignUp"
+								{...allyProps(1)}
+								sx={{ fontFamily: "Poppins" }}
+							/>
 						</Tabs>
 						<CustomTabPanel value={value} index={0}>
 							<div className="flex flex-col gap-5 md:px-10 px-3 md:py-5 py-3">
