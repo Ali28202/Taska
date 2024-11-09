@@ -16,7 +16,7 @@ function App() {
 						isLogged ? "2xl:w-[80%] xl:w-[75%] lg:w-[65%] w-full" : "w-full"
 					}
 				>
-					<Navbar isLogged={isLogged} />
+					<Navbar isLogged={isLogged} setIsLogged={setIsLogged} />
 					{isLogged ? (
 						<>
 							<div className="flex flex-col">
@@ -25,9 +25,9 @@ function App() {
 							</div>
 						</>
 					) : (
-						<div className="flex items-center justify-center h-full text-2xl 2xl:p-72 xl:p-60 lg:p-56 md:p-56 text-center leading-relaxed pt-64">
+						<span className="flex items-center justify-center h-full text-2xl 2xl:p-72 xl:p-60 lg:p-56 md:p-56 text-center leading-relaxed pt-64 px-20 text-gray-400">
 							There is no Project Here. You Should Login First!!!
-						</div>
+						</span>
 					)}
 				</div>
 				{isLogged && <Projects className={"lg:flex hidden"} />}

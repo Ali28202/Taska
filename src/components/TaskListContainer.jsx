@@ -6,14 +6,14 @@ import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import Task from "./Task";
 import AddTask from "./AddTask";
-export default function TaskListContainer({ title }) {
+export default function TaskListContainer({ title, data }) {
 	let dotColor =
 		title === "To Do" ? "red" : title === "In Progress" ? "blue" : "green";
 	const [openDialog, setOpenDialog] = useState(false);
 	return (
 		<>
 			<div className="w-max flex flex-col gap-5">
-				<div className="flex justify-between">
+				<div className="flex justify-between 2xl:w-96 xl:w-80 w-72">
 					<div className="flex items-center gap-3">
 						<CircleIcon
 							sx={{ fontSize: "12px", marginBottom: "1px", color: dotColor }}
@@ -22,7 +22,7 @@ export default function TaskListContainer({ title }) {
 							{title}
 						</h1>
 						<span className="font-medium py-3 px-5 bg-white  w-4 h-4  flex items-center justify-center rounded-3xl lg:text-base text-sm">
-							3
+							{data.length}
 						</span>
 					</div>
 					<IconButton variant="text">
@@ -43,17 +43,36 @@ export default function TaskListContainer({ title }) {
 					<AddIcon fontSize="small" />
 					Add New Task
 				</Button>
-				<AddTask
-					openDialog={openDialog}
-					setOpenDialog={setOpenDialog}
-					status={title}
-				/>
+				<AddTask openDialog={openDialog} setOpenDialog={setOpenDialog} />
 				{/* task place */}
-				<div className="sm:overflow-scroll 2xl:h-[28rem] xl:h-[19rem] lg:h-[20rem] sm:h-[27rem] h-full flex flex-col gap-5 2xl:mb-1 xl:mb-3 lg:mb-2 mb-1">
-					<Task />
-					<Task />
-					<Task />
-				</div>
+				<section
+					className="sm:overflow-scroll 2xl:h-[33rem] xl:h-[24rem] lg:h-[25rem] md:h-[27rem] h-[29rem] flex flex-col gap-5 2xl:mb-1 xl:mb-3 lg:mb-2 mb-1 rounded-2xl"
+					onDrop={(e) => {
+						e.preventDefault();
+						let data = e.dataTransfer.getData("id");
+						console.log(e.target);
+						if (e.target.matches("section")) {
+							e.target.appendChild(document.getElementById(data));
+							e.target.classList.remove("bg-gray-300");
+						}
+					}}
+					onDragOver={(e) => {
+						e.preventDefault();
+						if (e.target.matches("section")) {
+							e.target.classList.add("bg-gray-300");
+						}
+					}}
+					onDragLeave={(e) => {
+						e.preventDefault();
+						if (e.target.matches("section")) {
+							e.target.classList.remove("bg-gray-300");
+						}
+					}}
+				>
+					{data.map((t) => {
+						return <Task index={t.id} data={t} key={t.title} />;
+					})}
+				</section>
 			</div>
 		</>
 	);

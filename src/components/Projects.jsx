@@ -9,7 +9,7 @@ export default function Projects({ className }) {
 	return (
 		<>
 			<div
-				className={`${className} lg:border-r-2 border-slate-200 2xl:w-[20%] xl:w-[25%] lg:w-[35%] w-full flex-col px-10 lg:pt-6 pt-3 2xl:h-[91.5vh] xl:h-[90vh] justify-between`}
+				className={`${className} lg:border-r-2 border-slate-200 2xl:w-[20%] xl:w-[25%] lg:w-[35%] w-full flex-col px-10 lg:pt-6 pt-3 h-screen justify-between`}
 			>
 				<div>
 					<h1 className="text-2xl font-medium">Projects</h1>

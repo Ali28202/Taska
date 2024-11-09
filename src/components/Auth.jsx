@@ -35,22 +35,30 @@ function allyProps(index) {
 		"aria-controls": `simple-tabpanel-${index}`,
 	};
 }
-export default function Auth({ isLogged }) {
+export default function Auth({ isLogged, setIsLogged }) {
 	const [openDialog, setOpenDialog] = useState(false);
 	const [value, setValue] = useState(0);
-
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
 	return (
 		<>
 			{isLogged ? (
-				<div className="flex items-center xl:gap-4 lg:gap-6">
-					<Avatar sx={{ width: 32, height: 32, bgcolor: "blueviolet" }}>
-						A
-					</Avatar>
-					<h1 className="xl:text-lg text-base">Ali Mahallati</h1>
-					<IconButton color="error" className="xl:!p-3 lg:!p-2">
+				<div className="flex items-center md:justify-normal justify-between xl:gap-4 lg:gap-6">
+					<div className="flex items-center gap-3">
+						<Avatar sx={{ width: 32, height: 32, bgcolor: "blueviolet" }}>
+							A
+						</Avatar>
+						<h1 className="xl:text-lg text-base">Ali Mahallati</h1>
+					</div>
+					<IconButton
+						color="error"
+						className="xl:!p-3 lg:!p-2"
+						onClick={() => {
+							setOpenDialog(false);
+							setIsLogged(false);
+						}}
+					>
 						<ExitToAppIcon fontSize="medium" />
 					</IconButton>
 				</div>
@@ -96,6 +104,7 @@ export default function Auth({ isLogged }) {
 								<Button
 									variant="contained"
 									sx={{ fontFamily: "Poppins", textTransform: "none" }}
+									onClick={() => setIsLogged(true)}
 								>
 									Submit
 								</Button>
@@ -116,6 +125,7 @@ export default function Auth({ isLogged }) {
 								<Button
 									variant="contained"
 									sx={{ fontFamily: "Poppins", textTransform: "none" }}
+									onClick={() => setIsLogged(true)}
 								>
 									Submit
 								</Button>

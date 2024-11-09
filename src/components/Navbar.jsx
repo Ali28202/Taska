@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
@@ -9,8 +9,8 @@ import IconButton from "@mui/material/IconButton";
 import Projects from "./Projects";
 import Auth from "./Auth";
 
-export default function Navbar({ isLogged }) {
-	const [open, setOpen] = React.useState(false);
+export default function Navbar({ isLogged, setIsLogged }) {
+	const [open, setOpen] = useState(false);
 	const toggleDrawer = (newOpen) => () => {
 		setOpen(newOpen);
 	};
@@ -37,7 +37,7 @@ export default function Navbar({ isLogged }) {
 						},
 					}}
 				/>
-				<Auth isLogged={isLogged} />
+				<Auth isLogged={isLogged} setIsLogged={setIsLogged} />
 			</div>
 			{/* Mobile */}
 			<div className="lg:hidden flex items-center justify-between mt-5 pr-6 pl-4 bg-white pb-5 w-full border-b-2 border-slate-200">
@@ -57,7 +57,7 @@ export default function Navbar({ isLogged }) {
 							</IconButton>
 						</div>
 						<div className="flex flex-col gap-5 border-b-2 border-slate-200 pb-8 px-8 pt-3">
-							<Auth isLogged={isLogged} />
+							<Auth isLogged={isLogged} setIsLogged={setIsLogged} />
 							<TextField
 								variant="outlined"
 								placeholder="Search..."
@@ -74,7 +74,13 @@ export default function Navbar({ isLogged }) {
 								}}
 							/>
 						</div>
-						<Projects className={"lg:hidden flex"} />
+						{isLogged ? (
+							<Projects className={"lg:hidden flex"} />
+						) : (
+							<span className="flex items-center justify-center pt-40 w-64 text-center text-gray-400">
+								There is no Project Here. You Should Login First!!!
+							</span>
+						)}
 					</div>
 				</SwipeableDrawer>
 				<a href="/">
