@@ -49,10 +49,12 @@ export default function TaskListContainer({ title, data }) {
 					className="sm:overflow-scroll 2xl:h-[33rem] xl:h-[24rem] lg:h-[25rem] md:h-[27rem] h-[29rem] flex flex-col gap-5 2xl:mb-1 xl:mb-3 lg:mb-2 mb-1 rounded-2xl"
 					onDrop={(e) => {
 						e.preventDefault();
-						let data = e.dataTransfer.getData("id");
-						console.log(e.target);
+						let d = e.dataTransfer.getData("id");
+						// let ourData = data.filter((t) => t.id === d);
+						// should change new data with old one
+						// console.log(d, ourData);
 						if (e.target.matches("section")) {
-							e.target.appendChild(document.getElementById(data));
+							e.target.appendChild(document.getElementById(d));
 							e.target.classList.remove("bg-gray-300");
 						}
 					}}
@@ -70,7 +72,14 @@ export default function TaskListContainer({ title, data }) {
 					}}
 				>
 					{data.map((t) => {
-						return <Task index={t.id} data={t} key={t.title} />;
+						return (
+							<Task
+								id={t.id}
+								data={t}
+								key={t.title}
+								status={title.toLowerCase()}
+							/>
+						);
 					})}
 				</section>
 			</div>

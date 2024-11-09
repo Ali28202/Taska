@@ -3,42 +3,65 @@ import EachProject from "./EachProject";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import AddProject from "./AddProject";
+import IconButton from "@mui/material/IconButton";
+import LanguageIcon from "@mui/icons-material/Language";
+import SendToMobileIcon from "@mui/icons-material/SendToMobile";
+import SquareIcon from "@mui/icons-material/Square";
+import { FaRegBuilding } from "react-icons/fa";
 export default function Projects({ className }) {
 	const [isActive, setIsActive] = useState([1, 0, 0, 0, 0]);
 	const [openDialog, setOpenDialog] = useState(false);
+	const [titles, setTitles] = useState([
+		{ title: "Piper Enterprice", avatarId: "0" },
+		{ title: "Web Platform", avatarId: "1" },
+		{ title: "Mobile Loop", avatarId: "2" },
+		{ title: "Wiro Mobile App", avatarId: "3" },
+	]);
+	let avatars = [
+		// building
+		<IconButton sx={{ padding: 0 }}>
+			<div className="bg-[#c5d8e7] p-3 rounded-xl w-fit">
+				<FaRegBuilding className="text-xl text-black" />
+			</div>
+		</IconButton>,
+		// language
+		<IconButton sx={{ padding: 0 }}>
+			<div className="bg-[#e3f9fe] px-2.5 py-0.5 rounded-xl w-fit h-fit">
+				<LanguageIcon className="!text-2xl text-[#73c6d8] mb-0.5" />
+			</div>
+		</IconButton>,
+		// mobile
+		<IconButton sx={{ padding: 0 }}>
+			<div className="bg-[#d8ebff] px-2.5 py-0.5 md:rounded-xl rounded-xl w-fit">
+				<SendToMobileIcon className="xl:text-xl lg:text-2xl text-lg text-black mb-1" />
+			</div>
+		</IconButton>,
+		//square
+		<IconButton sx={{ padding: 0 }}>
+			<div className="bg-[#faeaff] px-2.5 py-0.5 md:rounded-xl rounded-xl w-fit">
+				<SquareIcon className="xl:text-xl lg:text-2xl text-lg text-[#bd39ff] mb-1" />
+			</div>
+		</IconButton>,
+	];
 	return (
 		<>
 			<div
-				className={`${className} lg:border-r-2 border-slate-200 2xl:w-[20%] xl:w-[25%] lg:w-[35%] w-full flex-col px-10 lg:pt-6 pt-3 h-screen justify-between`}
+				className={`${className} lg:border-r-2 border-slate-200 2xl:w-[20%] xl:w-[25%] lg:w-[35%] w-full flex-col px-10 lg:pt-6 pt-3 lg:h-screen h-full justify-between`}
 			>
 				<div>
 					<h1 className="text-2xl font-medium">Projects</h1>
 					<div className="mt-6 flex flex-col gap-3 overflow-scroll 2xl:h-[26rem] xl:h-[25rem] lg:h-[24rem] sm:h-80 h-72">
-						<EachProject
-							isActive={isActive[0]}
-							setIsActive={setIsActive}
-							index={0}
-						/>
-						<EachProject
-							isActive={isActive[1]}
-							setIsActive={setIsActive}
-							index={1}
-						/>
-						<EachProject
-							isActive={isActive[2]}
-							setIsActive={setIsActive}
-							index={2}
-						/>
-						<EachProject
-							isActive={isActive[3]}
-							setIsActive={setIsActive}
-							index={3}
-						/>
-						<EachProject
-							isActive={isActive[4]}
-							setIsActive={setIsActive}
-							index={4}
-						/>
+						{titles.map((t, idx) => {
+							return (
+								<EachProject
+									isActive={isActive[idx]}
+									setIsActive={setIsActive}
+									index={idx}
+									data={t}
+									avatars={avatars}
+								/>
+							);
+						})}
 					</div>
 				</div>
 				<Button
@@ -50,7 +73,12 @@ export default function Projects({ className }) {
 					<AddIcon fontSize="small" />
 					Add Project
 				</Button>
-				<AddProject openDialog={openDialog} setOpenDialog={setOpenDialog} />
+				<AddProject
+					openDialog={openDialog}
+					setOpenDialog={setOpenDialog}
+					titles={titles}
+					setTitles={setTitles}
+				/>
 			</div>
 		</>
 	);

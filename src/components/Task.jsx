@@ -1,13 +1,13 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-export default function Task({ index, data }) {
+export default function Task({ id, data, status }) {
 	return (
 		<>
 			<div
-				className="w-full bg-white pl-5 pr-3 py-3 rounded-2xl border-slate-200 border-[1px]"
+				className="w-full bg-white pl-5 pr-3 py-3 rounded-2xl border-slate-200 border-[1px] cursor-pointer"
 				draggable
-				id={index}
+				id={id}
 				onDragStart={(e) => {
 					e.dataTransfer.setData("id", e.target.id);
 					e.dataTransfer.dropEffect = "move";

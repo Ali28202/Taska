@@ -6,7 +6,7 @@ export default function TaskContainer() {
 			description: "man ali hastam",
 			src: "/",
 			time: "1 Days",
-			status: "todo",
+			status: "to do",
 			id: "0",
 		},
 		{
@@ -14,7 +14,7 @@ export default function TaskContainer() {
 			description: "man ali hastam",
 			src: "/",
 			time: "3 Days",
-			status: "inprogress",
+			status: "in progress",
 			id: "1",
 		},
 		{
@@ -30,7 +30,7 @@ export default function TaskContainer() {
 			description: "man ali hastam",
 			src: "/",
 			time: "2 Days",
-			status: "todo",
+			status: "to do",
 			id: "3",
 		},
 	];
@@ -39,11 +39,11 @@ export default function TaskContainer() {
 			<div className="bg-[#f7f7f7] pt-12 2xl:px-20 lg:px-14 sm:px-8 px-4 gap-y-10 flex items-start justify-between overflow-x-scroll lg:gap-8 gap-4">
 				<TaskListContainer
 					title={"To Do"}
-					data={titles.filter((t) => t.status === "todo")}
+					data={titles.filter((t) => t.status === "to do")}
 				/>
 				<TaskListContainer
 					title={"In Progress"}
-					data={titles.filter((t) => t.status === "inprogress")}
+					data={titles.filter((t) => t.status === "in progress")}
 				/>
 				<TaskListContainer
 					title={"Done"}

@@ -10,13 +10,18 @@ import Badge from "@mui/material/Badge";
 import LanguageIcon from "@mui/icons-material/Language";
 import SendToMobileIcon from "@mui/icons-material/SendToMobile";
 import SquareIcon from "@mui/icons-material/Square";
-export default function AddProject({ openDialog, setOpenDialog }) {
+export default function AddProject({
+	openDialog,
+	setOpenDialog,
+	titles,
+	setTitles,
+}) {
 	const [value, setValue] = useState(0);
-	const [invisible, setInvisible] = useState([0, 1, 1, 1]);
+	const [invisible, setInvisible] = useState([false, true, true, true]);
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
-
+	const [textInput, setTextInput] = useState("");
 	return (
 		<>
 			<Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
@@ -35,6 +40,9 @@ export default function AddProject({ openDialog, setOpenDialog }) {
 						label="Name"
 						variant="outlined"
 						className="md:w-72 w-full"
+						onChange={(e) => {
+							setTextInput(e.target.value);
+						}}
 					/>
 					<label htmlFor="Avatar">Select Your Avatar:</label>
 					<div className="flex flex-wrap sm:justify-normal justify-center items-center gap-4">
@@ -44,8 +52,8 @@ export default function AddProject({ openDialog, setOpenDialog }) {
 								onClick={() => {
 									setInvisible(() => {
 										let newArr = new Array(4);
-										newArr.fill(1);
-										newArr[0] = 0;
+										newArr.fill(true);
+										newArr[0] = false;
 										return newArr;
 									});
 								}}
@@ -61,8 +69,8 @@ export default function AddProject({ openDialog, setOpenDialog }) {
 								onClick={() => {
 									setInvisible(() => {
 										let newArr = new Array(4);
-										newArr.fill(1);
-										newArr[1] = 0;
+										newArr.fill(true);
+										newArr[1] = false;
 										return newArr;
 									});
 								}}
@@ -78,8 +86,8 @@ export default function AddProject({ openDialog, setOpenDialog }) {
 								onClick={() => {
 									setInvisible(() => {
 										let newArr = new Array(4);
-										newArr.fill(1);
-										newArr[2] = 0;
+										newArr.fill(true);
+										newArr[2] = false;
 										return newArr;
 									});
 								}}
@@ -95,8 +103,8 @@ export default function AddProject({ openDialog, setOpenDialog }) {
 								onClick={() => {
 									setInvisible(() => {
 										let newArr = new Array(4);
-										newArr.fill(1);
-										newArr[3] = 0;
+										newArr.fill(true);
+										newArr[3] = false;
 										return newArr;
 									});
 								}}
@@ -110,6 +118,16 @@ export default function AddProject({ openDialog, setOpenDialog }) {
 					<Button
 						variant="contained"
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
+						onClick={() => {
+							console.log(textInput);
+							setTitles((titles) => {
+								return [
+									...titles,
+									{ title: textInput, avatarId: invisible.indexOf(false) },
+								];
+							});
+							setOpenDialog(false);
+						}}
 					>
 						Add Project
 					</Button>

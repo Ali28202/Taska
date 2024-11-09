@@ -1,9 +1,10 @@
+import { useState } from "react";
 import Navbar from "./components/Navbar";
 import Projects from "./components/Projects";
 import ProjectTitle from "./components/ProjectTitle";
 import TaskContainer from "./components/TaskContainer";
-import { useState } from "react";
-function App() {
+
+export default function App() {
 	const [isLogged, setIsLogged] = useState(true);
 	return (
 		<>
@@ -35,5 +36,3 @@ function App() {
 		</>
 	);
 }
-
-export default App;

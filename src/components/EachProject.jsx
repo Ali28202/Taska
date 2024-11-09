@@ -1,8 +1,14 @@
-import { FaRegBuilding } from "react-icons/fa";
+// import { FaRegBuilding } from "react-icons/fa";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
 import { Button } from "@mui/material";
-export default function EachProject({ isActive, setIsActive, index }) {
+export default function EachProject({
+	isActive,
+	setIsActive,
+	index,
+	data,
+	avatars,
+}) {
 	return (
 		<>
 			<Button
@@ -23,14 +29,12 @@ export default function EachProject({ isActive, setIsActive, index }) {
 				variant="outlined"
 			>
 				<div className="flex items-center gap-3 mr-3">
-					<div className="bg-[#c5d8e7] p-3 md:rounded-xl rounded-xl w-fit">
-						<FaRegBuilding className="xl:text-xl lg:text-2xl text-lg text-black" />
-					</div>
+					{avatars[data.avatarId]}
 					<h2
 						className="lg:text-base text-sm normal-case font-medium"
 						style={isActive ? { color: "white" } : { color: "black" }}
 					>
-						Piper Enterprise
+						{data.title}
 					</h2>
 				</div>
 				<IconButton variant="text" className="!p-0">

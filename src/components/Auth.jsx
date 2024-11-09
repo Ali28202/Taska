@@ -44,7 +44,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 	return (
 		<>
 			{isLogged ? (
-				<div className="flex items-center md:justify-normal justify-between xl:gap-4 lg:gap-6">
+				<div className="flex items-center lg:justify-normal justify-between xl:gap-4 lg:gap-6">
 					<div className="flex items-center gap-3">
 						<Avatar sx={{ width: 32, height: 32, bgcolor: "blueviolet" }}>
 							A
