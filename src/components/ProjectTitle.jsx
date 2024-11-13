@@ -5,7 +5,7 @@ import LinearProgress, {
 import LanguageIcon from "@mui/icons-material/Language";
 import SendToMobileIcon from "@mui/icons-material/SendToMobile";
 import SquareIcon from "@mui/icons-material/Square";
-import { FaRegBuilding } from "react-icons/fa";
+import ApartmentIcon from "@mui/icons-material/Apartment";
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 	height: 10,
 	borderRadius: 3,
@@ -21,8 +21,8 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 export default function ProjectTitle({ projects, idxActiveProject }) {
 	let avatars = [
 		// building
-		<div className="bg-[#c5d8e7] md:p-4 p-3 rounded-xl w-fit">
-			<FaRegBuilding className="md:text-4xl text-2xl text-black" />
+		<div className="bg-[#c5d8e7] md:p-4 p-3 rounded-xl w-fit h-fit">
+			<ApartmentIcon className="md:!text-4xl !text-2xl  text-black" />
 		</div>,
 		// language
 		<div className="bg-[#e3f9fe] md:p-4 p-3 rounded-xl w-fit h-fit">

@@ -4,7 +4,7 @@ import Dialog from "@mui/material/Dialog";
 import { Button } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { FaRegBuilding } from "react-icons/fa";
+import ApartmentIcon from "@mui/icons-material/Apartment";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import LanguageIcon from "@mui/icons-material/Language";
@@ -58,8 +58,8 @@ export default function AddProject({
 									});
 								}}
 							>
-								<div className="bg-[#c5d8e7] p-3 rounded-xl w-fit">
-									<FaRegBuilding className="text-xl text-black" />
+								<div className="bg-[#c5d8e7] px-2.5 py-1 rounded-xl w-fit h-fit">
+									<ApartmentIcon className="md:!text-2xl !text-xl  text-black mb-0.5" />
 								</div>
 							</IconButton>
 						</Badge>

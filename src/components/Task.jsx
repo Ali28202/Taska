@@ -1,7 +1,7 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-export default function Task({ id, data, status }) {
+export default function Task({ id, data }) {
 	return (
 		<>
 			<div

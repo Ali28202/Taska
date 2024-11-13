@@ -7,10 +7,10 @@ export default function App() {
 	const [isLogged, setIsLogged] = useState(true);
 	const [isProjectActive, setIsProjectActive] = useState([1, 0, 0, 0, 0]);
 	const [projects, setProjects] = useState([
-		{ title: "Piper Enterprice", avatarId: "0" },
-		{ title: "Web Platform", avatarId: "1" },
-		{ title: "Mobile Loop", avatarId: "2" },
-		{ title: "Wiro Mobile App", avatarId: "3" },
+		{ title: "Piper Enterprice", avatarId: "0", archive: false },
+		{ title: "Web Platform", avatarId: "1", archive: false },
+		{ title: "Mobile Loop", avatarId: "2", archive: false },
+		{ title: "Wiro Mobile App", avatarId: "3", archive: false },
 	]);
 	return (
 		<>

@@ -6,9 +6,10 @@ import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import Task from "./Task";
 import AddTask from "./AddTask";
-export default function TaskListContainer({ title, data }) {
+export default function TaskListContainer({ title, tasks, setTasks }) {
 	let dotColor =
 		title === "To Do" ? "red" : title === "In Progress" ? "blue" : "green";
+	let data = tasks.filter((t) => t.status === title.toLowerCase());
 	const [openDialog, setOpenDialog] = useState(false);
 	return (
 		<>
@@ -50,11 +51,18 @@ export default function TaskListContainer({ title, data }) {
 					onDrop={(e) => {
 						e.preventDefault();
 						let d = e.dataTransfer.getData("id");
-						// let ourData = data.filter((t) => t.id === d);
-						// should change new data with old one
-						// console.log(d, ourData);
+						let newTask, taskIndex;
+						tasks.map((i, idx) => {
+							if (i.id === d) {
+								newTask = { ...i, status: title.toLowerCase() };
+								taskIndex = idx;
+							}
+						});
+						setTasks(() => {
+							let newTasks = tasks.toSpliced(taskIndex, 1, newTask);
+							return newTasks;
+						});
 						if (e.target.matches("section")) {
-							e.target.appendChild(document.getElementById(d));
 							e.target.classList.remove("bg-gray-300");
 						}
 					}}
@@ -72,14 +80,7 @@ export default function TaskListContainer({ title, data }) {
 					}}
 				>
 					{data.map((t) => {
-						return (
-							<Task
-								id={t.id}
-								data={t}
-								key={t.title}
-								status={title.toLowerCase()}
-							/>
-						);
+						return <Task id={t.id} data={t} key={t.title} />;
 					})}
 				</section>
 			</div>

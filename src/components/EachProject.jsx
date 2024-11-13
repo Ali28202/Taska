@@ -1,7 +1,7 @@
-// import { FaRegBuilding } from "react-icons/fa";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ArchiveIcon from "@mui/icons-material/Archive";
 import IconButton from "@mui/material/IconButton";
 import { Button } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
 export default function EachProject({
 	isActive,
 	setIsActive,
@@ -12,7 +12,9 @@ export default function EachProject({
 	return (
 		<>
 			<Button
-				className="!rounded-xl w-full lg:!pl-4 lg:!py-3 !py-2 pr-1 flex items-center !justify-between !shadow-none !border-slate-300"
+				className={`!rounded-xl w-full lg:!pl-4 lg:!py-3 !py-2 flex !justify-between !shadow-none !border-slate-300 ${
+					data.archive && "!hidden"
+				}`}
 				onClick={() =>
 					setIsActive((isActive) => {
 						let newArr = new Array(isActive.length);
@@ -37,12 +39,20 @@ export default function EachProject({
 						{data.title}
 					</h2>
 				</div>
-				<IconButton variant="text" className="!p-0">
-					<MoreVertIcon
-						sx={isActive ? { color: "white" } : { color: "black" }}
-						fontSize="40"
-					/>
-				</IconButton>
+				<Tooltip
+					title="Archive"
+					arrow
+					onClick={() => {
+						data.archive = true;
+					}}
+				>
+					<IconButton variant="text">
+						<ArchiveIcon
+							sx={isActive ? { color: "white" } : { color: "black" }}
+							fontSize="small"
+						/>
+					</IconButton>
+				</Tooltip>
 			</Button>
 		</>
 	);

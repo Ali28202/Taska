@@ -7,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import LanguageIcon from "@mui/icons-material/Language";
 import SendToMobileIcon from "@mui/icons-material/SendToMobile";
 import SquareIcon from "@mui/icons-material/Square";
-import { FaRegBuilding } from "react-icons/fa";
+import ApartmentIcon from "@mui/icons-material/Apartment";
 export default function Projects({
 	className,
 	projects,
@@ -19,8 +19,8 @@ export default function Projects({
 	let avatars = [
 		// building
 		<IconButton sx={{ padding: 0 }}>
-			<div className="bg-[#c5d8e7] p-3 rounded-xl w-fit">
-				<FaRegBuilding className="text-xl text-black" />
+			<div className="bg-[#c5d8e7] px-2.5 py-0.5 rounded-xl w-fit h-fit">
+				<ApartmentIcon className="!text-2xl text-black mb-0.5" />
 			</div>
 		</IconButton>,
 		// language
@@ -45,7 +45,7 @@ export default function Projects({
 	return (
 		<>
 			<div
-				className={`${className} lg:border-r-2 border-slate-200 2xl:w-[20%] xl:w-[25%] lg:w-[35%] w-full flex-col px-10 lg:pt-6 pt-3 lg:h-screen h-full justify-between`}
+				className={`${className} lg:border-r-2 border-slate-200 2xl:w-[20%] xl:w-[25%] lg:w-[35%] w-full flex-col px-10 lg:pt-6 pt-3 justify-between`}
 			>
 				<div>
 					<h1 className="text-2xl font-medium">Projects</h1>
@@ -58,6 +58,7 @@ export default function Projects({
 									index={idx}
 									data={t}
 									avatars={avatars}
+									key={idx}
 								/>
 							);
 						})}
