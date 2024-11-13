@@ -1,9 +1,11 @@
-import { FaRegBuilding } from "react-icons/fa";
 import { styled } from "@mui/material/styles";
 import LinearProgress, {
 	linearProgressClasses,
 } from "@mui/material/LinearProgress";
-
+import LanguageIcon from "@mui/icons-material/Language";
+import SendToMobileIcon from "@mui/icons-material/SendToMobile";
+import SquareIcon from "@mui/icons-material/Square";
+import { FaRegBuilding } from "react-icons/fa";
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 	height: 10,
 	borderRadius: 3,
@@ -16,15 +18,33 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 	},
 }));
 
-export default function ProjectTitle() {
+export default function ProjectTitle({ projects, idxActiveProject }) {
+	let avatars = [
+		// building
+		<div className="bg-[#c5d8e7] md:p-4 p-3 rounded-xl w-fit">
+			<FaRegBuilding className="md:text-4xl text-2xl text-black" />
+		</div>,
+		// language
+		<div className="bg-[#e3f9fe] md:p-4 p-3 rounded-xl w-fit h-fit">
+			<LanguageIcon className="md:!text-4xl !text-2xl  text-[#73c6d8]" />
+		</div>,
+		// mobile
+		<div className="bg-[#d8ebff] md:p-4 p-3 md:rounded-xl rounded-xl w-fit">
+			<SendToMobileIcon className="md:!text-4xl !text-2xl text-black" />
+		</div>,
+		//square
+		<div className="bg-[#faeaff] md:p-4 p-3 md:rounded-xl rounded-xl w-fit">
+			<SquareIcon className="md:!text-4xl !text-2xl text-[#bd39ff]" />
+		</div>,
+	];
 	return (
 		<>
 			<div className="flex items-center md:justify-normal justify-center lg:gap-8 gap-5 md:px-6 lg:pt-3 md:py-7 py-5 border-b-2 border-slate-200">
-				<div className="bg-[#c5d8e7] md:p-5 p-3 md:rounded-2xl rounded-xl">
-					<FaRegBuilding className="xl:text-4xl md:text-3xl text-2xl" />
-				</div>
+				{avatars[projects[idxActiveProject].avatarId]}
 				<div className="flex flex-col xl:gap-3 lg:gap-2 md:gap-3 gap-1">
-					<h1 className="font-medium xl:text-2xl text-lg">Piper Enterprise</h1>
+					<h1 className="font-medium xl:text-2xl text-lg">
+						{projects[idxActiveProject].title}
+					</h1>
 					<div className="flex flex-row items-center gap-4 md:gap-5">
 						<BorderLinearProgress
 							variant="determinate"

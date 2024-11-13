@@ -13,8 +13,8 @@ import SquareIcon from "@mui/icons-material/Square";
 export default function AddProject({
 	openDialog,
 	setOpenDialog,
-	titles,
-	setTitles,
+	projects,
+	setProjects,
 }) {
 	const [value, setValue] = useState(0);
 	const [invisible, setInvisible] = useState([false, true, true, true]);
@@ -34,7 +34,7 @@ export default function AddProject({
 				>
 					<Tab label="Add Project" sx={{ fontFamily: "Poppins" }} />
 				</Tabs>
-				<div className="flex flex-col gap-5 md:px-14 px-3 md:py-12 py-3">
+				<div className="flex flex-col gap-5 md:px-14 px-10 md:py-12 py-10">
 					<label htmlFor="Email">Project Name:</label>
 					<TextField
 						label="Name"
@@ -45,7 +45,7 @@ export default function AddProject({
 						}}
 					/>
 					<label htmlFor="Avatar">Select Your Avatar:</label>
-					<div className="flex flex-wrap sm:justify-normal justify-center items-center gap-4">
+					<div className="flex flex-wrap sm:justify-normal justify-start items-center gap-4">
 						<Badge variant="dot" color="success" invisible={invisible[0]}>
 							<IconButton
 								sx={{ padding: 0 }}
@@ -120,9 +120,9 @@ export default function AddProject({
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
 						onClick={() => {
 							console.log(textInput);
-							setTitles((titles) => {
+							setProjects((projects) => {
 								return [
-									...titles,
+									...projects,
 									{ title: textInput, avatarId: invisible.indexOf(false) },
 								];
 							});

@@ -8,15 +8,14 @@ import LanguageIcon from "@mui/icons-material/Language";
 import SendToMobileIcon from "@mui/icons-material/SendToMobile";
 import SquareIcon from "@mui/icons-material/Square";
 import { FaRegBuilding } from "react-icons/fa";
-export default function Projects({ className }) {
-	const [isActive, setIsActive] = useState([1, 0, 0, 0, 0]);
+export default function Projects({
+	className,
+	projects,
+	setProjects,
+	isProjectActive,
+	setIsProjectActive,
+}) {
 	const [openDialog, setOpenDialog] = useState(false);
-	const [titles, setTitles] = useState([
-		{ title: "Piper Enterprice", avatarId: "0" },
-		{ title: "Web Platform", avatarId: "1" },
-		{ title: "Mobile Loop", avatarId: "2" },
-		{ title: "Wiro Mobile App", avatarId: "3" },
-	]);
 	let avatars = [
 		// building
 		<IconButton sx={{ padding: 0 }}>
@@ -51,11 +50,11 @@ export default function Projects({ className }) {
 				<div>
 					<h1 className="text-2xl font-medium">Projects</h1>
 					<div className="mt-6 flex flex-col gap-3 overflow-scroll 2xl:h-[26rem] xl:h-[25rem] lg:h-[24rem] sm:h-80 h-72">
-						{titles.map((t, idx) => {
+						{projects?.map((t, idx) => {
 							return (
 								<EachProject
-									isActive={isActive[idx]}
-									setIsActive={setIsActive}
+									isActive={isProjectActive[idx]}
+									setIsActive={setIsProjectActive}
 									index={idx}
 									data={t}
 									avatars={avatars}
@@ -76,8 +75,8 @@ export default function Projects({ className }) {
 				<AddProject
 					openDialog={openDialog}
 					setOpenDialog={setOpenDialog}
-					titles={titles}
-					setTitles={setTitles}
+					projects={projects}
+					setProjects={setProjects}
 				/>
 			</div>
 		</>

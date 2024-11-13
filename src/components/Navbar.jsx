@@ -9,7 +9,14 @@ import IconButton from "@mui/material/IconButton";
 import Projects from "./Projects";
 import Auth from "./Auth";
 
-export default function Navbar({ isLogged, setIsLogged }) {
+export default function Navbar({
+	isLogged,
+	setIsLogged,
+	projects,
+	setProjects,
+	isProjectActive,
+	setIsProjectActive,
+}) {
 	const [open, setOpen] = useState(false);
 	const toggleDrawer = (newOpen) => () => {
 		setOpen(newOpen);
@@ -18,25 +25,27 @@ export default function Navbar({ isLogged, setIsLogged }) {
 		<>
 			{/* Desktop */}
 			<div
-				className={`lg:flex hidden items-center xl:justify-between lg:justify-center lg:gap-48 mt-5 ${
-					isLogged && "mb-5"
+				className={`lg:flex hidden items-center lg:justify-end lg:gap-48 mt-5 ${
+					isLogged ? "mb-5 xl:justify-between" : "xl:justify-end"
 				} gap-5 lg:px-6 bg-white pb-5 w-full border-b-2 border-slate-200`}
 			>
-				<TextField
-					variant="outlined"
-					placeholder="Search..."
-					className="bg-[#f7f7f7] sm:w-96 w-[21rem]  duration-300"
-					sx={{ fontFamily: "Poppins" }}
-					slotProps={{
-						input: {
-							startAdornment: (
-								<InputAdornment position="start">
-									<SearchIcon />
-								</InputAdornment>
-							),
-						},
-					}}
-				/>
+				{isLogged && (
+					<TextField
+						variant="outlined"
+						placeholder="Search..."
+						className="bg-[#f7f7f7] sm:w-96 w-[21rem]  duration-300"
+						sx={{ fontFamily: "Poppins" }}
+						slotProps={{
+							input: {
+								startAdornment: (
+									<InputAdornment position="start">
+										<SearchIcon />
+									</InputAdornment>
+								),
+							},
+						}}
+					/>
+				)}
 				<Auth isLogged={isLogged} setIsLogged={setIsLogged} />
 			</div>
 			{/* Mobile */}
@@ -75,7 +84,13 @@ export default function Navbar({ isLogged, setIsLogged }) {
 							/>
 						</div>
 						{isLogged ? (
-							<Projects className={"lg:hidden flex"} />
+							<Projects
+								className={"lg:hidden flex"}
+								projects={projects}
+								setProjects={setProjects}
+								isProjectActive={isProjectActive}
+								setIsProjectActive={setIsProjectActive}
+							/>
 						) : (
 							<span className="flex items-center justify-center pt-40 w-64 text-center text-gray-400">
 								There is no Project Here. You Should Login First!!!
