@@ -19,9 +19,22 @@ const VisuallyHiddenInput = styled("input")({
 	width: 1,
 });
 
-export default function AddTask({ openDialog, setOpenDialog }) {
+export default function AddTask({
+	tasks,
+	setTasks,
+	status,
+	openDialog,
+	setOpenDialog,
+}) {
 	const [value, setValue] = useState(0);
-
+	const [newTask, addNewTask] = useState({
+		title: "",
+		description: "",
+		src: "/",
+		time: "",
+		status: "",
+		id: "",
+	});
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
@@ -40,9 +53,14 @@ export default function AddTask({ openDialog, setOpenDialog }) {
 				<div className="flex flex-col gap-5 md:px-14 px-8 md:py-12 py-8">
 					<label htmlFor="Title">Title:</label>
 					<TextField
-						label="Name"
+						label="Title"
 						variant="outlined"
 						className="md:w-72 w-full"
+						onChange={(e) =>
+							addNewTask((perv) => {
+								return { ...perv, title: e.target.value };
+							})
+						}
 					/>
 					<label htmlFor="Description">Description:</label>
 					<TextField
@@ -50,6 +68,11 @@ export default function AddTask({ openDialog, setOpenDialog }) {
 						variant="outlined"
 						className="md:w-72 w-full"
 						multiline
+						onChange={(e) =>
+							addNewTask((perv) => {
+								return { ...perv, description: e.target.value };
+							})
+						}
 					/>
 					<label htmlFor="Img">
 						Img <span className="text-xs">(Optional)</span>:
@@ -70,14 +93,27 @@ export default function AddTask({ openDialog, setOpenDialog }) {
 					<label htmlFor="Time">Schedule:</label>
 					<input
 						type="date"
-						min="2024-07-11"
-						max="2024-08-11"
-						// e.target.value
-						// onChange={(e) => console.log(e)}
+						min="2024-07-13"
+						max="2025-07-13"
+						onChange={(e) =>
+							addNewTask((perv) => {
+								return { ...perv, time: e.target.value };
+							})
+						}
 					/>
 					<Button
 						variant="contained"
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
+						onClick={() => {
+							setTasks(() => {
+								newTask.status = status;
+								// id should be unique
+								newTask.id = Math.floor(Math.random() * 10).toString();
+								tasks.push(newTask);
+								return tasks;
+							});
+							setOpenDialog(false);
+						}}
 					>
 						Add Task
 					</Button>

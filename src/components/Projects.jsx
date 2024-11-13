@@ -1,13 +1,16 @@
 import { useState } from "react";
 import EachProject from "./EachProject";
+import AddProject from "./AddProject";
+import Drawer from "@mui/material/Drawer";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import AddProject from "./AddProject";
 import IconButton from "@mui/material/IconButton";
 import LanguageIcon from "@mui/icons-material/Language";
 import SendToMobileIcon from "@mui/icons-material/SendToMobile";
 import SquareIcon from "@mui/icons-material/Square";
 import ApartmentIcon from "@mui/icons-material/Apartment";
+import CloseIcon from "@mui/icons-material/Close";
+
 export default function Projects({
 	className,
 	projects,
@@ -16,6 +19,7 @@ export default function Projects({
 	setIsProjectActive,
 }) {
 	const [openDialog, setOpenDialog] = useState(false);
+	const [openArchive, setOpenArchive] = useState(false);
 	let avatars = [
 		// building
 		<IconButton sx={{ padding: 0 }}>
@@ -48,20 +52,75 @@ export default function Projects({
 				className={`${className} lg:border-r-2 border-slate-200 2xl:w-[20%] xl:w-[25%] lg:w-[35%] w-full flex-col px-10 lg:pt-6 pt-3 justify-between`}
 			>
 				<div>
-					<h1 className="text-2xl font-medium">Projects</h1>
+					<div className="flex items-center justify-between">
+						<h1 className="text-2xl font-medium">Projects</h1>
+						<Button
+							variant="outlined"
+							sx={{
+								textTransform: "none",
+								fontFamily: "Poppins",
+								borderColor: "gray",
+								color: "gray",
+								fontSize: "13px",
+							}}
+							onClick={() => setOpenArchive(true)}
+						>
+							Archived
+						</Button>
+						<Drawer open={openArchive} onClose={() => setOpenArchive(false)}>
+							<div className="border-b-2 border-slate-200 w-full flex items-center justify-between px-5 pb-4 pt-5">
+								<h1 className="text-3xl font-bold text-center">Taska</h1>
+								<IconButton
+									onClick={() => setOpenArchive(false)}
+									sx={{ color: "black" }}
+								>
+									<CloseIcon fontSize="large" sx={{ marginTop: "1px" }} />
+								</IconButton>
+							</div>
+							<div className="mt-6 flex flex-col gap-3 overflow-scroll px-12 w-96">
+								<h1 className="text-xl font-bold mb-5">Archived Projects</h1>
+								{/* index problem  */}
+								{projects
+									.filter((t) => {
+										return t.archive === true;
+									})
+									?.map((t, idx) => {
+										return (
+											<EachProject
+												isActive={isProjectActive[idx]}
+												setIsActive={setIsProjectActive}
+												index={idx}
+												data={t}
+												avatars={avatars}
+												key={idx}
+												projects={projects}
+												setProjects={setProjects}
+											/>
+										);
+									})}
+							</div>
+						</Drawer>
+					</div>
 					<div className="mt-6 flex flex-col gap-3 overflow-scroll 2xl:h-[26rem] xl:h-[25rem] lg:h-[24rem] sm:h-80 h-72">
-						{projects?.map((t, idx) => {
-							return (
-								<EachProject
-									isActive={isProjectActive[idx]}
-									setIsActive={setIsProjectActive}
-									index={idx}
-									data={t}
-									avatars={avatars}
-									key={idx}
-								/>
-							);
-						})}
+						{/* index problem  */}
+						{projects
+							.filter((t) => {
+								return t.archive !== true;
+							})
+							?.map((t, idx) => {
+								return (
+									<EachProject
+										isActive={isProjectActive[idx]}
+										setIsActive={setIsProjectActive}
+										index={idx}
+										data={t}
+										avatars={avatars}
+										key={idx}
+										projects={projects}
+										setProjects={setProjects}
+									/>
+								);
+							})}
 					</div>
 				</div>
 				<Button

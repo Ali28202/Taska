@@ -8,13 +8,13 @@ export default function EachProject({
 	index,
 	data,
 	avatars,
+	projects,
+	setProjects,
 }) {
 	return (
 		<>
 			<Button
-				className={`!rounded-xl w-full lg:!pl-4 lg:!py-3 !py-2 flex !justify-between !shadow-none !border-slate-300 ${
-					data.archive && "!hidden"
-				}`}
+				className="!rounded-xl w-full lg:!pl-4 lg:!py-3 !py-2 flex !justify-between !shadow-none !border-slate-300"
 				onClick={() =>
 					setIsActive((isActive) => {
 						let newArr = new Array(isActive.length);
@@ -40,10 +40,20 @@ export default function EachProject({
 					</h2>
 				</div>
 				<Tooltip
-					title="Archive"
+					title={!data.archive ? "Archive" : "UnArchive"}
 					arrow
 					onClick={() => {
-						data.archive = true;
+						setProjects(() => {
+							if (!data.archive) {
+								data.archive = true;
+								let newProjects = projects.toSpliced(index, 1, data);
+								return newProjects;
+							} else if (data.archive) {
+								data.archive = false;
+								let newProjects = projects.toSpliced(index, 1, data);
+								return newProjects;
+							}
+						});
 					}}
 				>
 					<IconButton variant="text">

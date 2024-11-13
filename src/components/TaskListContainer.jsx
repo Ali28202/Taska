@@ -44,7 +44,13 @@ export default function TaskListContainer({ title, tasks, setTasks }) {
 					<AddIcon fontSize="small" />
 					Add New Task
 				</Button>
-				<AddTask openDialog={openDialog} setOpenDialog={setOpenDialog} />
+				<AddTask
+					openDialog={openDialog}
+					setOpenDialog={setOpenDialog}
+					tasks={tasks}
+					setTasks={setTasks}
+					status={title.toLowerCase()}
+				/>
 				{/* task place */}
 				<section
 					className="sm:overflow-scroll 2xl:h-[33rem] xl:h-[24rem] lg:h-[25rem] md:h-[27rem] h-[29rem] flex flex-col gap-5 2xl:mb-1 xl:mb-3 lg:mb-2 mb-1 rounded-2xl"
@@ -52,14 +58,15 @@ export default function TaskListContainer({ title, tasks, setTasks }) {
 						e.preventDefault();
 						let d = e.dataTransfer.getData("id");
 						let newTask, taskIndex;
-						tasks.map((i, idx) => {
+						tasks.forEach((i, idx) => {
 							if (i.id === d) {
 								newTask = { ...i, status: title.toLowerCase() };
 								taskIndex = idx;
 							}
 						});
 						setTasks(() => {
-							let newTasks = tasks.toSpliced(taskIndex, 1, newTask);
+							let newTasks = tasks.toSpliced(taskIndex, 1);
+							newTasks.push(newTask);
 							return newTasks;
 						});
 						if (e.target.matches("section")) {
