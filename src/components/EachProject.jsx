@@ -2,6 +2,7 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 import IconButton from "@mui/material/IconButton";
 import { Button } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
+import UnarchiveIcon from "@mui/icons-material/Unarchive";
 export default function EachProject({
 	isActive,
 	setIsActive,
@@ -57,10 +58,17 @@ export default function EachProject({
 					}}
 				>
 					<IconButton variant="text">
-						<ArchiveIcon
-							sx={isActive ? { color: "white" } : { color: "black" }}
-							fontSize="small"
-						/>
+						{data.archive ? (
+							<UnarchiveIcon
+								sx={isActive ? { color: "white" } : { color: "black" }}
+								fontSize="small"
+							/>
+						) : (
+							<ArchiveIcon
+								sx={isActive ? { color: "white" } : { color: "black" }}
+								fontSize="small"
+							/>
+						)}
 					</IconButton>
 				</Tooltip>
 			</Button>
