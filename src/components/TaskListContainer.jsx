@@ -6,11 +6,13 @@ import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import Task from "./Task";
 import AddTask from "./AddTask";
+import EditTask from "./EditTask";
 export default function TaskListContainer({ title, tasks, setTasks }) {
 	let dotColor =
 		title === "To Do" ? "red" : title === "In Progress" ? "blue" : "green";
 	let data = tasks.filter((t) => t.status === title.toLowerCase());
 	const [openDialog, setOpenDialog] = useState(false);
+	const [isEditorOpen, toggleEditor] = useState(false);
 	return (
 		<>
 			<div className="w-max flex flex-col gap-5">
@@ -87,7 +89,18 @@ export default function TaskListContainer({ title, tasks, setTasks }) {
 					}}
 				>
 					{data.map((t) => {
-						return <Task id={t.id} data={t} key={t.title} />;
+						return (
+							<div key={t.title}>
+								<Task id={t.id} data={t} toggleEditor={toggleEditor} />
+								<EditTask
+									data={t}
+									tasks={tasks}
+									setTasks={setTasks}
+									openDialog={isEditorOpen}
+									setOpenDialog={toggleEditor}
+								/>
+							</div>
+						);
 					})}
 				</section>
 			</div>

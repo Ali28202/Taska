@@ -1,7 +1,7 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-export default function Task({ id, data }) {
+export default function Task({ id, data, toggleEditor }) {
 	return (
 		<>
 			<div
@@ -17,7 +17,7 @@ export default function Task({ id, data }) {
 					<h1 className="bg-green-200 text-green-600 w-fit py-2 px-4 rounded-3xl font-medium 2xl:text-base lg:text-sm text-xs">
 						{data.time}
 					</h1>
-					<IconButton variant="text">
+					<IconButton variant="text" onClick={() => toggleEditor(true)}>
 						<MoreVertIcon sx={{ fontSize: "30px" }} />
 					</IconButton>
 				</div>
