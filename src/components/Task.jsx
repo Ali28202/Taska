@@ -1,3 +1,4 @@
+import EditIcon from "@mui/icons-material/Edit";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -24,7 +25,7 @@ export default function Task({ id, data, toggleEditor, setSelectedItem }) {
 							toggleEditor(true);
 						}}
 					>
-						<MoreVertIcon sx={{ fontSize: "30px" }} />
+						<EditIcon sx={{ fontSize: "25px" }} />
 					</IconButton>
 				</div>
 				<div className="flex flex-col gap-5 mt-5">
