@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Projects from "./components/Projects";
 import ProjectTitle from "./components/ProjectTitle";
@@ -7,45 +7,109 @@ export default function App() {
 	const [isLogged, setIsLogged] = useState(true);
 	const [isProjectActive, setIsProjectActive] = useState([1, 0, 0, 0]);
 	const [projects, setProjects] = useState([
-		{ id: "0", title: "Piper Enterprice", avatarId: "0", archive: false },
-		{ id: "1", title: "Web Platform", avatarId: "1", archive: false },
-		{ id: "2", title: "Mobile Loop", avatarId: "2", archive: false },
-		{ id: "3", title: "Wiro Mobile App", avatarId: "3", archive: false },
-	]);
-	const [tasks, setTasks] = useState([
 		{
-			title: "ali",
-			description: "man ali hastam",
-			src: "/",
-			time: "2024-07-11",
-			status: "to do",
 			id: "0",
+			title: "Piper Enterprice",
+			avatarId: "0",
+			archive: false,
+			tasks: [
+				{
+					title: "ali",
+					description: "man ali hastam",
+					src: "/",
+					time: "2024-07-11",
+					status: "to do",
+					id: "0",
+				},
+				{
+					title: "ahmad",
+					description: "man ali hastam",
+					src: "/",
+					time: "2024-07-11",
+					status: "in progress",
+					id: "1",
+				},
+				{
+					title: "asghar",
+					description: "man ali hastam",
+					src: "/",
+					time: "2024-07-11",
+					status: "done",
+					id: "2",
+				},
+				{
+					title: "mohammad",
+					description: "man ali hastam",
+					src: "/",
+					time: "2024-07-11",
+					status: "to do",
+					id: "3",
+				},
+			],
 		},
 		{
-			title: "ahmad",
-			description: "man ali hastam",
-			src: "/",
-			time: "2024-07-11",
-			status: "in progress",
 			id: "1",
+			title: "Web Platform",
+			avatarId: "1",
+			archive: false,
+			tasks: [
+				{
+					title: "mohammad",
+					description: "man ali hastam",
+					src: "/",
+					time: "2024-07-11",
+					status: "to do",
+					id: "0",
+				},
+			],
 		},
 		{
-			title: "asghar",
-			description: "man ali hastam",
-			src: "/",
-			time: "2024-07-11",
-			status: "done",
 			id: "2",
+			title: "Mobile Loop",
+			avatarId: "2",
+			archive: false,
+			tasks: [
+				{
+					title: "ali",
+					description: "man ali hastam",
+					src: "/",
+					time: "2024-07-11",
+					status: "to do",
+					id: "0",
+				},
+			],
 		},
 		{
-			title: "mohammad",
-			description: "man ali hastam",
-			src: "/",
-			time: "2024-07-11",
-			status: "to do",
 			id: "3",
+			title: "Wiro Mobile App",
+			avatarId: "3",
+			archive: false,
+			tasks: [
+				{
+					title: "ali",
+					description: "man ali hastam",
+					src: "/",
+					time: "2024-07-11",
+					status: "to do",
+					id: "0",
+				},
+				{
+					title: "mohammad",
+					description: "man ali hastam",
+					src: "/",
+					time: "2024-07-11",
+					status: "to do",
+					id: "1",
+				},
+			],
 		},
 	]);
+	const [tasks, setTasks] = useState(
+		projects[isProjectActive.indexOf(1)].tasks
+	);
+	useEffect(() => {
+		setTasks(projects[isProjectActive.indexOf(1)].tasks);
+	}, [projects, isProjectActive]);
 	return (
 		<>
 			<h1 className="lg:flex hidden justify-center items-center text-3xl font-bold lg:py-5 border-b-2 border-slate-200 w-full">

@@ -38,6 +38,7 @@ export default function AddTask({
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
+	let today = new Date().toISOString().split("T")[0];
 	return (
 		<>
 			<Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
@@ -51,7 +52,7 @@ export default function AddTask({
 					<Tab label="Add Task" sx={{ fontFamily: "Poppins" }} />
 				</Tabs>
 				<div className="flex flex-col gap-4 md:px-14 px-8 md:py-12 py-8">
-					<label htmlFor="Title">Title:</label>
+					<label>Title:</label>
 					<TextField
 						label="Title"
 						variant="outlined"
@@ -63,7 +64,7 @@ export default function AddTask({
 							})
 						}
 					/>
-					<label htmlFor="Description">Description:</label>
+					<label>Description:</label>
 					<TextField
 						label="Description"
 						variant="outlined"
@@ -76,7 +77,7 @@ export default function AddTask({
 							})
 						}
 					/>
-					<label htmlFor="Img">
+					<label>
 						Img <span className="text-xs">(Optional)</span>:
 					</label>
 					<Button
@@ -97,10 +98,10 @@ export default function AddTask({
 							}
 						/>
 					</Button>
-					<label htmlFor="Time">Schedule:</label>
+					<label>Schedule:</label>
 					<input
 						type="date"
-						min="2024-07-13"
+						min={today.toString()}
 						max="2025-07-13"
 						required
 						onChange={(e) =>

@@ -13,6 +13,7 @@ export default function TaskListContainer({ title, tasks, setTasks }) {
 	let data = tasks.filter((t) => t.status === title.toLowerCase());
 	const [openDialog, setOpenDialog] = useState(false);
 	const [isEditorOpen, toggleEditor] = useState(false);
+	const [selectedItem, setSelectedItem] = useState(null);
 	return (
 		<>
 			<div className="w-max flex flex-col gap-5">
@@ -91,14 +92,21 @@ export default function TaskListContainer({ title, tasks, setTasks }) {
 					{data.map((t) => {
 						return (
 							<div key={t.title}>
-								<Task id={t.id} data={t} toggleEditor={toggleEditor} />
-								<EditorTask
+								<Task
+									id={t.id}
 									data={t}
-									tasks={tasks}
-									setTasks={setTasks}
-									openDialog={isEditorOpen}
-									setOpenDialog={toggleEditor}
+									toggleEditor={toggleEditor}
+									setSelectedItem={setSelectedItem}
 								/>
+								{selectedItem && (
+									<EditorTask
+										data={selectedItem}
+										tasks={tasks}
+										setTasks={setTasks}
+										openDialog={isEditorOpen}
+										setOpenDialog={toggleEditor}
+									/>
+								)}
 							</div>
 						);
 					})}

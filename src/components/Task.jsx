@@ -1,11 +1,11 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-export default function Task({ id, data, toggleEditor }) {
+export default function Task({ id, data, toggleEditor, setSelectedItem }) {
 	return (
 		<>
 			<div
-				className="w-full bg-white pl-5 pr-3 py-3 rounded-md border-slate-200 border-[2px] cursor-pointer h-64"
+				className="w-full bg-white pl-5 pr-3 pt-5 rounded-md border-slate-200 border-[2px] cursor-pointer h-64"
 				draggable
 				id={id}
 				onDragStart={(e) => {
@@ -17,7 +17,13 @@ export default function Task({ id, data, toggleEditor }) {
 					<h1 className="bg-green-200 text-green-600 w-fit py-2 px-4 rounded-3xl font-medium 2xl:text-base lg:text-sm text-xs">
 						{data.time}
 					</h1>
-					<IconButton variant="text" onClick={() => toggleEditor(true)}>
+					<IconButton
+						variant="text"
+						onClick={() => {
+							setSelectedItem(data);
+							toggleEditor(true);
+						}}
+					>
 						<MoreVertIcon sx={{ fontSize: "30px" }} />
 					</IconButton>
 				</div>
