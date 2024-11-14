@@ -47,8 +47,20 @@ export default function EachProject({
 							if (!data.archive) {
 								data.archive = true;
 								let newProjects = projects.toSpliced(+data.id, 1, data);
+								// setIsActive((perv) => {
+								// 	let firstActiveId = projects.find((p) => {
+								// 		return p.archive === false;
+								// 	});
+								// 	if (firstActiveId) firstActiveId = firstActiveId.id;
+								// 	let newActiveArr = perv;
+								// 	newActiveArr.fill(0);
+								// 	if (newActiveArr[+firstActiveId] !== undefined)
+								// 		newActiveArr[+firstActiveId] = 1;
+								// 	console.log(newActiveArr);
+								// 	return newActiveArr;
+								// });
 								return newProjects;
-							} else if (data.archive) {
+							} else {
 								data.archive = false;
 								let newProjects = projects.toSpliced(+data.id, 1, data);
 								return newProjects;

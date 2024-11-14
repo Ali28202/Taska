@@ -79,7 +79,6 @@ export default function Projects({
 							</div>
 							<div className="mt-6 flex flex-col gap-3 overflow-scroll px-12 w-96">
 								<h1 className="text-xl font-bold mb-5">Archived Projects</h1>
-								{/* index problem  */}
 								{projects
 									.filter((t) => {
 										return t.archive === true;
@@ -101,7 +100,6 @@ export default function Projects({
 						</Drawer>
 					</div>
 					<div className="mt-6 flex flex-col gap-3 overflow-scroll 2xl:h-[26rem] xl:h-[25rem] lg:h-[24rem] sm:h-80 h-72">
-						{/* index problem  */}
 						{projects
 							.filter((t) => {
 								return t.archive !== true;

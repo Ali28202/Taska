@@ -40,6 +40,7 @@ export default function AddProject({
 						label="Name"
 						variant="outlined"
 						className="md:w-72 w-full"
+						required
 						onChange={(e) => {
 							setTextInput(e.target.value);
 						}}
@@ -119,17 +120,19 @@ export default function AddProject({
 						variant="contained"
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
 						onClick={() => {
-							setProjects((projects) => {
-								return [
-									...projects,
-									{
-										title: textInput,
-										avatarId: invisible.indexOf(false),
-										id: projects.length.toString(),
-									},
-								];
-							});
-							setOpenDialog(false);
+							if (textInput) {
+								setProjects((projects) => {
+									return [
+										...projects,
+										{
+											title: textInput,
+											avatarId: invisible.indexOf(false),
+											id: projects.length.toString(),
+										},
+									];
+								});
+								setOpenDialog(false);
+							}
 						}}
 					>
 						Add Project

@@ -5,7 +5,7 @@ import ProjectTitle from "./components/ProjectTitle";
 import TaskContainer from "./components/TaskContainer";
 export default function App() {
 	const [isLogged, setIsLogged] = useState(true);
-	const [isProjectActive, setIsProjectActive] = useState([1, 0, 0, 0, 0]);
+	const [isProjectActive, setIsProjectActive] = useState([1, 0, 0, 0]);
 	const [projects, setProjects] = useState([
 		{ id: "0", title: "Piper Enterprice", avatarId: "0", archive: false },
 		{ id: "1", title: "Web Platform", avatarId: "1", archive: false },
