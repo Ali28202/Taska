@@ -56,6 +56,7 @@ export default function AddTask({
 						label="Title"
 						variant="outlined"
 						className="md:w-72 w-full"
+						required
 						onChange={(e) =>
 							addNewTask((perv) => {
 								return { ...perv, title: e.target.value };
@@ -68,6 +69,7 @@ export default function AddTask({
 						variant="outlined"
 						className="md:w-72 w-full"
 						multiline
+						required
 						onChange={(e) =>
 							addNewTask((perv) => {
 								return { ...perv, description: e.target.value };
@@ -87,7 +89,11 @@ export default function AddTask({
 						Upload File
 						<VisuallyHiddenInput
 							type="file"
-							onChange={(e) => console.log(e.target.name)}
+							onChange={(e) =>
+								addNewTask((perv) => {
+									return { ...perv, src: e.target.value.split("\\")[2] };
+								})
+							}
 						/>
 					</Button>
 					<label htmlFor="Time">Schedule:</label>
@@ -95,6 +101,7 @@ export default function AddTask({
 						type="date"
 						min="2024-07-13"
 						max="2025-07-13"
+						required
 						onChange={(e) =>
 							addNewTask((perv) => {
 								return { ...perv, time: e.target.value };
@@ -105,14 +112,15 @@ export default function AddTask({
 						variant="contained"
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
 						onClick={() => {
-							setTasks(() => {
-								newTask.status = status;
-								// id should be unique
-								newTask.id = Math.floor(Math.random() * 10).toString();
-								tasks.push(newTask);
-								return tasks;
-							});
-							setOpenDialog(false);
+							if (newTask.title && newTask.time && newTask.description) {
+								setTasks(() => {
+									newTask.status = status;
+									newTask.id = tasks.length.toString();
+									tasks.push(newTask);
+									return tasks;
+								});
+								setOpenDialog(false);
+							}
 						}}
 					>
 						Add Task

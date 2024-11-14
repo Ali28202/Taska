@@ -84,15 +84,14 @@ export default function Projects({
 									.filter((t) => {
 										return t.archive === true;
 									})
-									?.map((t, idx) => {
+									?.map((t) => {
 										return (
 											<EachProject
-												isActive={isProjectActive[idx]}
+												isActive={isProjectActive[+t.id]}
 												setIsActive={setIsProjectActive}
-												index={idx}
 												data={t}
 												avatars={avatars}
-												key={idx}
+												key={+t.id}
 												projects={projects}
 												setProjects={setProjects}
 											/>
@@ -107,15 +106,14 @@ export default function Projects({
 							.filter((t) => {
 								return t.archive !== true;
 							})
-							?.map((t, idx) => {
+							?.map((t) => {
 								return (
 									<EachProject
-										isActive={isProjectActive[idx]}
+										isActive={isProjectActive[+t.id]}
 										setIsActive={setIsProjectActive}
-										index={idx}
 										data={t}
 										avatars={avatars}
-										key={idx}
+										key={+t.id}
 										projects={projects}
 										setProjects={setProjects}
 									/>

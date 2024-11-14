@@ -53,7 +53,7 @@ export default function TaskListContainer({ title, tasks, setTasks }) {
 				/>
 				{/* task place */}
 				<section
-					className="sm:overflow-scroll 2xl:h-[33rem] xl:h-[24rem] lg:h-[25rem] md:h-[27rem] h-[29rem] flex flex-col gap-5 2xl:mb-1 xl:mb-3 lg:mb-2 mb-1 rounded-2xl"
+					className="sm:overflow-scroll 2xl:h-[33rem] xl:h-[24rem] lg:h-[25rem] md:h-[27rem] h-[29rem] flex flex-col gap-5 2xl:mb-1 xl:mb-3 lg:mb-2 mb-1 rounded-2xl py-4"
 					onDrop={(e) => {
 						e.preventDefault();
 						let d = e.dataTransfer.getData("id");

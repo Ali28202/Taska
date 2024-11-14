@@ -28,7 +28,9 @@ export default function Task({ id, data }) {
 					</p>
 					<div className="flex items-center gap-3 w-fit p-2 rounded-xl border-slate-200 border-[1px]">
 						<AttachFileIcon fontSize="small" />
-						<span className="lg:text-sm text-xs">Img Title</span>
+						<span className="lg:text-sm text-xs w-24 overflow-hidden">
+							{data.src === "/" ? "Img Title" : data.src}
+						</span>
 					</div>
 				</div>
 			</div>

@@ -6,7 +6,6 @@ import UnarchiveIcon from "@mui/icons-material/Unarchive";
 export default function EachProject({
 	isActive,
 	setIsActive,
-	index,
 	data,
 	avatars,
 	projects,
@@ -20,7 +19,7 @@ export default function EachProject({
 					setIsActive((isActive) => {
 						let newArr = new Array(isActive.length);
 						newArr.fill(0);
-						newArr[index] = 1;
+						newArr[+data.id] = 1;
 						return newArr;
 					})
 				}
@@ -47,11 +46,11 @@ export default function EachProject({
 						setProjects(() => {
 							if (!data.archive) {
 								data.archive = true;
-								let newProjects = projects.toSpliced(index, 1, data);
+								let newProjects = projects.toSpliced(+data.id, 1, data);
 								return newProjects;
 							} else if (data.archive) {
 								data.archive = false;
-								let newProjects = projects.toSpliced(index, 1, data);
+								let newProjects = projects.toSpliced(+data.id, 1, data);
 								return newProjects;
 							}
 						});

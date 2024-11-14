@@ -119,11 +119,14 @@ export default function AddProject({
 						variant="contained"
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
 						onClick={() => {
-							console.log(textInput);
 							setProjects((projects) => {
 								return [
 									...projects,
-									{ title: textInput, avatarId: invisible.indexOf(false) },
+									{
+										title: textInput,
+										avatarId: invisible.indexOf(false),
+										id: projects.length.toString(),
+									},
 								];
 							});
 							setOpenDialog(false);

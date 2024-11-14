@@ -7,10 +7,44 @@ export default function App() {
 	const [isLogged, setIsLogged] = useState(true);
 	const [isProjectActive, setIsProjectActive] = useState([1, 0, 0, 0, 0]);
 	const [projects, setProjects] = useState([
-		{ title: "Piper Enterprice", avatarId: "0", archive: false },
-		{ title: "Web Platform", avatarId: "1", archive: false },
-		{ title: "Mobile Loop", avatarId: "2", archive: false },
-		{ title: "Wiro Mobile App", avatarId: "3", archive: false },
+		{ id: "0", title: "Piper Enterprice", avatarId: "0", archive: false },
+		{ id: "1", title: "Web Platform", avatarId: "1", archive: false },
+		{ id: "2", title: "Mobile Loop", avatarId: "2", archive: false },
+		{ id: "3", title: "Wiro Mobile App", avatarId: "3", archive: false },
+	]);
+	const [tasks, setTasks] = useState([
+		{
+			title: "ali",
+			description: "man ali hastam",
+			src: "/",
+			time: "1 Days",
+			status: "to do",
+			id: "0",
+		},
+		{
+			title: "ahmad",
+			description: "man ali hastam",
+			src: "/",
+			time: "3 Days",
+			status: "in progress",
+			id: "1",
+		},
+		{
+			title: "asghar",
+			description: "man ali hastam",
+			src: "/",
+			time: "3 Days",
+			status: "done",
+			id: "2",
+		},
+		{
+			title: "mohammad",
+			description: "man ali hastam",
+			src: "/",
+			time: "2 Days",
+			status: "to do",
+			id: "3",
+		},
 	]);
 	return (
 		<>
@@ -37,8 +71,9 @@ export default function App() {
 								<ProjectTitle
 									projects={projects}
 									idxActiveProject={isProjectActive.indexOf(1)}
+									tasks={tasks}
 								/>
-								<TaskContainer />
+								<TaskContainer tasks={tasks} setTasks={setTasks} />
 							</div>
 						</>
 					) : (

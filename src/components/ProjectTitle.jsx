@@ -18,7 +18,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 	},
 }));
 
-export default function ProjectTitle({ projects, idxActiveProject }) {
+export default function ProjectTitle({ projects, idxActiveProject, tasks }) {
 	let avatars = [
 		// building
 		<div className="bg-[#c5d8e7] md:p-4 p-3 rounded-xl w-fit h-fit">
@@ -37,6 +37,12 @@ export default function ProjectTitle({ projects, idxActiveProject }) {
 			<SquareIcon className="md:!text-4xl !text-2xl text-[#bd39ff]" />
 		</div>,
 	];
+	let progress = 0;
+	tasks.forEach((task) => {
+		if (task.status === "done") progress++;
+	});
+	progress = (progress / tasks.length) * 100;
+	progress = Math.floor(progress);
 	return (
 		<>
 			<div className="flex items-center md:justify-normal justify-center lg:gap-8 gap-5 md:px-6 lg:pt-3 md:py-7 py-5 border-b-2 border-slate-200">
@@ -48,11 +54,11 @@ export default function ProjectTitle({ projects, idxActiveProject }) {
 					<div className="flex flex-row items-center gap-4 md:gap-5">
 						<BorderLinearProgress
 							variant="determinate"
-							value={13}
+							value={progress}
 							className="xl:w-80 md:w-72 w-44"
 						/>
 						<h2 className="xl:text-lg lg:text-base text-sm text-slate-600">
-							13% <span className="md:inline hidden">complete</span>
+							{progress}% <span className="md:inline hidden">complete</span>
 						</h2>
 					</div>
 				</div>
