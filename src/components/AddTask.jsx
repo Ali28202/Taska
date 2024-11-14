@@ -50,7 +50,7 @@ export default function AddTask({
 				>
 					<Tab label="Add Task" sx={{ fontFamily: "Poppins" }} />
 				</Tabs>
-				<div className="flex flex-col gap-5 md:px-14 px-8 md:py-12 py-8">
+				<div className="flex flex-col gap-4 md:px-14 px-8 md:py-12 py-8">
 					<label htmlFor="Title">Title:</label>
 					<TextField
 						label="Title"
@@ -86,9 +86,10 @@ export default function AddTask({
 						startIcon={<CloudUploadIcon />}
 						className="md:w-72 w-full"
 					>
-						Upload File
+						Upload Image
 						<VisuallyHiddenInput
 							type="file"
+							accept="image/*"
 							onChange={(e) =>
 								addNewTask((perv) => {
 									return { ...perv, src: e.target.value.split("\\")[2] };

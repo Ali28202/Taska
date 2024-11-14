@@ -50,7 +50,7 @@ export default function EditorTask({
 				>
 					<Tab label="Edit/Delete Task" sx={{ fontFamily: "Poppins" }} />
 				</Tabs>
-				<div className="flex flex-col gap-5 md:px-14 px-8 md:py-12 py-8">
+				<div className="flex flex-col gap-4 md:px-14 px-8 md:py-12 py-8">
 					<label htmlFor="Title">Title:</label>
 					<TextField
 						label="Title"
@@ -89,6 +89,7 @@ export default function EditorTask({
 						Change Image
 						<VisuallyHiddenInput
 							type="file"
+							accept="image/*"
 							onChange={(e) =>
 								editTask((perv) => {
 									return { ...perv, src: e.target.value.split("\\")[2] };
