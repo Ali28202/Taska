@@ -19,7 +19,7 @@ const VisuallyHiddenInput = styled("input")({
 	width: 1,
 });
 
-export default function EditTask({
+export default function EditorTask({
 	data,
 	tasks,
 	setTasks,
@@ -28,10 +28,10 @@ export default function EditTask({
 }) {
 	const [value, setValue] = useState(0);
 	const [task, editTask] = useState({
-		title: "",
-		description: "",
-		src: "/",
-		time: "",
+		title: data.title,
+		description: data.description,
+		src: data.src,
+		time: data.time,
 		status: data.status,
 		id: data.id,
 	});
@@ -48,7 +48,7 @@ export default function EditTask({
 					centered
 					variant="fullWidth"
 				>
-					<Tab label="Edit Task" sx={{ fontFamily: "Poppins" }} />
+					<Tab label="Edit/Delete Task" sx={{ fontFamily: "Poppins" }} />
 				</Tabs>
 				<div className="flex flex-col gap-5 md:px-14 px-8 md:py-12 py-8">
 					<label htmlFor="Title">Title:</label>
@@ -101,6 +101,7 @@ export default function EditTask({
 						type="date"
 						min="2024-07-13"
 						max="2025-07-13"
+						value={data.time}
 						onChange={(e) =>
 							editTask((perv) => {
 								return { ...perv, time: e.target.value };
@@ -111,14 +112,30 @@ export default function EditTask({
 						variant="contained"
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
 						onClick={() => {
+							if (task.title && task.time && task.description) {
+								setTasks(() => {
+									let newTasks = tasks.toSpliced(+data.id, 1, task);
+									return newTasks;
+								});
+								setOpenDialog(false);
+							}
+						}}
+					>
+						Edit Task
+					</Button>
+					<Button
+						variant="contained"
+						color="warning"
+						sx={{ fontFamily: "Poppins", textTransform: "none" }}
+						onClick={() => {
 							setTasks(() => {
-								let newTasks = tasks.toSpliced(+data.id, 1, task);
+								let newTasks = tasks.toSpliced(+data.id, 1);
 								return newTasks;
 							});
 							setOpenDialog(false);
 						}}
 					>
-						Edit Task
+						Delete Task
 					</Button>
 				</div>
 			</Dialog>
