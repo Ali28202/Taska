@@ -41,6 +41,10 @@ export default function ShowTask({ data, openDialog, setOpenDialog }) {
 				fullWidth={true}
 				maxWidth={"md"}
 			>
+				<div
+					className="h-12 opacity-75"
+					style={{ backgroundColor: bgStatusColor }}
+				></div>
 				<div className="flex flex-col gap-6 md:px-10 px-8 md:py-12 py-8">
 					<div className="flex items-start justify-between">
 						<div className="flex items-start gap-5">
@@ -50,7 +54,7 @@ export default function ShowTask({ data, openDialog, setOpenDialog }) {
 								<h2 className="flex sm:flex-row flex-col sm:gap-2 sm:items-center sm:mt-0 mt-2">
 									in list
 									<span
-										className="text-sm p-1 rounded-sm text-white bg-opacity-25"
+										className="text-sm p-1 rounded-sm text-white opacity-75"
 										style={{ backgroundColor: bgStatusColor }}
 									>
 										{data.status.toUpperCase()}
