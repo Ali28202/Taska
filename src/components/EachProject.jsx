@@ -1,5 +1,4 @@
 import ArchiveIcon from "@mui/icons-material/Archive";
-import IconButton from "@mui/material/IconButton";
 import { Button } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
@@ -68,7 +67,7 @@ export default function EachProject({
 						});
 					}}
 				>
-					<IconButton variant="text">
+					<div className="p-3 hover:bg-gray-200 rounded-full flex items-center justify-center cursor-pointer duration-300">
 						{data.archive ? (
 							<UnarchiveIcon
 								sx={isActive ? { color: "white" } : { color: "black" }}
@@ -80,7 +79,7 @@ export default function EachProject({
 								fontSize="small"
 							/>
 						)}
-					</IconButton>
+					</div>
 				</Tooltip>
 			</Button>
 		</>

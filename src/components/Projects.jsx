@@ -22,29 +22,21 @@ export default function Projects({
 	const [openArchive, setOpenArchive] = useState(false);
 	let avatars = [
 		// building
-		<IconButton sx={{ padding: 0 }}>
-			<div className="bg-[#c5d8e7] px-2.5 py-0.5 rounded-xl w-fit h-fit">
-				<ApartmentIcon className="!text-2xl text-black mb-0.5" />
-			</div>
-		</IconButton>,
+		<div className="bg-[#c5d8e7] p-2.5 rounded-xl w-fit h-fit flex items-center justify-center">
+			<ApartmentIcon className="!text-2xl text-black" />
+		</div>,
 		// language
-		<IconButton sx={{ padding: 0 }}>
-			<div className="bg-[#e3f9fe] px-2.5 py-0.5 rounded-xl w-fit h-fit">
-				<LanguageIcon className="!text-2xl text-[#73c6d8] mb-0.5" />
-			</div>
-		</IconButton>,
+		<div className="bg-[#e3f9fe] p-2.5 rounded-xl w-fit h-fit flex items-center justify-center">
+			<LanguageIcon className="!text-2xl text-[#73c6d8]" />
+		</div>,
 		// mobile
-		<IconButton sx={{ padding: 0 }}>
-			<div className="bg-[#d8ebff] px-2.5 py-0.5 md:rounded-xl rounded-xl w-fit">
-				<SendToMobileIcon className="xl:text-xl lg:text-2xl text-lg text-black mb-1" />
-			</div>
-		</IconButton>,
+		<div className="bg-[#d8ebff] p-2.5 md:rounded-xl rounded-xl w-fit flex items-center justify-center">
+			<SendToMobileIcon className="xl:text-xl lg:text-2xl text-lg text-black" />
+		</div>,
 		//square
-		<IconButton sx={{ padding: 0 }}>
-			<div className="bg-[#faeaff] px-2.5 py-0.5 md:rounded-xl rounded-xl w-fit">
-				<SquareIcon className="xl:text-xl lg:text-2xl text-lg text-[#bd39ff] mb-1" />
-			</div>
-		</IconButton>,
+		<div className="bg-[#faeaff] p-2.5 md:rounded-xl rounded-xl w-fit flex items-center justify-center">
+			<SquareIcon className="xl:text-xl lg:text-2xl text-lg text-[#bd39ff]" />
+		</div>,
 	];
 	return (
 		<>

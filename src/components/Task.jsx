@@ -1,8 +1,27 @@
 import EditIcon from "@mui/icons-material/Edit";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 export default function Task({ id, data, toggleEditor, setSelectedItem }) {
+	let today = new Date().toISOString().split("T")[0];
+	// in array : first = year,second = month, third = day
+	let taskTime = data.time.split("-");
+	today = today.split("-");
+	let bgColorDate, textColorDate;
+	if (taskTime[1] === today[1]) {
+		if (taskTime[2] - today[2] >= 7) {
+			bgColorDate = "#bbf7d0";
+			textColorDate = "#16a34a";
+		} else if ((taskTime[2] - today[2] < 7) & (taskTime[2] - today[2] > 2)) {
+			bgColorDate = "#fef08a";
+			textColorDate = "#ca8a04";
+		} else {
+			bgColorDate = "#fecaca";
+			textColorDate = "#dc2626";
+		}
+	} else {
+		bgColorDate = "#bbf7d0";
+		textColorDate = "#16a34a";
+	}
 	return (
 		<>
 			<div
@@ -15,7 +34,10 @@ export default function Task({ id, data, toggleEditor, setSelectedItem }) {
 				}}
 			>
 				<div className="flex justify-between items-center">
-					<h1 className="bg-green-200 text-green-600 w-fit py-2 px-4 rounded-3xl font-medium 2xl:text-base lg:text-sm text-xs">
+					<h1
+						className="w-fit py-2 px-4 rounded-3xl font-medium 2xl:text-base lg:text-sm text-xs"
+						style={{ backgroundColor: bgColorDate, color: textColorDate }}
+					>
 						{data.time}
 					</h1>
 					<IconButton
