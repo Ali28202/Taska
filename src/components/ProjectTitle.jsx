@@ -60,7 +60,8 @@ export default function ProjectTitle({ projects, idxActiveProject, tasks }) {
 							className="xl:w-80 md:w-72 w-44"
 						/>
 						<h2 className="xl:text-lg lg:text-base text-sm text-slate-600">
-							{progress}% <span className="md:inline hidden">complete</span>
+							{progress ? progress : 0}%{" "}
+							<span className="md:inline hidden">complete</span>
 						</h2>
 					</div>
 				</div>

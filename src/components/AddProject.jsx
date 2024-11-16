@@ -128,6 +128,7 @@ export default function AddProject({ openDialog, setOpenDialog, setProjects }) {
 										},
 									];
 								});
+								setTextInput("");
 								setOpenDialog(false);
 							}
 						}}
