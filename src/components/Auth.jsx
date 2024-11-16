@@ -93,14 +93,18 @@ export default function Auth({ isLogged, setIsLogged }) {
 						</Tabs>
 						<CustomTabPanel value={value} index={0}>
 							<div className="flex flex-col gap-5 md:px-10 px-3 md:py-5 py-3">
-								<label htmlFor="Email">Email:</label>
+								<label>Email:</label>
 								<TextField
 									label="Email"
 									variant="outlined"
 									className="md:w-72 w-full"
 								/>
-								<label htmlFor="Password">Password:</label>
-								<TextField label="Password" variant="outlined" />
+								<label>Password:</label>
+								<TextField
+									label="Password"
+									variant="outlined"
+									type="password"
+								/>
 								<Button
 									variant="contained"
 									sx={{ fontFamily: "Poppins", textTransform: "none" }}
@@ -112,15 +116,19 @@ export default function Auth({ isLogged, setIsLogged }) {
 						</CustomTabPanel>
 						<CustomTabPanel value={value} index={1}>
 							<div className="flex flex-col gap-5 md:px-10 px-3 md:py-5 py-3">
-								<label htmlFor="Email">Email:</label>
+								<label>Email:</label>
 								<TextField
 									label="Email"
 									variant="outlined"
 									className="md:w-72 w-64"
 								/>
-								<label htmlFor="Password">Password:</label>
-								<TextField label="Password" variant="outlined" />
-								<label htmlFor="Name">Name:</label>
+								<label>Password:</label>
+								<TextField
+									label="Password"
+									variant="outlined"
+									type="password"
+								/>
+								<label>Name:</label>
 								<TextField label="Name" variant="outlined" />
 								<Button
 									variant="contained"

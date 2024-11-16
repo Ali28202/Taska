@@ -42,21 +42,11 @@ export default function EachProject({
 					title={!data.archive ? "Archive" : "UnArchive"}
 					arrow
 					onClick={(e) => {
-						// logic need revoke
 						e.stopPropagation();
 						setProjects(() => {
 							if (!data.archive) {
 								data.archive = true;
 								let newProjects = projects.toSpliced(+data.id, 1, data);
-								// setIsActive(() => {
-								// 	let firstActiveProjIdx = projects.findIndex((p) => {
-								// 		return p.archive === false;
-								// 	});
-								// 	let newArr = new Array(isActive.length);
-								// 	newArr.fill(0);
-								// 	newArr[firstActiveProjIdx] = 1;
-								// 	return newArr;
-								// });
 								return newProjects;
 							} else {
 								data.archive = false;

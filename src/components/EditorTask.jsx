@@ -101,6 +101,7 @@ export default function EditorTask({
 						type="date"
 						min={today.toString()}
 						max="2025-07-13"
+						defaultValue={data.time}
 						onChange={(e) =>
 							editTask((perv) => {
 								return { ...perv, time: e.target.value };
