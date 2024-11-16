@@ -123,6 +123,8 @@ export default function AddProject({ openDialog, setOpenDialog, setProjects }) {
 											title: textInput,
 											avatarId: invisible.indexOf(false),
 											id: projects.length.toString(),
+											tasks: [],
+											archive: false,
 										},
 									];
 								});

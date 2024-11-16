@@ -1,6 +1,7 @@
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import { useDrag } from "react-dnd";
 export default function Task({
 	id,
 	data,
@@ -9,9 +10,9 @@ export default function Task({
 	toggleTask,
 }) {
 	let today = new Date().toISOString().split("T")[0];
-	// in array : first = year,second = month, third = day
 	let taskTime = data.time.split("-");
 	today = today.split("-");
+	// after split in array : firstElem = year,secondElem = month, thirdElem = day
 	let bgColorDate, textColorDate;
 	if (data.status === "done") {
 		bgColorDate = "#bbf7d0";
@@ -33,19 +34,18 @@ export default function Task({
 			textColorDate = "#16a34a";
 		}
 	}
+	const [, ref] = useDrag({
+		type: "TASK",
+		item: { id: id },
+	});
 	return (
 		<>
 			<div
+				ref={ref}
 				className="w-full bg-white pl-5 pr-3 pt-5 rounded-md border-slate-200 border-[2px] cursor-pointer h-64"
-				draggable
 				onClick={() => {
 					setSelectedItem(data);
 					toggleTask(true);
-				}}
-				id={id}
-				onDragStart={(e) => {
-					e.dataTransfer.setData("id", e.target.id);
-					e.dataTransfer.dropEffect = "move";
 				}}
 			>
 				<div className="flex justify-between items-center">

@@ -38,11 +38,13 @@ export default function ProjectTitle({ projects, idxActiveProject, tasks }) {
 		</div>,
 	];
 	let progress = 0;
-	tasks.forEach((task) => {
-		if (task.status === "done") progress++;
-	});
-	progress = (progress / tasks.length) * 100;
-	progress = Math.floor(progress);
+	if (tasks) {
+		tasks.forEach((task) => {
+			if (task.status === "done") progress++;
+		});
+		progress = (progress / tasks.length) * 100;
+		progress = Math.floor(progress);
+	}
 	return (
 		<>
 			<div className="flex items-center md:justify-normal justify-center lg:gap-8 gap-5 md:px-6 lg:pt-3 md:py-7 py-5 border-b-2 border-slate-200">

@@ -8,14 +8,29 @@ import Task from "./Task";
 import AddTask from "./AddTask";
 import EditorTask from "./EditorTask";
 import ShowTask from "./showTask";
-export default function TaskListContainer({ title, tasks, setTasks }) {
+import { useDrop } from "react-dnd";
+export default function TaskListContainer({
+	title,
+	name,
+	tasks,
+	setTasks,
+	moveTask,
+}) {
 	let dotColor =
 		title === "To Do" ? "red" : title === "In Progress" ? "blue" : "green";
-	let data = tasks.filter((t) => t.status === title.toLowerCase());
+	let data = tasks?.filter((t) => {
+		return t.status === title.toLowerCase();
+	});
 	const [openDialog, setOpenDialog] = useState(false);
 	const [isEditorOpen, toggleEditor] = useState(false);
 	const [isTaskOpen, toggleTask] = useState(false);
 	const [selectedItem, setSelectedItem] = useState(null);
+	const [, drop] = useDrop({
+		accept: "TASK",
+		drop: (draggedItem) => {
+			moveTask(draggedItem.id, name);
+		},
+	});
 	return (
 		<>
 			<div className="w-max flex flex-col gap-5">
@@ -28,7 +43,7 @@ export default function TaskListContainer({ title, tasks, setTasks }) {
 							{title}
 						</h1>
 						<span className="font-medium py-3 px-5 bg-white  w-4 h-4  flex items-center justify-center rounded-3xl lg:text-base text-sm">
-							{data.length}
+							{data?.length}
 						</span>
 					</div>
 					<IconButton variant="text">
@@ -58,40 +73,10 @@ export default function TaskListContainer({ title, tasks, setTasks }) {
 				/>
 				{/* task place */}
 				<section
+					ref={drop}
 					className="sm:overflow-scroll 2xl:h-[33rem] xl:h-[24rem] lg:h-[25rem] md:h-[27rem] h-[29rem] flex flex-col gap-5 2xl:mb-1 xl:mb-3 lg:mb-2 mb-1 rounded-2xl py-4"
-					onDrop={(e) => {
-						e.preventDefault();
-						let d = e.dataTransfer.getData("id");
-						let newTask, taskIndex;
-						tasks.forEach((i, idx) => {
-							if (i.id === d) {
-								newTask = { ...i, status: title.toLowerCase() };
-								taskIndex = idx;
-							}
-						});
-						setTasks(() => {
-							let newTasks = tasks.toSpliced(taskIndex, 1);
-							newTasks.push(newTask);
-							return newTasks;
-						});
-						if (e.target.matches("section")) {
-							e.target.classList.remove("bg-gray-300");
-						}
-					}}
-					onDragOver={(e) => {
-						e.preventDefault();
-						if (e.target.matches("section")) {
-							e.target.classList.add("bg-gray-300");
-						}
-					}}
-					onDragLeave={(e) => {
-						e.preventDefault();
-						if (e.target.matches("section")) {
-							e.target.classList.remove("bg-gray-300");
-						}
-					}}
 				>
-					{data.map((t) => {
+					{data?.map((t) => {
 						return (
 							<div key={t.title}>
 								<Task
