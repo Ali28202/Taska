@@ -1,7 +1,13 @@
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-export default function Task({ id, data, toggleEditor, setSelectedItem }) {
+export default function Task({
+	id,
+	data,
+	toggleEditor,
+	setSelectedItem,
+	toggleTask,
+}) {
 	let today = new Date().toISOString().split("T")[0];
 	// in array : first = year,second = month, third = day
 	let taskTime = data.time.split("-");
@@ -27,6 +33,10 @@ export default function Task({ id, data, toggleEditor, setSelectedItem }) {
 			<div
 				className="w-full bg-white pl-5 pr-3 pt-5 rounded-md border-slate-200 border-[2px] cursor-pointer h-64"
 				draggable
+				onClick={() => {
+					setSelectedItem(data);
+					toggleTask(true);
+				}}
 				id={id}
 				onDragStart={(e) => {
 					e.dataTransfer.setData("id", e.target.id);
@@ -42,7 +52,9 @@ export default function Task({ id, data, toggleEditor, setSelectedItem }) {
 					</h1>
 					<IconButton
 						variant="text"
-						onClick={() => {
+						sx={{ padding: 1.5 }}
+						onClick={(e) => {
+							e.stopPropagation();
 							setSelectedItem(data);
 							toggleEditor(true);
 						}}

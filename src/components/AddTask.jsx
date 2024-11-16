@@ -78,7 +78,7 @@ export default function AddTask({
 						}
 					/>
 					<label>
-						Img <span className="text-xs">(Optional)</span>:
+						Image <span className="text-xs">(Optional)</span>:
 					</label>
 					<Button
 						component="label"

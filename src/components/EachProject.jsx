@@ -13,7 +13,12 @@ export default function EachProject({
 	return (
 		<>
 			<Button
-				className="!rounded-xl w-full lg:!pl-4 lg:!py-3 !py-2 flex !justify-between !shadow-none !border-slate-300"
+				className="!rounded-xl w-full !p-0 flex !justify-between !shadow-none !border-slate-300 !pr-3"
+				style={
+					isActive
+						? { backgroundColor: "#365efe", fontFamily: "Poppins" }
+						: { backgroundColor: "white", fontFamily: "Poppins" }
+				}
 				onClick={() =>
 					setIsActive((isActive) => {
 						let newArr = new Array(isActive.length);
@@ -22,14 +27,9 @@ export default function EachProject({
 						return newArr;
 					})
 				}
-				style={
-					isActive
-						? { backgroundColor: "#365efe", fontFamily: "Poppins" }
-						: { backgroundColor: "white", fontFamily: "Poppins" }
-				}
 				variant="outlined"
 			>
-				<div className="flex items-center gap-3 mr-3">
+				<div className="flex items-center gap-3 h-full w-full p-4">
 					{avatars[data.avatarId]}
 					<h2
 						className="lg:text-base text-sm normal-case font-medium text-left"
@@ -41,22 +41,21 @@ export default function EachProject({
 				<Tooltip
 					title={!data.archive ? "Archive" : "UnArchive"}
 					arrow
-					onClick={() => {
+					onClick={(e) => {
+						// logic need revoke
+						e.stopPropagation();
 						setProjects(() => {
 							if (!data.archive) {
 								data.archive = true;
 								let newProjects = projects.toSpliced(+data.id, 1, data);
-								// setIsActive((perv) => {
-								// 	let firstActiveId = projects.find((p) => {
+								// setIsActive(() => {
+								// 	let firstActiveProjIdx = projects.findIndex((p) => {
 								// 		return p.archive === false;
 								// 	});
-								// 	if (firstActiveId) firstActiveId = firstActiveId.id;
-								// 	let newActiveArr = perv;
-								// 	newActiveArr.fill(0);
-								// 	if (newActiveArr[+firstActiveId] !== undefined)
-								// 		newActiveArr[+firstActiveId] = 1;
-								// 	console.log(newActiveArr);
-								// 	return newActiveArr;
+								// 	let newArr = new Array(isActive.length);
+								// 	newArr.fill(0);
+								// 	newArr[firstActiveProjIdx] = 1;
+								// 	return newArr;
 								// });
 								return newProjects;
 							} else {

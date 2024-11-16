@@ -7,12 +7,14 @@ import { useState } from "react";
 import Task from "./Task";
 import AddTask from "./AddTask";
 import EditorTask from "./EditorTask";
+import ShowTask from "./showTask";
 export default function TaskListContainer({ title, tasks, setTasks }) {
 	let dotColor =
 		title === "To Do" ? "red" : title === "In Progress" ? "blue" : "green";
 	let data = tasks.filter((t) => t.status === title.toLowerCase());
 	const [openDialog, setOpenDialog] = useState(false);
 	const [isEditorOpen, toggleEditor] = useState(false);
+	const [isTaskOpen, toggleTask] = useState(false);
 	const [selectedItem, setSelectedItem] = useState(null);
 	return (
 		<>
@@ -96,8 +98,16 @@ export default function TaskListContainer({ title, tasks, setTasks }) {
 									id={t.id}
 									data={t}
 									toggleEditor={toggleEditor}
+									toggleTask={toggleTask}
 									setSelectedItem={setSelectedItem}
 								/>
+								{selectedItem && (
+									<ShowTask
+										data={selectedItem}
+										openDialog={isTaskOpen}
+										setOpenDialog={toggleTask}
+									/>
+								)}
 								{selectedItem && (
 									<EditorTask
 										data={selectedItem}

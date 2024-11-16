@@ -10,12 +10,7 @@ import Badge from "@mui/material/Badge";
 import LanguageIcon from "@mui/icons-material/Language";
 import SendToMobileIcon from "@mui/icons-material/SendToMobile";
 import SquareIcon from "@mui/icons-material/Square";
-export default function AddProject({
-	openDialog,
-	setOpenDialog,
-	projects,
-	setProjects,
-}) {
+export default function AddProject({ openDialog, setOpenDialog, setProjects }) {
 	const [value, setValue] = useState(0);
 	const [invisible, setInvisible] = useState([false, true, true, true]);
 	const handleChange = (event, newValue) => {
