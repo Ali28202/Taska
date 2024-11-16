@@ -35,7 +35,7 @@ export default function AddProject({
 					<Tab label="Add Project" sx={{ fontFamily: "Poppins" }} />
 				</Tabs>
 				<div className="flex flex-col gap-5 md:px-14 px-10 md:py-12 py-10">
-					<label htmlFor="Email">Project Name:</label>
+					<label>Project Name:</label>
 					<TextField
 						label="Name"
 						variant="outlined"
@@ -45,7 +45,7 @@ export default function AddProject({
 							setTextInput(e.target.value);
 						}}
 					/>
-					<label htmlFor="Avatar">Select Your Avatar:</label>
+					<label>Select Your Avatar:</label>
 					<div className="flex flex-wrap sm:justify-normal justify-start items-center gap-4">
 						<Badge variant="dot" color="success" invisible={invisible[0]}>
 							<IconButton

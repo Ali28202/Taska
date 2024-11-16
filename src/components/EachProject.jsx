@@ -32,7 +32,7 @@ export default function EachProject({
 				<div className="flex items-center gap-3 mr-3">
 					{avatars[data.avatarId]}
 					<h2
-						className="lg:text-base text-sm normal-case font-medium"
+						className="lg:text-base text-sm normal-case font-medium text-left"
 						style={isActive ? { color: "white" } : { color: "black" }}
 					>
 						{data.title}
@@ -67,7 +67,7 @@ export default function EachProject({
 						});
 					}}
 				>
-					<div className="p-3 hover:bg-gray-200 rounded-full flex items-center justify-center cursor-pointer duration-300">
+					<div className="p-3 hover:bg-gray-300 rounded-full flex items-center justify-center cursor-pointer duration-300">
 						{data.archive ? (
 							<UnarchiveIcon
 								sx={isActive ? { color: "white" } : { color: "black" }}
