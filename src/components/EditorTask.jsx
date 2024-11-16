@@ -54,7 +54,6 @@ export default function EditorTask({
 				<div className="flex flex-col gap-4 md:px-14 px-8 md:py-12 py-8">
 					<label>Title:</label>
 					<TextField
-						label="Title"
 						variant="outlined"
 						className="md:w-72 w-full"
 						placeholder={data.title}
@@ -66,7 +65,6 @@ export default function EditorTask({
 					/>
 					<label>Description:</label>
 					<TextField
-						label="Description"
 						variant="outlined"
 						className="md:w-72 w-full"
 						multiline
@@ -126,7 +124,7 @@ export default function EditorTask({
 					</Button>
 					<Button
 						variant="contained"
-						color="warning"
+						color="error"
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
 						onClick={() => {
 							setTasks(() => {

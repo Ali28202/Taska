@@ -13,20 +13,25 @@ export default function Task({
 	let taskTime = data.time.split("-");
 	today = today.split("-");
 	let bgColorDate, textColorDate;
-	if (taskTime[1] === today[1]) {
-		if (taskTime[2] - today[2] >= 7) {
-			bgColorDate = "#bbf7d0";
-			textColorDate = "#16a34a";
-		} else if ((taskTime[2] - today[2] < 7) & (taskTime[2] - today[2] > 2)) {
-			bgColorDate = "#fef08a";
-			textColorDate = "#ca8a04";
-		} else {
-			bgColorDate = "#fecaca";
-			textColorDate = "#dc2626";
-		}
-	} else {
+	if (data.status === "done") {
 		bgColorDate = "#bbf7d0";
 		textColorDate = "#16a34a";
+	} else {
+		if (taskTime[1] === today[1]) {
+			if (taskTime[2] - today[2] >= 7) {
+				bgColorDate = "#bbf7d0";
+				textColorDate = "#16a34a";
+			} else if (taskTime[2] - today[2] < 7 && taskTime[2] - today[2] > 2) {
+				bgColorDate = "#fef08a";
+				textColorDate = "#ca8a04";
+			} else {
+				bgColorDate = "#fecaca";
+				textColorDate = "#dc2626";
+			}
+		} else {
+			bgColorDate = "#bbf7d0";
+			textColorDate = "#16a34a";
+		}
 	}
 	return (
 		<>
