@@ -53,7 +53,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 	// log in user
 	const [existUserData, getExistUserData] = useState(null);
 	// which user in
-	const [authData, getAuthData] = useState(null);
+	const [authData, setAuthData] = useState(null);
 
 	const [openDialog, setOpenDialog] = useState(false);
 	const [value, setValue] = useState(0);
@@ -68,8 +68,8 @@ export default function Auth({ isLogged, setIsLogged }) {
 		setIsFetched(false);
 		try {
 			const record = await pb.collection("users").create(data);
-			if (record.code) throw new Error(record);
-			else return record;
+			if (typeof record === "object") return record;
+			else throw new Error(record);
 		} catch (e) {
 			console.log(e);
 		}
@@ -205,7 +205,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 											signIn(existUserData)
 												.then((res) => {
 													setIsFetched(true);
-													getAuthData(res.record);
+													setAuthData(res.record);
 													setIsLogged(true);
 												})
 												.catch(() => {
@@ -310,12 +310,11 @@ export default function Auth({ isLogged, setIsLogged }) {
 										}}
 										onClick={() => {
 											signUp(newUserData).then((res) => {
+												setIsFetched(true);
 												if (res) {
-													setIsFetched(true);
-													getAuthData(newUserData);
+													setAuthData(newUserData);
 													setIsLogged(true);
 												} else {
-													setIsFetched(false);
 													getSignUpError(true);
 												}
 											});
