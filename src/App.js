@@ -4,7 +4,7 @@ import Projects from "./components/Projects";
 import ProjectTitle from "./components/ProjectTitle";
 import TaskContainer from "./components/TaskContainer";
 export default function App() {
-	const [isLogged, setIsLogged] = useState(true);
+	const [isLogged, setIsLogged] = useState(false);
 	const [isProjectActive, setIsProjectActive] = useState([1, 0, 0, 0]);
 	const [projects, setProjects] = useState([
 		{

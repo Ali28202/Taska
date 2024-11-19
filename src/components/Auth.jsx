@@ -15,6 +15,11 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
+// back end
+import PocketBase from "pocketbase";
+
+const pb = new PocketBase("https://taska.liara.run");
+
 function CustomTabPanel(props) {
 	const { children, value, index, ...other } = props;
 	return (
@@ -41,6 +46,18 @@ function allyProps(index) {
 	};
 }
 export default function Auth({ isLogged, setIsLogged }) {
+	const [newUserData, setNewUserData] = useState({
+		email: "",
+		emailVisibility: true,
+		password: "",
+		passwordConfirm: "",
+		name: "",
+	});
+	const [existUserData, getExistUserData] = useState({
+		email: "",
+		password: "",
+	});
+	const [authData, getAuthData] = useState(null);
 	const [openDialog, setOpenDialog] = useState(false);
 	const [value, setValue] = useState(0);
 	const handleChange = (event, newValue) => {
@@ -53,14 +70,15 @@ export default function Auth({ isLogged, setIsLogged }) {
 				<div className="flex items-center lg:justify-normal justify-between xl:gap-4 lg:gap-6">
 					<div className="flex items-center gap-3">
 						<Avatar sx={{ width: 32, height: 32, bgcolor: "blueviolet" }}>
-							A
+							{authData?.name[0].toUpperCase()}
 						</Avatar>
-						<h1 className="xl:text-lg text-base">Ali Mahallati</h1>
+						<h1 className="xl:text-lg text-base">{authData?.name}</h1>
 					</div>
 					<IconButton
 						color="error"
 						className="xl:!p-3 lg:!p-2"
 						onClick={() => {
+							pb.authStore.clear();
 							setOpenDialog(false);
 							setIsLogged(false);
 						}}
@@ -76,7 +94,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 						sx={{ fontFamily: "Poppins" }}
 						onClick={() => setOpenDialog(true)}
 					>
-						Login / SignUp
+						SignIn / SignUp
 					</Button>
 					<Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
 						<Tabs
@@ -87,7 +105,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 							variant="fullWidth"
 						>
 							<Tab
-								label="Log in"
+								label="Sign in"
 								{...allyProps(0)}
 								sx={{ fontFamily: "Poppins" }}
 							/>
@@ -97,6 +115,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 								sx={{ fontFamily: "Poppins" }}
 							/>
 						</Tabs>
+						{/* Sign IN */}
 						<CustomTabPanel value={value} index={0}>
 							<div className="flex flex-col gap-3 md:px-10 px-3 md:py-5 py-3">
 								<label>Email:</label>
@@ -104,6 +123,11 @@ export default function Auth({ isLogged, setIsLogged }) {
 									label="Email"
 									variant="outlined"
 									className="md:w-72 w-full"
+									onChange={(e) => {
+										getExistUserData((perv) => {
+											return { ...perv, email: e.target.value };
+										});
+									}}
 								/>
 								<label>Password:</label>
 								<FormControl variant="outlined">
@@ -113,6 +137,11 @@ export default function Auth({ isLogged, setIsLogged }) {
 									<OutlinedInput
 										id="outlined-adornment-password"
 										type={showPassword ? "text" : "password"}
+										onChange={(e) => {
+											getExistUserData((perv) => {
+												return { ...perv, password: e.target.value };
+											});
+										}}
 										endAdornment={
 											<InputAdornment position="end">
 												<IconButton
@@ -140,19 +169,31 @@ export default function Auth({ isLogged, setIsLogged }) {
 										textTransform: "none",
 										marginTop: 2,
 									}}
-									onClick={() => setIsLogged(true)}
+									onClick={() => {
+										signIn(existUserData).then((res) => {
+											getAuthData(res.record);
+											setIsLogged(true);
+										});
+									}}
 								>
 									Submit
 								</Button>
 							</div>
 						</CustomTabPanel>
+						{/* Sign UP */}
 						<CustomTabPanel value={value} index={1}>
 							<div className="flex flex-col gap-3 md:px-10 px-3 md:py-5 py-3">
 								<label>Email:</label>
 								<TextField
 									label="Email"
+									type="email"
 									variant="outlined"
 									className="md:w-72 w-64"
+									onChange={(e) => {
+										setNewUserData((perv) => {
+											return { ...perv, email: e.target.value };
+										});
+									}}
 								/>
 								<label>Password:</label>
 								<FormControl variant="outlined">
@@ -162,6 +203,15 @@ export default function Auth({ isLogged, setIsLogged }) {
 									<OutlinedInput
 										id="outlined-adornment-password"
 										type={showPassword ? "text" : "password"}
+										onChange={(e) => {
+											setNewUserData((perv) => {
+												return {
+													...perv,
+													password: e.target.value,
+													passwordConfirm: e.target.value,
+												};
+											});
+										}}
 										endAdornment={
 											<InputAdornment position="end">
 												<IconButton
@@ -182,8 +232,16 @@ export default function Auth({ isLogged, setIsLogged }) {
 										label="Password"
 									/>
 								</FormControl>
-								<label>Name:</label>
-								<TextField label="Name" variant="outlined" />
+								<label>Your Name:</label>
+								<TextField
+									label="Name"
+									variant="outlined"
+									onChange={(e) => {
+										setNewUserData((perv) => {
+											return { ...perv, name: e.target.value };
+										});
+									}}
+								/>
 								<Button
 									variant="contained"
 									sx={{
@@ -191,7 +249,12 @@ export default function Auth({ isLogged, setIsLogged }) {
 										textTransform: "none",
 										marginTop: 2,
 									}}
-									onClick={() => setIsLogged(true)}
+									onClick={() => {
+										signUp(newUserData).then(() => {
+											getAuthData(newUserData);
+											setIsLogged(true);
+										});
+									}}
 								>
 									Submit
 								</Button>
@@ -202,4 +265,15 @@ export default function Auth({ isLogged, setIsLogged }) {
 			)}
 		</>
 	);
+}
+
+async function signUp(data) {
+	const record = await pb.collection("users").create(data);
+	return record;
+}
+async function signIn(data) {
+	const authData = await pb
+		.collection("users")
+		.authWithPassword(data.email, data.password);
+	return authData;
 }
