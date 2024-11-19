@@ -15,6 +15,8 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import CircularProgress from "@mui/material/CircularProgress";
+import FormHelperText from "@mui/material/FormHelperText";
 // back end
 import PocketBase from "pocketbase";
 
@@ -46,24 +48,44 @@ function allyProps(index) {
 	};
 }
 export default function Auth({ isLogged, setIsLogged }) {
-	const [newUserData, setNewUserData] = useState({
-		email: "",
-		emailVisibility: true,
-		password: "",
-		passwordConfirm: "",
-		name: "",
-	});
-	const [existUserData, getExistUserData] = useState({
-		email: "",
-		password: "",
-	});
+	// create user
+	const [newUserData, setNewUserData] = useState(null);
+	// log in user
+	const [existUserData, getExistUserData] = useState(null);
+	// which user in
 	const [authData, getAuthData] = useState(null);
+
 	const [openDialog, setOpenDialog] = useState(false);
 	const [value, setValue] = useState(0);
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
 	const [showPassword, setShowPassword] = useState(false);
+	const [isFetched, setIsFetched] = useState(true);
+	const [signInError, getSignInError] = useState(false);
+	const [signUpError, getSignUpError] = useState(false);
+	async function signUp(data) {
+		setIsFetched(false);
+		try {
+			const record = await pb.collection("users").create(data);
+			if (record.code) throw new Error(record);
+			else return record;
+		} catch (e) {
+			console.log(e);
+		}
+	}
+	async function signIn(data) {
+		setIsFetched(false);
+		try {
+			const authData = await pb
+				.collection("users")
+				.authWithPassword(data.email, data.password);
+			if (authData) return authData;
+			else throw new Error(authData);
+		} catch (e) {
+			console.log(e);
+		}
+	}
 	return (
 		<>
 			{isLogged ? (
@@ -123,6 +145,8 @@ export default function Auth({ isLogged, setIsLogged }) {
 									label="Email"
 									variant="outlined"
 									className="md:w-72 w-full"
+									error={signInError}
+									helperText={signInError && "Incorrect Entry"}
 									onChange={(e) => {
 										getExistUserData((perv) => {
 											return { ...perv, email: e.target.value };
@@ -137,6 +161,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 									<OutlinedInput
 										id="outlined-adornment-password"
 										type={showPassword ? "text" : "password"}
+										error={signInError}
 										onChange={(e) => {
 											getExistUserData((perv) => {
 												return { ...perv, password: e.target.value };
@@ -161,23 +186,41 @@ export default function Auth({ isLogged, setIsLogged }) {
 										}
 										label="Password"
 									/>
+									{signInError && (
+										<FormHelperText className="!text-red-600">
+											Incorrect Entry
+										</FormHelperText>
+									)}
 								</FormControl>
-								<Button
-									variant="contained"
-									sx={{
-										fontFamily: "Poppins",
-										textTransform: "none",
-										marginTop: 2,
-									}}
-									onClick={() => {
-										signIn(existUserData).then((res) => {
-											getAuthData(res.record);
-											setIsLogged(true);
-										});
-									}}
-								>
-									Submit
-								</Button>
+								<div className={!isFetched ? "flex gap-4 items-center" : ""}>
+									<Button
+										variant="contained"
+										sx={{
+											fontFamily: "Poppins",
+											textTransform: "none",
+											marginTop: 2,
+											width: isFetched ? "100%" : "85%",
+										}}
+										onClick={() => {
+											signIn(existUserData)
+												.then((res) => {
+													setIsFetched(true);
+													getAuthData(res.record);
+													setIsLogged(true);
+												})
+												.catch(() => {
+													getSignInError(true);
+												});
+										}}
+									>
+										Log In
+									</Button>
+									{!isFetched && (
+										<div className="w-fit flex items-center justify-center mt-3">
+											<CircularProgress size={"30px"} />
+										</div>
+									)}
+								</div>
 							</div>
 						</CustomTabPanel>
 						{/* Sign UP */}
@@ -189,9 +232,15 @@ export default function Auth({ isLogged, setIsLogged }) {
 									type="email"
 									variant="outlined"
 									className="md:w-72 w-64"
+									error={signUpError}
+									helperText={signUpError && "Incorrect Entry"}
 									onChange={(e) => {
 										setNewUserData((perv) => {
-											return { ...perv, email: e.target.value };
+											return {
+												...perv,
+												email: e.target.value,
+												emailVisibility: true,
+											};
 										});
 									}}
 								/>
@@ -203,6 +252,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 									<OutlinedInput
 										id="outlined-adornment-password"
 										type={showPassword ? "text" : "password"}
+										error={signUpError}
 										onChange={(e) => {
 											setNewUserData((perv) => {
 												return {
@@ -231,33 +281,54 @@ export default function Auth({ isLogged, setIsLogged }) {
 										}
 										label="Password"
 									/>
+									{signUpError && (
+										<FormHelperText className="!text-red-600">
+											Incorrect Entry
+										</FormHelperText>
+									)}
 								</FormControl>
 								<label>Your Name:</label>
 								<TextField
 									label="Name"
 									variant="outlined"
+									error={signUpError}
+									helperText={signUpError && "Incorrect Entry"}
 									onChange={(e) => {
 										setNewUserData((perv) => {
 											return { ...perv, name: e.target.value };
 										});
 									}}
 								/>
-								<Button
-									variant="contained"
-									sx={{
-										fontFamily: "Poppins",
-										textTransform: "none",
-										marginTop: 2,
-									}}
-									onClick={() => {
-										signUp(newUserData).then(() => {
-											getAuthData(newUserData);
-											setIsLogged(true);
-										});
-									}}
-								>
-									Submit
-								</Button>
+								<div className={!isFetched ? "flex gap-4 items-center" : ""}>
+									<Button
+										variant="contained"
+										sx={{
+											fontFamily: "Poppins",
+											textTransform: "none",
+											marginTop: 2,
+											width: isFetched ? "100%" : "85%",
+										}}
+										onClick={() => {
+											signUp(newUserData).then((res) => {
+												if (res) {
+													setIsFetched(true);
+													getAuthData(newUserData);
+													setIsLogged(true);
+												} else {
+													setIsFetched(false);
+													getSignUpError(true);
+												}
+											});
+										}}
+									>
+										Create User
+									</Button>
+									{!isFetched && (
+										<div className="w-fit flex items-center justify-center mt-3">
+											<CircularProgress size={"30px"} />
+										</div>
+									)}
+								</div>
 							</div>
 						</CustomTabPanel>
 					</Dialog>
@@ -265,15 +336,4 @@ export default function Auth({ isLogged, setIsLogged }) {
 			)}
 		</>
 	);
-}
-
-async function signUp(data) {
-	const record = await pb.collection("users").create(data);
-	return record;
-}
-async function signIn(data) {
-	const authData = await pb
-		.collection("users")
-		.authWithPassword(data.email, data.password);
-	return authData;
 }
