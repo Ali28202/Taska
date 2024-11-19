@@ -112,9 +112,11 @@ export default function App() {
 	}, [projects, isProjectActive]);
 	return (
 		<>
-			<h1 className="lg:flex hidden justify-center items-center text-3xl font-bold lg:py-5 border-b-2 border-slate-200 w-full">
-				Taska
-			</h1>
+			{!isLogged && (
+				<h1 className="lg:flex hidden justify-center items-center text-3xl font-bold lg:py-5 border-b-2 border-slate-200 w-full">
+					Taska
+				</h1>
+			)}
 			<div className="flex flex-row-reverse">
 				<div
 					className={

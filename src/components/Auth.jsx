@@ -9,9 +9,14 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
 function CustomTabPanel(props) {
 	const { children, value, index, ...other } = props;
-
 	return (
 		<div
 			role="tabpanel"
@@ -41,6 +46,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
+	const [showPassword, setShowPassword] = useState(false);
 	return (
 		<>
 			{isLogged ? (
@@ -92,7 +98,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 							/>
 						</Tabs>
 						<CustomTabPanel value={value} index={0}>
-							<div className="flex flex-col gap-5 md:px-10 px-3 md:py-5 py-3">
+							<div className="flex flex-col gap-3 md:px-10 px-3 md:py-5 py-3">
 								<label>Email:</label>
 								<TextField
 									label="Email"
@@ -100,14 +106,40 @@ export default function Auth({ isLogged, setIsLogged }) {
 									className="md:w-72 w-full"
 								/>
 								<label>Password:</label>
-								<TextField
-									label="Password"
-									variant="outlined"
-									type="password"
-								/>
+								<FormControl variant="outlined">
+									<InputLabel htmlFor="outlined-adornment-password">
+										Password
+									</InputLabel>
+									<OutlinedInput
+										id="outlined-adornment-password"
+										type={showPassword ? "text" : "password"}
+										endAdornment={
+											<InputAdornment position="end">
+												<IconButton
+													aria-label={
+														showPassword
+															? "hide the password"
+															: "display the password"
+													}
+													onClick={() => setShowPassword((show) => !show)}
+													onMouseDown={(e) => e.preventDefault()}
+													onMouseUp={(e) => e.preventDefault()}
+													edge="end"
+												>
+													{showPassword ? <VisibilityOff /> : <Visibility />}
+												</IconButton>
+											</InputAdornment>
+										}
+										label="Password"
+									/>
+								</FormControl>
 								<Button
 									variant="contained"
-									sx={{ fontFamily: "Poppins", textTransform: "none" }}
+									sx={{
+										fontFamily: "Poppins",
+										textTransform: "none",
+										marginTop: 2,
+									}}
 									onClick={() => setIsLogged(true)}
 								>
 									Submit
@@ -115,7 +147,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 							</div>
 						</CustomTabPanel>
 						<CustomTabPanel value={value} index={1}>
-							<div className="flex flex-col gap-5 md:px-10 px-3 md:py-5 py-3">
+							<div className="flex flex-col gap-3 md:px-10 px-3 md:py-5 py-3">
 								<label>Email:</label>
 								<TextField
 									label="Email"
@@ -123,16 +155,42 @@ export default function Auth({ isLogged, setIsLogged }) {
 									className="md:w-72 w-64"
 								/>
 								<label>Password:</label>
-								<TextField
-									label="Password"
-									variant="outlined"
-									type="password"
-								/>
+								<FormControl variant="outlined">
+									<InputLabel htmlFor="outlined-adornment-password">
+										Password
+									</InputLabel>
+									<OutlinedInput
+										id="outlined-adornment-password"
+										type={showPassword ? "text" : "password"}
+										endAdornment={
+											<InputAdornment position="end">
+												<IconButton
+													aria-label={
+														showPassword
+															? "hide the password"
+															: "display the password"
+													}
+													onClick={() => setShowPassword((show) => !show)}
+													onMouseDown={(e) => e.preventDefault()}
+													onMouseUp={(e) => e.preventDefault()}
+													edge="end"
+												>
+													{showPassword ? <VisibilityOff /> : <Visibility />}
+												</IconButton>
+											</InputAdornment>
+										}
+										label="Password"
+									/>
+								</FormControl>
 								<label>Name:</label>
 								<TextField label="Name" variant="outlined" />
 								<Button
 									variant="contained"
-									sx={{ fontFamily: "Poppins", textTransform: "none" }}
+									sx={{
+										fontFamily: "Poppins",
+										textTransform: "none",
+										marginTop: 2,
+									}}
 									onClick={() => setIsLogged(true)}
 								>
 									Submit

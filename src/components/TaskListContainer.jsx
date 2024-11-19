@@ -25,11 +25,14 @@ export default function TaskListContainer({
 	const [isEditorOpen, toggleEditor] = useState(false);
 	const [isTaskOpen, toggleTask] = useState(false);
 	const [selectedItem, setSelectedItem] = useState(null);
-	const [, drop] = useDrop({
+	const [{ isOver }, drop] = useDrop({
 		accept: "TASK",
 		drop: (draggedItem) => {
 			moveTask(draggedItem.id, name);
 		},
+		collect: (monitor) => ({
+			isOver: monitor.isOver(),
+		}),
 	});
 	return (
 		<>
@@ -74,7 +77,8 @@ export default function TaskListContainer({
 				{/* task place */}
 				<section
 					ref={drop}
-					className="sm:overflow-scroll 2xl:h-[33rem] xl:h-[24rem] lg:h-[25rem] md:h-[27rem] h-[29rem] flex flex-col gap-5 2xl:mb-1 xl:mb-3 lg:mb-2 mb-1 rounded-2xl py-4"
+					className="sm:overflow-scroll 2xl:h-[33rem] xl:h-[24rem] lg:h-[25rem] md:h-[27rem] h-[29rem] flex flex-col gap-5 2xl:mb-1 xl:mb-3 lg:mb-2 mb-1 rounded-2xl"
+					style={{ backgroundColor: isOver ? "#cbd5e1" : "initial" }}
 				>
 					{data?.map((t) => {
 						return (
@@ -82,6 +86,7 @@ export default function TaskListContainer({
 								<Task
 									id={t.id}
 									data={t}
+									isOver={isOver}
 									toggleEditor={toggleEditor}
 									toggleTask={toggleTask}
 									setSelectedItem={setSelectedItem}
