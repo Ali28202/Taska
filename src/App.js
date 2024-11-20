@@ -23,6 +23,7 @@ export default function App() {
 			return records;
 		},
 	});
+	// first time refresh
 	if (pb.authStore.model && !isLogged && isFetched) {
 		setAuthData(pb.authStore.model);
 		setProjects(data);
@@ -30,11 +31,12 @@ export default function App() {
 		activeArr.fill(0);
 		activeArr[0] = 1;
 		setIsProjectActive(activeArr);
+		setTasks(projects[isProjectActive.indexOf(1)]?.tasks);
 		setIsLogged(true);
 	}
 	useEffect(() => {
 		setTasks(projects[isProjectActive.indexOf(1)]?.tasks);
-	}, [projects, isProjectActive]);
+	}, [isProjectActive]);
 	return (
 		<>
 			{!isLogged && (

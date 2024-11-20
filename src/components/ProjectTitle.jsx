@@ -56,7 +56,7 @@ export default function ProjectTitle({ projects, idxActiveProject, tasks }) {
 					<div className="flex flex-row items-center gap-4 md:gap-5">
 						<BorderLinearProgress
 							variant="determinate"
-							value={progress}
+							value={progress ? progress : 0}
 							className="xl:w-80 md:w-72 w-44"
 						/>
 						<h2 className="xl:text-lg lg:text-base text-sm text-slate-600">

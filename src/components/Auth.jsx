@@ -17,6 +17,8 @@ import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import CircularProgress from "@mui/material/CircularProgress";
 import FormHelperText from "@mui/material/FormHelperText";
+import { useQuery } from "@tanstack/react-query";
+
 function CustomTabPanel(props) {
 	const { children, value, index, ...other } = props;
 	return (
@@ -61,11 +63,11 @@ export default function Auth({
 		setValue(newValue);
 	};
 	const [showPassword, setShowPassword] = useState(false);
-	const [isFetched, setIsFetched] = useState(true);
+	const [isBarActive, setIsBarActive] = useState(false);
 	const [signInError, getSignInError] = useState(false);
 	const [signUpError, getSignUpError] = useState(false);
 	async function signUp(data) {
-		setIsFetched(false);
+		setIsBarActive(false);
 		try {
 			const record = await pb.collection("users").create(data);
 			if (typeof record === "object") return record;
@@ -74,18 +76,24 @@ export default function Auth({
 			console.log(e);
 		}
 	}
-	async function signIn(data) {
-		setIsFetched(false);
-		try {
-			const authData = await pb
-				.collection("users")
-				.authWithPassword(data.email, data.password);
-			if (authData) return authData;
-			else throw new Error(authData);
-		} catch (e) {
-			console.log(e);
-		}
+	async function signIn() {
+		setIsBarActive(false);
+		const authData = await pb
+			.collection("users")
+			.authWithPassword(existUserData.email, existUserData.password);
+		return authData;
 	}
+	const {
+		data: signIn_data,
+		refetch: signIn_refetch,
+		isError: signIn_error,
+		isFetched: signIn_fetched,
+		isPending: signIn_pending,
+	} = useQuery({
+		queryKey: ["signIn"],
+		queryFn: signIn,
+		enabled: false,
+	});
 	return (
 		<>
 			{isLogged ? (
@@ -192,30 +200,30 @@ export default function Auth({
 										</FormHelperText>
 									)}
 								</FormControl>
-								<div className={!isFetched ? "flex gap-4 items-center" : ""}>
+								<div className={isBarActive ? "flex gap-4 items-center" : ""}>
 									<Button
 										variant="contained"
 										sx={{
 											fontFamily: "Poppins",
 											textTransform: "none",
 											marginTop: 2,
-											width: isFetched ? "100%" : "85%",
+											width: !isBarActive ? "100%" : "85%",
 										}}
+										// async problem
 										onClick={() => {
-											signIn(existUserData)
-												.then((res) => {
-													setIsFetched(true);
-													setAuthData(res.record);
-													setIsLogged(true);
-												})
-												.catch(() => {
-													getSignInError(true);
-												});
+											signIn_refetch();
+											if (signIn_pending) {
+											} else if (signIn_error) {
+												getSignInError(true);
+											} else {
+												setAuthData(signIn_data);
+												setIsLogged(true);
+											}
 										}}
 									>
 										Log In
 									</Button>
-									{!isFetched && (
+									{isBarActive && (
 										<div className="w-fit flex items-center justify-center mt-3">
 											<CircularProgress size={"30px"} />
 										</div>
@@ -299,18 +307,18 @@ export default function Auth({
 										});
 									}}
 								/>
-								<div className={!isFetched ? "flex gap-4 items-center" : ""}>
+								<div className={isBarActive ? "flex gap-4 items-center" : ""}>
 									<Button
 										variant="contained"
 										sx={{
 											fontFamily: "Poppins",
 											textTransform: "none",
 											marginTop: 2,
-											width: isFetched ? "100%" : "85%",
+											width: !isBarActive ? "100%" : "85%",
 										}}
 										onClick={() => {
 											signUp(newUserData).then((res) => {
-												setIsFetched(true);
+												setIsBarActive(true);
 												if (res) {
 													setAuthData(newUserData);
 													setIsLogged(true);
@@ -322,7 +330,7 @@ export default function Auth({
 									>
 										Create User
 									</Button>
-									{!isFetched && (
+									{isBarActive && (
 										<div className="w-fit flex items-center justify-center mt-3">
 											<CircularProgress size={"30px"} />
 										</div>

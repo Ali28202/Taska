@@ -2,6 +2,7 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 import { Button } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
+
 export default function EachProject({
 	isActive,
 	setIsActive,
@@ -32,7 +33,7 @@ export default function EachProject({
 				<div className="flex items-center gap-3 h-full w-full p-4">
 					{avatars[data.avatarId]}
 					<h2
-						className="lg:text-base text-sm normal-case font-medium text-left"
+						className="lg:text-base text-sm normal-case font-medium text-left xl:w-36"
 						style={isActive ? { color: "white" } : { color: "black" }}
 					>
 						{data.title}
