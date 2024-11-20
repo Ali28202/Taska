@@ -10,13 +10,28 @@ import Badge from "@mui/material/Badge";
 import LanguageIcon from "@mui/icons-material/Language";
 import SendToMobileIcon from "@mui/icons-material/SendToMobile";
 import SquareIcon from "@mui/icons-material/Square";
-export default function AddProject({ openDialog, setOpenDialog, setProjects }) {
+export default function AddProject({
+	pb,
+	openDialog,
+	setOpenDialog,
+	projects,
+	setProjects,
+}) {
 	const [value, setValue] = useState(0);
 	const [invisible, setInvisible] = useState([false, true, true, true]);
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
 	const [textInput, setTextInput] = useState("");
+	async function postProject(newProject) {
+		try {
+			const record = await pb.collection("projects").create(newProject);
+			if (typeof record === "object") return record;
+			else throw new Error(record);
+		} catch (e) {
+			console.log(e);
+		}
+	}
 	return (
 		<>
 			<Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
@@ -116,18 +131,18 @@ export default function AddProject({ openDialog, setOpenDialog, setProjects }) {
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
 						onClick={() => {
 							if (textInput) {
+								let newProject = {
+									User_email: pb.authStore.model.email,
+									title: textInput,
+									archive: false,
+									index: projects.length,
+									avatarId: invisible.indexOf(false),
+									tasks: [],
+								};
 								setProjects((projects) => {
-									return [
-										...projects,
-										{
-											title: textInput,
-											avatarId: invisible.indexOf(false),
-											id: projects.length.toString(),
-											tasks: [],
-											archive: false,
-										},
-									];
+									return [...projects, newProject];
 								});
+								postProject(newProject);
 								setTextInput("");
 								setOpenDialog(false);
 							}

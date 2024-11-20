@@ -17,11 +17,6 @@ import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import CircularProgress from "@mui/material/CircularProgress";
 import FormHelperText from "@mui/material/FormHelperText";
-// back end
-import PocketBase from "pocketbase";
-
-const pb = new PocketBase("https://taska.liara.run");
-
 function CustomTabPanel(props) {
 	const { children, value, index, ...other } = props;
 	return (
@@ -47,13 +42,18 @@ function allyProps(index) {
 		"aria-controls": `simple-tabpanel-${index}`,
 	};
 }
-export default function Auth({ isLogged, setIsLogged }) {
+export default function Auth({
+	pb,
+	authData,
+	setAuthData,
+	isLogged,
+	setIsLogged,
+}) {
 	// create user
 	const [newUserData, setNewUserData] = useState(null);
 	// log in user
 	const [existUserData, getExistUserData] = useState(null);
 	// which user in
-	const [authData, setAuthData] = useState(null);
 
 	const [openDialog, setOpenDialog] = useState(false);
 	const [value, setValue] = useState(0);

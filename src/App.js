@@ -3,112 +3,37 @@ import Navbar from "./components/Navbar";
 import Projects from "./components/Projects";
 import ProjectTitle from "./components/ProjectTitle";
 import TaskContainer from "./components/TaskContainer";
+import PocketBase from "pocketbase";
+import { useQuery } from "@tanstack/react-query";
+const pb = new PocketBase("https://taska.liara.run");
+pb.autoCancellation(false);
 export default function App() {
 	const [isLogged, setIsLogged] = useState(false);
-	const [isProjectActive, setIsProjectActive] = useState([1, 0, 0, 0]);
-	const [projects, setProjects] = useState([
-		{
-			id: "0",
-			title: "Piper Enterprice",
-			avatarId: "0",
-			archive: false,
-			tasks: [
-				{
-					title: "ali",
-					description: "man ali hastam",
-					src: "/",
-					time: "2024-11-17",
-					status: "to do",
-					id: "0",
-				},
-				{
-					title: "ahmad",
-					description: "man ali hastam",
-					src: "/",
-					time: "2024-11-20",
-					status: "in progress",
-					id: "1",
-				},
-				{
-					title: "asghar",
-					description: "man ali hastam",
-					src: "/",
-					time: "2024-11-24",
-					status: "done",
-					id: "2",
-				},
-				{
-					title: "mohammad",
-					description: "man ali hastam",
-					src: "/",
-					time: "2024-11-16",
-					status: "to do",
-					id: "3",
-				},
-			],
+	const [isProjectActive, setIsProjectActive] = useState([]);
+	const [authData, setAuthData] = useState(null);
+	const [tasks, setTasks] = useState(null);
+	const [projects, setProjects] = useState([]);
+	const { data, isFetched } = useQuery({
+		queryKey: ["projects"],
+		queryFn: async () => {
+			let userEmail = pb.authStore.model.email;
+			const records = await pb.collection("projects").getFullList({
+				filter: `User_email = '${userEmail}'`,
+			});
+			return records;
 		},
-		{
-			id: "1",
-			title: "Web Platform",
-			avatarId: "1",
-			archive: false,
-			tasks: [
-				{
-					title: "mohammad",
-					description: "man ali hastam",
-					src: "/",
-					time: "2024-11-16",
-					status: "to do",
-					id: "0",
-				},
-			],
-		},
-		{
-			id: "2",
-			title: "Mobile Loop",
-			avatarId: "2",
-			archive: false,
-			tasks: [
-				{
-					title: "ali",
-					description: "man ali hastam",
-					src: "/",
-					time: "2024-11-20",
-					status: "to do",
-					id: "0",
-				},
-			],
-		},
-		{
-			id: "3",
-			title: "Wiro Mobile App",
-			avatarId: "3",
-			archive: false,
-			tasks: [
-				{
-					title: "ali",
-					description: "man ali hastam",
-					src: "/",
-					time: "2024-11-19",
-					status: "to do",
-					id: "0",
-				},
-				{
-					title: "mohammad",
-					description: "man ali hastam",
-					src: "/",
-					time: "2024-11-18",
-					status: "to do",
-					id: "1",
-				},
-			],
-		},
-	]);
-	const [tasks, setTasks] = useState(
-		projects[isProjectActive.indexOf(1)].tasks
-	);
+	});
+	if (pb.authStore.model && !isLogged && isFetched) {
+		setAuthData(pb.authStore.model);
+		setProjects(data);
+		let activeArr = new Array(projects.length);
+		activeArr.fill(0);
+		activeArr[0] = 1;
+		setIsProjectActive(activeArr);
+		setIsLogged(true);
+	}
 	useEffect(() => {
-		setTasks(projects[isProjectActive.indexOf(1)].tasks);
+		setTasks(projects[isProjectActive.indexOf(1)]?.tasks);
 	}, [projects, isProjectActive]);
 	return (
 		<>
@@ -124,6 +49,9 @@ export default function App() {
 					}
 				>
 					<Navbar
+						pb={pb}
+						authData={authData}
+						setAuthData={setAuthData}
 						isLogged={isLogged}
 						setIsLogged={setIsLogged}
 						projects={projects}
@@ -150,6 +78,7 @@ export default function App() {
 				</div>
 				{isLogged && (
 					<Projects
+						pb={pb}
 						className={"lg:flex hidden"}
 						projects={projects}
 						setProjects={setProjects}

@@ -12,6 +12,7 @@ import ApartmentIcon from "@mui/icons-material/Apartment";
 import CloseIcon from "@mui/icons-material/Close";
 
 export default function Projects({
+	pb,
 	className,
 	projects,
 	setProjects,
@@ -76,14 +77,14 @@ export default function Projects({
 									.filter((t) => {
 										return t.archive === true;
 									})
-									?.map((t) => {
+									.map((t) => {
 										return (
 											<EachProject
-												isActive={isProjectActive[+t.id]}
+												isActive={isProjectActive[t.index]}
 												setIsActive={setIsProjectActive}
 												data={t}
 												avatars={avatars}
-												key={+t.id}
+												key={t.index}
 												projects={projects}
 												setProjects={setProjects}
 											/>
@@ -98,14 +99,14 @@ export default function Projects({
 							.filter((t) => {
 								return t.archive !== true;
 							})
-							?.map((t) => {
+							.map((t) => {
 								return (
 									<EachProject
-										isActive={isProjectActive[+t.id]}
+										isActive={isProjectActive[t.index]}
 										setIsActive={setIsProjectActive}
 										data={t}
 										avatars={avatars}
-										key={+t.id}
+										key={t.index}
 										projects={projects}
 										setProjects={setProjects}
 									/>
@@ -123,8 +124,10 @@ export default function Projects({
 					Add Project
 				</Button>
 				<AddProject
+					pb={pb}
 					openDialog={openDialog}
 					setOpenDialog={setOpenDialog}
+					projects={projects}
 					setProjects={setProjects}
 				/>
 			</div>
