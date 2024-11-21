@@ -40,7 +40,7 @@ export default function Projects({
 	return (
 		<>
 			<div
-				className={`${className} lg:border-r-2 border-slate-200 2xl:w-[20%] xl:w-[25%] lg:w-[35%] w-full flex-col px-10 lg:pt-6 pt-3 justify-between`}
+				className={`${className} lg:border-r-2 border-slate-200 2xl:w-[20%] xl:w-[25%] lg:w-[35%] w-full flex-col px-10 lg:pt-9 pt-3 justify-between`}
 			>
 				<div>
 					<div className="flex items-center justify-between">
@@ -71,45 +71,57 @@ export default function Projects({
 							{/* Archived Projects */}
 							<div className="mt-6 flex flex-col gap-3 overflow-scroll px-12 w-96">
 								<h1 className="text-xl font-bold mb-5">Archived Projects</h1>
-								{projects
-									?.filter((t) => {
-										return t.archive === true;
-									})
-									.map((t) => {
-										return (
-											<EachProject
-												isActive={isProjectActive[t.index]}
-												setIsActive={setIsProjectActive}
-												data={t}
-												avatars={avatars}
-												key={t.index}
-												projects={projects}
-												setProjects={setProjects}
-											/>
-										);
-									})}
+								{projects.length ? (
+									projects
+										?.filter((t) => {
+											return t.archive === true;
+										})
+										.map((t) => {
+											return (
+												<EachProject
+													isActive={isProjectActive[t.index]}
+													setIsActive={setIsProjectActive}
+													data={t}
+													avatars={avatars}
+													key={t.index}
+													projects={projects}
+													setProjects={setProjects}
+												/>
+											);
+										})
+								) : (
+									<span className="flex items-center justify-center text-2xl text-center leading-relaxed mt-48 text-gray-400">
+										There is no Archived Project Here.
+									</span>
+								)}
 							</div>
 						</Drawer>
 					</div>
 					{/* Not Archived Projects */}
 					<div className="mt-6 flex flex-col gap-3 overflow-scroll 2xl:h-[26rem] xl:h-[25rem] lg:h-[24rem] sm:h-80 h-72">
-						{projects
-							?.filter((t) => {
-								return t.archive !== true;
-							})
-							.map((t) => {
-								return (
-									<EachProject
-										isActive={isProjectActive[t.index]}
-										setIsActive={setIsProjectActive}
-										data={t}
-										avatars={avatars}
-										key={t.index}
-										projects={projects}
-										setProjects={setProjects}
-									/>
-								);
-							})}
+						{projects.length ? (
+							projects
+								.filter((t) => {
+									return t.archive !== true;
+								})
+								.map((t) => {
+									return (
+										<EachProject
+											isActive={isProjectActive[t.index]}
+											setIsActive={setIsProjectActive}
+											data={t}
+											avatars={avatars}
+											key={t.index}
+											projects={projects}
+											setProjects={setProjects}
+										/>
+									);
+								})
+						) : (
+							<span className="flex items-center justify-center h-fit lg:text-xl text-lg text-center leading-loose my-auto lg:mx-0 mx-auto lg:w-full w-56 text-gray-400">
+								There is no Project Here. Create new One :)
+							</span>
+						)}
 					</div>
 				</div>
 				<Button
