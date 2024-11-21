@@ -168,7 +168,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 									helperText={signInError && "Incorrect Entry"}
 									onChange={(e) => {
 										getExistUserData((perv) => {
-											return { ...perv, email: e.target.value };
+											return { ...perv, email: e.target.value.toLowerCase() };
 										});
 									}}
 								/>
@@ -252,7 +252,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 										setNewUserData((perv) => {
 											return {
 												...perv,
-												email: e.target.value,
+												email: e.target.value.toLowerCase(),
 												emailVisibility: true,
 											};
 										});
