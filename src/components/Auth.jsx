@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Avatar from "@mui/material/Avatar";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
@@ -18,7 +18,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import CircularProgress from "@mui/material/CircularProgress";
 import FormHelperText from "@mui/material/FormHelperText";
 import { useQuery } from "@tanstack/react-query";
-import { signIn, pb } from "../utils/auth";
+import { pb, signIn, signUp } from "../utils/auth";
 function CustomTabPanel(props) {
 	const { children, value, index, ...other } = props;
 	return (
@@ -45,9 +45,9 @@ function allyProps(index) {
 	};
 }
 export default function Auth({ isLogged, setIsLogged }) {
-	// create user
+	// getting data from signup page
 	const [newUserData, setNewUserData] = useState(null);
-	// log in user
+	// getting data from signin page
 	const [existUserData, getExistUserData] = useState(null);
 	const [openDialog, setOpenDialog] = useState(false);
 	const [value, setValue] = useState(0);
@@ -56,18 +56,9 @@ export default function Auth({ isLogged, setIsLogged }) {
 	};
 	const [showPassword, setShowPassword] = useState(false);
 	let signInError = false;
-	let isBarActive = false;
-	const [signUpError, getSignUpError] = useState(false);
-	// async function signUp(data) {
-	// 	setIsBarActive(false);
-	// 	try {
-	// 		const record = await pb.collection("users").create(data);
-	// 		if (typeof record === "object") return record;
-	// 		else throw new Error(record);
-	// 	} catch (e) {
-	// 		console.log(e);
-	// 	}
-	// }
+	let signUpError = false;
+	let isSignInBarActive = false;
+	let isSignUpBarActive = false;
 	const {
 		data: signIn_data,
 		refetch: signIn_refetch,
@@ -76,19 +67,44 @@ export default function Auth({ isLogged, setIsLogged }) {
 		isLoading: signIn_loading,
 	} = useQuery({
 		queryKey: ["signIn"],
-		queryFn: () => signIn(existUserData),
+		queryFn: () => signIn(existUserData || ""),
 		enabled: false,
 	});
+	if (signIn_loading) {
+		isSignInBarActive = true;
+	} else {
+		isSignInBarActive = false;
+	}
 	if (signIn_error) {
 		signInError = true;
 	} else signInError = false;
-	if (signIn_loading) {
-		isBarActive = true;
-	} else isBarActive = false;
-	// bug here (it seems because of pb.authstore)
-	if (signIn_fetched && !isLogged && pb.authStore.model) {
-		setIsLogged(true);
-	}
+	useEffect(() => {
+		if (signIn_fetched && !isLogged && pb.authStore.model) {
+			setIsLogged(true);
+		}
+	}, [signIn_data]);
+	const {
+		data: signUp_data,
+		refetch: signUp_refetch,
+		isError: signUp_error,
+		isFetched: signUp_fetched,
+		isLoading: signUp_loading,
+	} = useQuery({
+		queryKey: ["signUp"],
+		queryFn: () => signUp(newUserData || ""),
+		enabled: false,
+	});
+	if (signUp_loading) {
+		isSignUpBarActive = true;
+	} else isSignUpBarActive = false;
+	if (signUp_error) {
+		signUpError = true;
+	} else signUpError = false;
+	useEffect(() => {
+		if (signUp_fetched && !isLogged && pb.authStore.model) {
+			setIsLogged(true);
+		}
+	}, [signUp_data]);
 	return (
 		<>
 			{isLogged ? (
@@ -195,14 +211,16 @@ export default function Auth({ isLogged, setIsLogged }) {
 										</FormHelperText>
 									)}
 								</FormControl>
-								<div className={isBarActive ? "flex gap-4 items-center" : ""}>
+								<div
+									className={isSignInBarActive ? "flex gap-4 items-center" : ""}
+								>
 									<Button
 										variant="contained"
 										sx={{
 											fontFamily: "Poppins",
 											textTransform: "none",
 											marginTop: 2,
-											width: !isBarActive ? "100%" : "85%",
+											width: !isSignInBarActive ? "100%" : "85%",
 										}}
 										onClick={() => {
 											signIn_refetch();
@@ -211,7 +229,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 									>
 										Log In
 									</Button>
-									{isBarActive && (
+									{isSignInBarActive && (
 										<div className="w-fit flex items-center justify-center mt-3">
 											<CircularProgress size={"30px"} />
 										</div>
@@ -295,30 +313,25 @@ export default function Auth({ isLogged, setIsLogged }) {
 										});
 									}}
 								/>
-								<div className={isBarActive ? "flex gap-4 items-center" : ""}>
+								<div
+									className={isSignUpBarActive ? "flex gap-4 items-center" : ""}
+								>
 									<Button
 										variant="contained"
 										sx={{
 											fontFamily: "Poppins",
 											textTransform: "none",
 											marginTop: 2,
-											width: !isBarActive ? "100%" : "85%",
+											width: !isSignUpBarActive ? "100%" : "85%",
 										}}
-										// onClick={() => {
-										// 	signUp(newUserData).then((res) => {
-										// 		setIsBarActive(true);
-										// 		if (res) {
-										// 			setAuthData(newUserData);
-										// 			setIsLogged(true);
-										// 		} else {
-										// 			getSignUpError(true);
-										// 		}
-										// 	});
-										// }}
+										onClick={() => {
+											signUp_refetch();
+											setNewUserData(null);
+										}}
 									>
 										Create User
 									</Button>
-									{isBarActive && (
+									{isSignUpBarActive && (
 										<div className="w-fit flex items-center justify-center mt-3">
 											<CircularProgress size={"30px"} />
 										</div>
