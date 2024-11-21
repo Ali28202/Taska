@@ -8,7 +8,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import Projects from "./Projects";
 import Auth from "./Auth";
-
 export default function Navbar({
 	isLogged,
 	setIsLogged,
@@ -16,9 +15,6 @@ export default function Navbar({
 	setProjects,
 	isProjectActive,
 	setIsProjectActive,
-	pb,
-	authData,
-	setAuthData,
 }) {
 	const [open, setOpen] = useState(false);
 	const toggleDrawer = (newOpen) => () => {
@@ -49,13 +45,7 @@ export default function Navbar({
 						}}
 					/>
 				)}
-				<Auth
-					pb={pb}
-					authData={authData}
-					setAuthData={setAuthData}
-					isLogged={isLogged}
-					setIsLogged={setIsLogged}
-				/>
+				<Auth isLogged={isLogged} setIsLogged={setIsLogged} />
 			</div>
 			{/* Mobile */}
 			<div className="lg:hidden flex items-center justify-between mt-5 pr-6 pl-4 bg-white pb-5 w-full border-b-2 border-slate-200">
@@ -75,13 +65,7 @@ export default function Navbar({
 							</IconButton>
 						</div>
 						<div className="flex flex-col gap-5 border-b-2 border-slate-200 pb-8 px-8 pt-3">
-							<Auth
-								pb={pb}
-								authData={authData}
-								setAuthData={setAuthData}
-								isLogged={isLogged}
-								setIsLogged={setIsLogged}
-							/>
+							<Auth isLogged={isLogged} setIsLogged={setIsLogged} />
 							<TextField
 								variant="outlined"
 								placeholder="Search..."
@@ -100,7 +84,6 @@ export default function Navbar({
 						</div>
 						{isLogged ? (
 							<Projects
-								pb={pb}
 								className={"lg:hidden flex"}
 								projects={projects}
 								setProjects={setProjects}

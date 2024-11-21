@@ -10,8 +10,8 @@ import Badge from "@mui/material/Badge";
 import LanguageIcon from "@mui/icons-material/Language";
 import SendToMobileIcon from "@mui/icons-material/SendToMobile";
 import SquareIcon from "@mui/icons-material/Square";
+import { pb } from "../utils/auth";
 export default function AddProject({
-	pb,
 	openDialog,
 	setOpenDialog,
 	projects,

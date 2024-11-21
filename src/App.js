@@ -3,39 +3,33 @@ import Navbar from "./components/Navbar";
 import Projects from "./components/Projects";
 import ProjectTitle from "./components/ProjectTitle";
 import TaskContainer from "./components/TaskContainer";
-import PocketBase from "pocketbase";
 import { useQuery } from "@tanstack/react-query";
-const pb = new PocketBase("https://taska.liara.run");
-pb.autoCancellation(false);
+import { pb } from "./utils/auth";
+import { fetchProjects } from "./utils/http";
 export default function App() {
 	const [isLogged, setIsLogged] = useState(false);
 	const [isProjectActive, setIsProjectActive] = useState([]);
-	const [authData, setAuthData] = useState(null);
 	const [tasks, setTasks] = useState(null);
 	const [projects, setProjects] = useState([]);
 	const { data, isFetched } = useQuery({
 		queryKey: ["projects"],
-		queryFn: async () => {
-			let userEmail = pb.authStore.model.email;
-			const records = await pb.collection("projects").getFullList({
-				filter: `User_email = '${userEmail}'`,
-			});
-			return records;
-		},
+		queryFn: fetchProjects,
 	});
-	// first time refresh
-	if (pb.authStore.model && !isLogged && isFetched) {
-		setAuthData(pb.authStore.model);
-		setProjects(data);
-		let activeArr = new Array(projects.length);
-		activeArr.fill(0);
-		activeArr[0] = 1;
-		setIsProjectActive(activeArr);
-		setTasks(projects[isProjectActive.indexOf(1)]?.tasks);
+	if (!isLogged && pb.authStore.model) {
 		setIsLogged(true);
 	}
+	if (isFetched && data) {
+		if (projects == []) {
+			setProjects(data);
+			let activeArr = new Array(projects?.length || 0);
+			activeArr.fill(0);
+			activeArr[0] = 1;
+			setIsProjectActive(activeArr);
+		}
+	}
 	useEffect(() => {
-		setTasks(projects[isProjectActive.indexOf(1)]?.tasks);
+		if (isProjectActive?.indexOf(1) !== -1)
+			setTasks(projects[isProjectActive.indexOf(1)]?.tasks);
 	}, [isProjectActive]);
 	return (
 		<>
@@ -51,9 +45,6 @@ export default function App() {
 					}
 				>
 					<Navbar
-						pb={pb}
-						authData={authData}
-						setAuthData={setAuthData}
 						isLogged={isLogged}
 						setIsLogged={setIsLogged}
 						projects={projects}
@@ -80,7 +71,6 @@ export default function App() {
 				</div>
 				{isLogged && (
 					<Projects
-						pb={pb}
 						className={"lg:flex hidden"}
 						projects={projects}
 						setProjects={setProjects}

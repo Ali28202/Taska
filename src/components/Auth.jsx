@@ -18,7 +18,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import CircularProgress from "@mui/material/CircularProgress";
 import FormHelperText from "@mui/material/FormHelperText";
 import { useQuery } from "@tanstack/react-query";
-
+import { signIn, pb } from "../utils/auth";
 function CustomTabPanel(props) {
 	const { children, value, index, ...other } = props;
 	return (
@@ -44,65 +44,60 @@ function allyProps(index) {
 		"aria-controls": `simple-tabpanel-${index}`,
 	};
 }
-export default function Auth({
-	pb,
-	authData,
-	setAuthData,
-	isLogged,
-	setIsLogged,
-}) {
+export default function Auth({ isLogged, setIsLogged }) {
 	// create user
 	const [newUserData, setNewUserData] = useState(null);
 	// log in user
 	const [existUserData, getExistUserData] = useState(null);
-	// which user in
-
 	const [openDialog, setOpenDialog] = useState(false);
 	const [value, setValue] = useState(0);
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
 	const [showPassword, setShowPassword] = useState(false);
-	const [isBarActive, setIsBarActive] = useState(false);
-	const [signInError, getSignInError] = useState(false);
+	let signInError = false;
+	let isBarActive = false;
 	const [signUpError, getSignUpError] = useState(false);
-	async function signUp(data) {
-		setIsBarActive(false);
-		try {
-			const record = await pb.collection("users").create(data);
-			if (typeof record === "object") return record;
-			else throw new Error(record);
-		} catch (e) {
-			console.log(e);
-		}
-	}
-	async function signIn() {
-		setIsBarActive(false);
-		const authData = await pb
-			.collection("users")
-			.authWithPassword(existUserData.email, existUserData.password);
-		return authData;
-	}
+	// async function signUp(data) {
+	// 	setIsBarActive(false);
+	// 	try {
+	// 		const record = await pb.collection("users").create(data);
+	// 		if (typeof record === "object") return record;
+	// 		else throw new Error(record);
+	// 	} catch (e) {
+	// 		console.log(e);
+	// 	}
+	// }
 	const {
 		data: signIn_data,
 		refetch: signIn_refetch,
 		isError: signIn_error,
 		isFetched: signIn_fetched,
-		isPending: signIn_pending,
+		isLoading: signIn_loading,
 	} = useQuery({
 		queryKey: ["signIn"],
-		queryFn: signIn,
+		queryFn: () => signIn(existUserData),
 		enabled: false,
 	});
+	if (signIn_error) {
+		signInError = true;
+	} else signInError = false;
+	if (signIn_loading) {
+		isBarActive = true;
+	} else isBarActive = false;
+	// bug here (it seems because of pb.authstore)
+	if (signIn_fetched && !isLogged && pb.authStore.model) {
+		setIsLogged(true);
+	}
 	return (
 		<>
 			{isLogged ? (
 				<div className="flex items-center lg:justify-normal justify-between xl:gap-4 lg:gap-6">
 					<div className="flex items-center gap-3">
 						<Avatar sx={{ width: 32, height: 32, bgcolor: "blueviolet" }}>
-							{authData?.name[0].toUpperCase()}
+							{pb.authStore.model?.name[0].toUpperCase()}
 						</Avatar>
-						<h1 className="xl:text-lg text-base">{authData?.name}</h1>
+						<h1 className="xl:text-lg text-base">{pb.authStore.model?.name}</h1>
 					</div>
 					<IconButton
 						color="error"
@@ -209,16 +204,9 @@ export default function Auth({
 											marginTop: 2,
 											width: !isBarActive ? "100%" : "85%",
 										}}
-										// async problem
 										onClick={() => {
 											signIn_refetch();
-											if (signIn_pending) {
-											} else if (signIn_error) {
-												getSignInError(true);
-											} else {
-												setAuthData(signIn_data);
-												setIsLogged(true);
-											}
+											getExistUserData(null);
 										}}
 									>
 										Log In
@@ -316,17 +304,17 @@ export default function Auth({
 											marginTop: 2,
 											width: !isBarActive ? "100%" : "85%",
 										}}
-										onClick={() => {
-											signUp(newUserData).then((res) => {
-												setIsBarActive(true);
-												if (res) {
-													setAuthData(newUserData);
-													setIsLogged(true);
-												} else {
-													getSignUpError(true);
-												}
-											});
-										}}
+										// onClick={() => {
+										// 	signUp(newUserData).then((res) => {
+										// 		setIsBarActive(true);
+										// 		if (res) {
+										// 			setAuthData(newUserData);
+										// 			setIsLogged(true);
+										// 		} else {
+										// 			getSignUpError(true);
+										// 		}
+										// 	});
+										// }}
 									>
 										Create User
 									</Button>
