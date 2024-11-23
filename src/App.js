@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import Navbar from "./components/Navbar";
 import Projects from "./components/Projects";
 import ProjectTitle from "./components/ProjectTitle";
@@ -10,6 +10,7 @@ import { fetchTasks } from "./utils/tasks";
 
 export default function App() {
 	const [isLogged, setIsLogged] = useState(false);
+	const [tasks, setTasks] = useState([]);
 	const isProjectActive =
 		JSON.parse(localStorage.getItem("activeProject")) || [];
 	const [projects, setProjects] = useState([]);
@@ -21,20 +22,26 @@ export default function App() {
 		data: tasks_data,
 		isError: tasks_isError,
 		error: tasks_error,
+		isFetched: tasks_fetched,
+		refetch: tasks_refetch,
 	} = useQuery({
 		queryKey: ["tasks"],
 		queryFn: () => fetchTasks(projects[isProjectActive?.indexOf(1)]?.title),
-		staleTime: 1000,
+		enabled: false,
 	});
 	if (!isLogged && pb.authStore.model) {
 		setIsLogged(true);
 	}
-	if (projects_fetched && projects_data) {
+	if (projects_fetched && projects_data && !tasks.length) {
 		if (!projects.length && projects_data.length) {
 			setProjects(projects_data);
 		}
+		tasks_refetch();
 	}
 	if (tasks_isError) console.log(tasks_error);
+	if (tasks_fetched && !tasks_isError && tasks_data.length && !tasks.length) {
+		setTasks(tasks_data);
+	}
 	return (
 		<>
 			{!isLogged && (
@@ -62,9 +69,9 @@ export default function App() {
 										<ProjectTitle
 											projects={projects}
 											idxActiveProject={isProjectActive?.indexOf(1)}
-											tasks={tasks_data || []}
+											tasks={tasks}
 										/>
-										<TaskContainer allTask={tasks_data || []} />
+										<TaskContainer tasks={tasks} setTasks={setTasks} />
 									</>
 								) : (
 									<span className="flex items-center justify-center text-2xl text-center leading-relaxed text-gray-400 2xl:my-[24.6rem] xl:!my-[19.2rem] lg:my-44 mt-48">
