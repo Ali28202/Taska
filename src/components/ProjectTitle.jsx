@@ -47,7 +47,7 @@ export default function ProjectTitle({ projects, idxActiveProject, tasks }) {
 	}
 	return (
 		<>
-			<div className="flex items-center md:justify-normal justify-center lg:gap-8 gap-5 md:px-6 lg:pt-3 md:py-7 py-5 border-b-2 border-slate-200">
+			<div className="flex items-center md:justify-normal justify-center lg:gap-8 gap-5 md:px-6 lg:py-0 lg:pb-4 md:py-4 py-4 border-b-2 border-slate-200">
 				{avatars[projects[idxActiveProject]?.avatarId]}
 				<div className="flex flex-col xl:gap-3 lg:gap-2 md:gap-3 gap-1">
 					<h1 className="font-medium xl:text-2xl text-lg">

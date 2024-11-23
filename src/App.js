@@ -10,7 +10,8 @@ import { fetchTasks } from "./utils/tasks";
 
 export default function App() {
 	const [isLogged, setIsLogged] = useState(false);
-	const isProjectActive = JSON.parse(localStorage.getItem("activeProject"));
+	const isProjectActive =
+		JSON.parse(localStorage.getItem("activeProject")) || [];
 	const [projects, setProjects] = useState([]);
 	const { data: projects_data, isFetched: projects_fetched } = useQuery({
 		queryKey: ["projects"],
