@@ -7,7 +7,7 @@ export async function signUp(data) {
 		const authData = await pb
 			.collection("users")
 			.authWithPassword(data.email, data.password);
-		if (typeof record === "object") return record;
+		if (!record.code) return record;
 		else throw new Error(record);
 	} catch (e) {
 		console.log(e);

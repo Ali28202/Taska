@@ -6,7 +6,7 @@ import { updateTask } from "../utils/tasks";
 import { useQuery } from "@tanstack/react-query";
 export default function TaskContainer({ tasks, setTasks }) {
 	let task, tl;
-	const { refetch, isError, error, isFetched } = useQuery({
+	const { refetch, isError, error } = useQuery({
 		queryKey: ["updateTask"],
 		queryFn: () => updateTask(task.id, { ...task, status: tl }),
 		enabled: false,
