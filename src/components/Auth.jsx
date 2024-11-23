@@ -227,7 +227,6 @@ export default function Auth({ isLogged, setIsLogged }) {
 										}}
 										onClick={() => {
 											signIn_refetch();
-											getExistUserData(null);
 										}}
 									>
 										Log In
@@ -329,7 +328,6 @@ export default function Auth({ isLogged, setIsLogged }) {
 										}}
 										onClick={() => {
 											signUp_refetch();
-											setNewUserData(null);
 										}}
 									>
 										Create User
