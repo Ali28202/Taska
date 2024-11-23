@@ -6,7 +6,8 @@ import { Button } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-
+import { useQuery } from "@tanstack/react-query";
+import { updateTask, deleteTask } from "../utils/tasks";
 const VisuallyHiddenInput = styled("input")({
 	clip: "rect(0 0 0 0)",
 	clipPath: "inset(50%)",
@@ -28,16 +29,47 @@ export default function EditorTask({
 }) {
 	const [value, setValue] = useState(0);
 	const [task, editTask] = useState({
+		id: data.id,
+		User_email: data.User_email,
+		Proj_title: data.Proj_title,
 		title: data.title,
 		description: data.description,
-		src: data.src,
+		image: data.image,
 		time: data.time,
 		status: data.status,
-		id: data.id,
+		index: data.index,
 	});
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
+	const {
+		refetch: updateTask_refetch,
+		isError: updateTask_isError,
+		error: updateTask_error,
+		isFetched: updateTask_fetched,
+	} = useQuery({
+		queryKey: ["updateTask"],
+		queryFn: () => updateTask(task.id, task),
+		enabled: false,
+	});
+	if (updateTask_isError) console.log(updateTask_error);
+	if (updateTask_fetched) {
+		window.location.reload();
+	}
+	const {
+		refetch: deleteTask_refetch,
+		isError: deleteTask_isError,
+		error: deleteTask_error,
+		isFetched: deleteTask_fetched,
+	} = useQuery({
+		queryKey: ["updateTask"],
+		queryFn: () => deleteTask(task.id),
+		enabled: false,
+	});
+	if (deleteTask_isError) console.log(deleteTask_error);
+	if (deleteTask_fetched) {
+		window.location.reload();
+	}
 	let today = new Date().toISOString().split("T")[0];
 	return (
 		<>
@@ -91,7 +123,7 @@ export default function EditorTask({
 							accept="image/*"
 							onChange={(e) =>
 								editTask((perv) => {
-									return { ...perv, src: e.target.value.split("\\")[2] };
+									return { ...perv, image: e.target.files[0] };
 								})
 							}
 						/>
@@ -112,12 +144,9 @@ export default function EditorTask({
 						variant="contained"
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
 						onClick={() => {
+							// need a if to dont fetch if we dont have inputs
 							if (task.title || task.time || task.description) {
-								setTasks(() => {
-									let newTasks = tasks.toSpliced(+data.id, 1, task);
-									return newTasks;
-								});
-								setOpenDialog(false);
+								updateTask_refetch();
 							} else setOpenDialog(false);
 						}}
 					>
@@ -128,11 +157,7 @@ export default function EditorTask({
 						color="error"
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
 						onClick={() => {
-							setTasks(() => {
-								let newTasks = tasks.toSpliced(+data.id, 1);
-								return newTasks;
-							});
-							setOpenDialog(false);
+							deleteTask_refetch();
 						}}
 					>
 						Delete Task

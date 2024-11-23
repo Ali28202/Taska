@@ -15,6 +15,7 @@ export default function TaskListContainer({
 	tasks,
 	setTasks,
 	moveTask,
+	project_title,
 }) {
 	let dotColor =
 		title === "To Do" ? "red" : title === "In Progress" ? "blue" : "green";
@@ -70,9 +71,10 @@ export default function TaskListContainer({
 				<AddTask
 					openDialog={openDialog}
 					setOpenDialog={setOpenDialog}
-					// tasks={tasks}
+					tasks={tasks}
 					setTasks={setTasks}
 					status={title.toLowerCase()}
+					project_title={project_title}
 				/>
 				{/* task place */}
 				<section

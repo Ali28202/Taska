@@ -4,7 +4,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
 import { updateTask } from "../utils/tasks";
 import { useQuery } from "@tanstack/react-query";
-export default function TaskContainer({ tasks, setTasks }) {
+export default function TaskContainer({ tasks, setTasks, project_title }) {
 	let task, tl;
 	const { refetch, isError, error } = useQuery({
 		queryKey: ["updateTask"],
@@ -36,6 +36,7 @@ export default function TaskContainer({ tasks, setTasks }) {
 						tasks={tasks}
 						moveTask={moveTask}
 						setTasks={setTasks}
+						project_title={project_title}
 					/>
 					<TaskListContainer
 						title={"In Progress"}
@@ -43,6 +44,7 @@ export default function TaskContainer({ tasks, setTasks }) {
 						tasks={tasks}
 						moveTask={moveTask}
 						setTasks={setTasks}
+						project_title={project_title}
 					/>
 					<TaskListContainer
 						title={"Done"}
@@ -50,6 +52,7 @@ export default function TaskContainer({ tasks, setTasks }) {
 						tasks={tasks}
 						moveTask={moveTask}
 						setTasks={setTasks}
+						project_title={project_title}
 					/>
 				</div>
 			</DndProvider>

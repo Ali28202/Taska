@@ -71,7 +71,13 @@ export default function App() {
 											idxActiveProject={isProjectActive?.indexOf(1)}
 											tasks={tasks}
 										/>
-										<TaskContainer tasks={tasks} setTasks={setTasks} />
+										<TaskContainer
+											tasks={tasks}
+											setTasks={setTasks}
+											project_title={
+												projects[isProjectActive.indexOf(1)]?.title
+											}
+										/>
 									</>
 								) : (
 									<span className="flex items-center justify-center text-2xl text-center leading-relaxed text-gray-400 2xl:my-[24.6rem] xl:!my-[19.2rem] lg:my-44 mt-48">

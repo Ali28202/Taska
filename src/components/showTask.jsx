@@ -60,7 +60,7 @@ export default function ShowTask({ data, openDialog, setOpenDialog }) {
 								<h2 className="flex sm:flex-row flex-col sm:gap-2 sm:items-center sm:mt-0 mt-2">
 									in list
 									<span
-										className="text-sm p-1 rounded-sm text-white opacity-75"
+										className="text-sm py-1 px-2 rounded-sm text-white opacity-75 w-fit"
 										style={{ backgroundColor: bgStatusColor }}
 									>
 										{data.status.toUpperCase()}
@@ -99,7 +99,7 @@ export default function ShowTask({ data, openDialog, setOpenDialog }) {
 							<img
 								src={imgSrc}
 								alt="img"
-								className="md:w-48 md:h-48 md:mt-2 md:ml-2 w-28 h-28"
+								className="md:w-fit md:h-fit md:mt-2 md:ml-2 w-32 h-fit"
 							/>
 						)}
 					</div>

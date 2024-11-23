@@ -6,7 +6,9 @@ import { Button } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-
+import { useQuery } from "@tanstack/react-query";
+import { postTask } from "../utils/tasks";
+import { pb } from "../utils/auth";
 const VisuallyHiddenInput = styled("input")({
 	clip: "rect(0 0 0 0)",
 	clipPath: "inset(50%)",
@@ -25,19 +27,44 @@ export default function AddTask({
 	status,
 	openDialog,
 	setOpenDialog,
+	project_title,
 }) {
+	const formData = new FormData();
 	const [value, setValue] = useState(0);
 	const [newTask, addNewTask] = useState({
+		User_email: pb.authStore.model.email,
+		Proj_title: "",
 		title: "",
 		description: "",
-		src: "/",
+		image: "",
 		time: "",
-		status: "",
-		id: "",
+		status: status,
+		index: "",
 	});
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
+	const {
+		data: newTask_data,
+		isFetched: newTask_fetched,
+		isError: newTask_isError,
+		error: newTask_error,
+		refetch: newTask_refetch,
+	} = useQuery({
+		queryKey: ["addTask"],
+		queryFn: () => postTask(formData),
+		enabled: false,
+	});
+	if (newTask_isError) console.log(newTask_error);
+	if (newTask_fetched && newTask_data) {
+		setTasks(() => {
+			newTask.Proj_title = project_title;
+			newTask.index = tasks.length.toString();
+			tasks.push(newTask);
+			return tasks;
+		});
+		window.location.reload();
+	}
 	let today = new Date().toISOString().split("T")[0];
 	return (
 		<>
@@ -58,11 +85,11 @@ export default function AddTask({
 						variant="outlined"
 						className="md:w-72 w-full"
 						required
-						onChange={(e) =>
+						onChange={(e) => {
 							addNewTask((perv) => {
 								return { ...perv, title: e.target.value };
-							})
-						}
+							});
+						}}
 					/>
 					<label>Description:</label>
 					<TextField
@@ -71,11 +98,11 @@ export default function AddTask({
 						className="md:w-72 w-full"
 						multiline
 						required
-						onChange={(e) =>
+						onChange={(e) => {
 							addNewTask((perv) => {
 								return { ...perv, description: e.target.value };
-							})
-						}
+							});
+						}}
 					/>
 					<label>
 						Image <span className="text-xs">(Optional)</span>:
@@ -91,11 +118,14 @@ export default function AddTask({
 						<VisuallyHiddenInput
 							type="file"
 							accept="image/*"
-							onChange={(e) =>
+							onChange={(e) => {
 								addNewTask((perv) => {
-									return { ...perv, src: e.target.value.split("\\")[2] };
-								})
-							}
+									return {
+										...perv,
+										image: e.target.files[0],
+									};
+								});
+							}}
 						/>
 					</Button>
 					<label>Schedule:</label>
@@ -114,14 +144,21 @@ export default function AddTask({
 						variant="contained"
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
 						onClick={() => {
+							formData.append("title", newTask.title.toString());
+							formData.append("User_email", newTask.User_email.toString());
+							formData.append("Proj_title", project_title);
+							formData.append("status", newTask.status.toString());
+							formData.append("index", tasks.length.toString());
+							formData.append("description", newTask.description.toString());
+							formData.append(
+								"image",
+								new Blob([newTask.image]),
+								newTask.image.name
+							);
+							formData.append("time", newTask.time.toString());
+							console.log(formData.get("image"));
 							if (newTask.title && newTask.time && newTask.description) {
-								setTasks(() => {
-									newTask.status = status;
-									newTask.id = tasks.length.toString();
-									tasks.push(newTask);
-									return tasks;
-								});
-								setOpenDialog(false);
+								newTask_refetch();
 							}
 						}}
 					>
