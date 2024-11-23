@@ -2,18 +2,26 @@ import PocketBase from "pocketbase";
 const pb = new PocketBase("https://taska.liara.run");
 
 export async function signUp(data) {
-	const record = await pb.collection("users").create(data);
-	const authData = await pb
-		.collection("users")
-		.authWithPassword(data.email, data.password);
-	if (typeof record === "object") return record;
-	else throw new Error(record);
+	try {
+		const record = await pb.collection("users").create(data);
+		const authData = await pb
+			.collection("users")
+			.authWithPassword(data.email, data.password);
+		if (typeof record === "object") return record;
+		else throw new Error(record);
+	} catch (e) {
+		console.log(e);
+	}
 }
 export async function signIn(data) {
-	const authData = await pb
-		.collection("users")
-		.authWithPassword(data.email, data.password);
-	if (authData) return authData;
-	else throw new Error(authData);
+	try {
+		const authData = await pb
+			.collection("users")
+			.authWithPassword(data.email, data.password);
+		if (authData) return authData;
+		else throw new Error(authData);
+	} catch (e) {
+		console.log(e);
+	}
 }
 export { pb };
