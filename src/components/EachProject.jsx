@@ -9,66 +9,71 @@ export default function EachProject({ isActive, setIsActive, data, avatars }) {
 		refetch: updateProj_refetch,
 		isError: updateProj_isError,
 		error: updateProj_error,
+		isFetched: updateProj_fetched,
 	} = useQuery({
 		queryKey: ["updateProject"],
 		queryFn: () => updateProject(data.id, data),
 		enabled: false,
 	});
 	if (updateProj_isError) console.log(updateProj_error);
+	if (updateProj_fetched) window.location.reload();
 	return (
 		<>
 			<Button
 				className="!rounded-xl w-full !p-0 flex !justify-between !shadow-none !border-slate-300 !pr-3"
 				style={
-					isActive
+					isActive[data.index]
 						? { backgroundColor: "#365efe", fontFamily: "Poppins" }
 						: { backgroundColor: "white", fontFamily: "Poppins" }
 				}
 				onClick={() => {
-					if (!isActive) {
-						setIsActive((perv) => {
-							let newArr = new Array(perv.length);
-							newArr.fill(0);
-							newArr[data.index] = 1;
-							return newArr;
-						});
+					if (!isActive[data.index]) {
+						let newArr = new Array(isActive?.length);
+						newArr.fill(0);
+						newArr[data.index] = 1;
+						localStorage.setItem("activeProject", JSON.stringify(newArr));
+						window.location.reload();
 					}
 				}}
 				variant="outlined"
 			>
-				<div className="flex items-center gap-3 h-full w-full p-4">
+				<div className="flex items-center gap-3 h-full w-full py-4 pl-4">
 					{avatars[data.avatarId]}
 					<h2
 						className="lg:text-base text-sm normal-case font-medium text-left xl:w-36"
-						style={isActive ? { color: "white" } : { color: "black" }}
+						style={
+							isActive[data.index] ? { color: "white" } : { color: "black" }
+						}
 					>
 						{data.title}
 					</h2>
 				</div>
-				<Tooltip
-					title={!data.archive ? "Archive" : "UnArchive"}
-					arrow
-					onClick={(e) => {
-						e.stopPropagation();
-						if (!data.archive) {
-							data.archive = true;
-							updateProj_refetch();
-						} else {
-							data.archive = false;
-							updateProj_refetch();
-						}
-						window.location.reload();
-					}}
-				>
-					<div className="p-3 hover:bg-gray-300 rounded-full flex items-center justify-center cursor-pointer duration-300">
+				<Tooltip title={!data.archive ? "Archive" : "UnArchive"} arrow>
+					<div
+						className="p-3 hover:bg-gray-300 rounded-full flex items-center justify-center cursor-pointer duration-300"
+						onClick={(e) => {
+							e.stopPropagation();
+							if (!data.archive) {
+								data.archive = true;
+								updateProj_refetch();
+							} else {
+								data.archive = false;
+								updateProj_refetch();
+							}
+						}}
+					>
 						{data.archive ? (
 							<UnarchiveIcon
-								sx={isActive ? { color: "white" } : { color: "black" }}
+								sx={
+									isActive[data.index] ? { color: "white" } : { color: "black" }
+								}
 								fontSize="small"
 							/>
 						) : (
 							<ArchiveIcon
-								sx={isActive ? { color: "white" } : { color: "black" }}
+								sx={
+									isActive[data.index] ? { color: "white" } : { color: "black" }
+								}
 								fontSize="small"
 							/>
 						)}

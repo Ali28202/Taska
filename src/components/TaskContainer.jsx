@@ -2,14 +2,30 @@ import TaskListContainer from "./TaskListContainer";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
-export default function TaskContainer({ tasks, setTasks }) {
+import { updateTask } from "../utils/tasks";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+export default function TaskContainer({ allTask }) {
+	const [tasks, setTasks] = useState(allTask);
+	let task, tl;
+	const { refetch, isError, error } = useQuery({
+		queryKey: ["updateTask"],
+		queryFn: () => updateTask(task.id, { ...task, status: tl }),
+		enabled: false,
+	});
 	const moveTask = (taskId, targetList) => {
 		setTasks((prevTasks) =>
 			prevTasks.map((task) => {
-				return task.id === taskId ? { ...task, status: targetList } : task;
+				return task.index === taskId ? { ...task, status: targetList } : task;
 			})
 		);
+		task = tasks.find((t) => {
+			return t.index === taskId;
+		});
+		tl = targetList;
+		if (task.status !== tl) refetch();
 	};
+	if (isError) console.log(error);
 	return (
 		<>
 			<DndProvider

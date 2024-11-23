@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Navbar from "./components/Navbar";
 import Projects from "./components/Projects";
 import ProjectTitle from "./components/ProjectTitle";
@@ -10,8 +10,7 @@ import { fetchTasks } from "./utils/tasks";
 
 export default function App() {
 	const [isLogged, setIsLogged] = useState(false);
-	const [isProjectActive, setIsProjectActive] = useState([]);
-	const [tasks, setTasks] = useState([]);
+	const isProjectActive = JSON.parse(localStorage.getItem("activeProject"));
 	const [projects, setProjects] = useState([]);
 	const { data: projects_data, isFetched: projects_fetched } = useQuery({
 		queryKey: ["projects"],
@@ -21,28 +20,18 @@ export default function App() {
 		data: tasks_data,
 		isError: tasks_isError,
 		error: tasks_error,
-		refetch: tasks_refetch,
 	} = useQuery({
 		queryKey: ["tasks"],
-		queryFn: () => fetchTasks(projects[isProjectActive.indexOf(1)]?.title),
-		enabled: false,
+		queryFn: () => fetchTasks(projects[isProjectActive?.indexOf(1)]?.title),
 	});
-	let spinner = false;
 	if (!isLogged && pb.authStore.model) {
 		setIsLogged(true);
 	}
 	if (projects_fetched && projects_data) {
 		if (!projects.length && projects_data.length) {
 			setProjects(projects_data);
-			let activeArr = new Array(projects?.length || 0);
-			activeArr.fill(0);
-			activeArr[0] = 1;
-			setIsProjectActive(activeArr);
 		}
 	}
-	useEffect(() => {
-		tasks_refetch();
-	}, [isProjectActive]);
 	if (tasks_isError) console.log(tasks_error);
 	return (
 		<>
@@ -62,7 +51,6 @@ export default function App() {
 						setIsLogged={setIsLogged}
 						projects={projects}
 						isProjectActive={isProjectActive}
-						setIsProjectActive={setIsProjectActive}
 					/>
 					{isLogged ? (
 						<>
@@ -71,13 +59,13 @@ export default function App() {
 									<>
 										<ProjectTitle
 											projects={projects}
-											idxActiveProject={isProjectActive.indexOf(1)}
-											tasks={tasks_data}
+											idxActiveProject={isProjectActive?.indexOf(1)}
+											tasks={tasks_data || []}
 										/>
-										<TaskContainer tasks={tasks_data} setTasks={setTasks} />
+										<TaskContainer allTask={tasks_data || []} />
 									</>
 								) : (
-									<span className="flex items-center justify-center text-2xl text-center leading-relaxed py-80 px-20 text-gray-400">
+									<span className="flex items-center justify-center text-2xl text-center leading-relaxed text-gray-400 2xl:my-[24.6rem] xl:my-[20.4rem] ">
 										No Project Selected
 									</span>
 								)}
@@ -94,7 +82,6 @@ export default function App() {
 						className={"lg:flex hidden"}
 						projects={projects}
 						isProjectActive={isProjectActive}
-						setIsProjectActive={setIsProjectActive}
 					/>
 				)}
 			</div>

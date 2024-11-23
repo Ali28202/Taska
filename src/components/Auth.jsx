@@ -122,6 +122,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 						className="xl:!p-3 lg:!p-2"
 						onClick={() => {
 							pb.authStore.clear();
+							localStorage.clear();
 							setOpenDialog(false);
 							setIsLogged(false);
 							window.location.reload();

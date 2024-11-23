@@ -13,7 +13,6 @@ export default function Navbar({
 	setIsLogged,
 	projects,
 	isProjectActive,
-	setIsProjectActive,
 }) {
 	const [open, setOpen] = useState(false);
 	const toggleDrawer = (newOpen) => () => {
@@ -86,7 +85,6 @@ export default function Navbar({
 								className={"lg:hidden flex"}
 								projects={projects}
 								isProjectActive={isProjectActive}
-								setIsProjectActive={setIsProjectActive}
 							/>
 						) : (
 							<span className="flex items-center justify-center pt-40 w-64 text-center text-gray-400">

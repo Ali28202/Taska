@@ -31,12 +31,17 @@ export default function AddProject({ openDialog, setOpenDialog, projects }) {
 		refetch: setProject_refetch,
 		isError: setProject_isError,
 		error: setProject_error,
+		isFetched: setProject_fetched,
 	} = useQuery({
 		queryKey: ["setProject"],
 		queryFn: () => postProject(newProject),
 		enabled: false,
 	});
 	if (setProject_isError) console.log(setProject_error);
+	if (setProject_fetched) {
+		setOpenDialog(false);
+		window.location.reload();
+	}
 	return (
 		<>
 			<Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
@@ -138,8 +143,6 @@ export default function AddProject({ openDialog, setOpenDialog, projects }) {
 							if (textInput) {
 								setProject_refetch();
 								setTextInput("");
-								setOpenDialog(false);
-								window.location.reload();
 							}
 						}}
 					>

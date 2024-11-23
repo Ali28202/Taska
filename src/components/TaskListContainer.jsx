@@ -70,7 +70,7 @@ export default function TaskListContainer({
 				<AddTask
 					openDialog={openDialog}
 					setOpenDialog={setOpenDialog}
-					tasks={tasks}
+					// tasks={tasks}
 					setTasks={setTasks}
 					status={title.toLowerCase()}
 				/>
@@ -84,7 +84,7 @@ export default function TaskListContainer({
 						return (
 							<div key={t.title}>
 								<Task
-									id={t.id}
+									id={t.index}
 									data={t}
 									isOver={isOver}
 									toggleEditor={toggleEditor}
@@ -101,7 +101,7 @@ export default function TaskListContainer({
 								{selectedItem && (
 									<EditorTask
 										data={selectedItem}
-										tasks={tasks}
+										// tasks={tasks}
 										setTasks={setTasks}
 										openDialog={isEditorOpen}
 										setOpenDialog={toggleEditor}

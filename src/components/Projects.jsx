@@ -78,8 +78,7 @@ export default function Projects({
 										.map((t) => {
 											return (
 												<EachProject
-													isActive={isProjectActive[t.index]}
-													setIsActive={setIsProjectActive}
+													isActive={isProjectActive}
 													data={t}
 													avatars={avatars}
 													key={t.index}
@@ -104,8 +103,7 @@ export default function Projects({
 								.map((t) => {
 									return (
 										<EachProject
-											isActive={isProjectActive[t.index]}
-											setIsActive={setIsProjectActive}
+											isActive={isProjectActive}
 											data={t}
 											avatars={avatars}
 											key={t.index}
