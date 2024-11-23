@@ -46,7 +46,7 @@ export default function TaskListContainer({
 							{title}
 						</h1>
 						<span className="font-medium py-3 px-5 bg-white  w-4 h-4  flex items-center justify-center rounded-3xl lg:text-base text-sm">
-							{data?.length}
+							{data?.length || 0}
 						</span>
 					</div>
 					<IconButton variant="text">

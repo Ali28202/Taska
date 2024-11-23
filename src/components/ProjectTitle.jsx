@@ -51,6 +51,11 @@ export default function ProjectTitle({ projects, idxActiveProject, tasks }) {
 				{avatars[projects[idxActiveProject]?.avatarId]}
 				<div className="flex flex-col xl:gap-3 lg:gap-2 md:gap-3 gap-1">
 					<h1 className="font-medium xl:text-2xl text-lg">
+						{projects[idxActiveProject]?.archive && (
+							<span className="text-slate-400 md:text-sm text-xs">
+								archived&nbsp;
+							</span>
+						)}
 						{projects[idxActiveProject]?.title}
 					</h1>
 					<div className="flex flex-row items-center gap-4 md:gap-5">

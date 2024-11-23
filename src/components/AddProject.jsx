@@ -11,27 +11,32 @@ import LanguageIcon from "@mui/icons-material/Language";
 import SendToMobileIcon from "@mui/icons-material/SendToMobile";
 import SquareIcon from "@mui/icons-material/Square";
 import { pb } from "../utils/auth";
-export default function AddProject({
-	openDialog,
-	setOpenDialog,
-	projects,
-	setProjects,
-}) {
+import { postProject } from "../utils/project";
+import { useQuery } from "@tanstack/react-query";
+export default function AddProject({ openDialog, setOpenDialog, projects }) {
 	const [value, setValue] = useState(0);
 	const [invisible, setInvisible] = useState([false, true, true, true]);
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
 	const [textInput, setTextInput] = useState("");
-	async function postProject(newProject) {
-		try {
-			const record = await pb.collection("projects").create(newProject);
-			if (typeof record === "object") return record;
-			else throw new Error(record);
-		} catch (e) {
-			console.log(e);
-		}
-	}
+	let newProject = {
+		User_email: pb.authStore.model.email,
+		title: textInput,
+		archive: false,
+		index: projects.length,
+		avatarId: invisible.indexOf(false),
+	};
+	const {
+		refetch: setProject_refetch,
+		isError: setProject_isError,
+		error: setProject_error,
+	} = useQuery({
+		queryKey: ["setProject"],
+		queryFn: () => postProject(newProject),
+		enabled: false,
+	});
+	if (setProject_isError) console.log(setProject_error);
 	return (
 		<>
 			<Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
@@ -131,20 +136,10 @@ export default function AddProject({
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
 						onClick={() => {
 							if (textInput) {
-								let newProject = {
-									User_email: pb.authStore.model.email,
-									title: textInput,
-									archive: false,
-									index: projects.length,
-									avatarId: invisible.indexOf(false),
-									tasks: [],
-								};
-								setProjects((projects) => {
-									return [...projects, newProject];
-								});
-								postProject(newProject);
+								setProject_refetch();
 								setTextInput("");
 								setOpenDialog(false);
+								window.location.reload();
 							}
 						}}
 					>

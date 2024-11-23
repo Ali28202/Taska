@@ -13,7 +13,6 @@ import CloseIcon from "@mui/icons-material/Close";
 export default function Projects({
 	className,
 	projects,
-	setProjects,
 	isProjectActive,
 	setIsProjectActive,
 }) {
@@ -84,8 +83,6 @@ export default function Projects({
 													data={t}
 													avatars={avatars}
 													key={t.index}
-													projects={projects}
-													setProjects={setProjects}
 												/>
 											);
 										})
@@ -112,8 +109,6 @@ export default function Projects({
 											data={t}
 											avatars={avatars}
 											key={t.index}
-											projects={projects}
-											setProjects={setProjects}
 										/>
 									);
 								})
@@ -137,7 +132,6 @@ export default function Projects({
 					openDialog={openDialog}
 					setOpenDialog={setOpenDialog}
 					projects={projects}
-					setProjects={setProjects}
 				/>
 			</div>
 		</>

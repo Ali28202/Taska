@@ -81,6 +81,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 	useEffect(() => {
 		if (signIn_fetched && !isLogged && pb.authStore.model) {
 			setIsLogged(true);
+			window.location.reload();
 		}
 	}, [signIn_data]);
 	const {
@@ -103,6 +104,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 	useEffect(() => {
 		if (signUp_fetched && !isLogged && pb.authStore.model) {
 			setIsLogged(true);
+			window.location.reload();
 		}
 	}, [signUp_data]);
 	return (
@@ -111,7 +113,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 				<div className="flex items-center lg:justify-normal justify-between xl:gap-4 lg:gap-6">
 					<div className="flex items-center gap-3">
 						<Avatar sx={{ width: 32, height: 32, bgcolor: "blueviolet" }}>
-							{/* {pb.authStore.model?.name[0].toUpperCase()} */}
+							{pb.authStore.model && pb.authStore.model.name[0].toUpperCase()}
 						</Avatar>
 						<h1 className="xl:text-lg text-base">{pb.authStore.model?.name}</h1>
 					</div>

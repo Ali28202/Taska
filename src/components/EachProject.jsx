@@ -2,15 +2,19 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 import { Button } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
-
-export default function EachProject({
-	isActive,
-	setIsActive,
-	data,
-	avatars,
-	projects,
-	setProjects,
-}) {
+import { useQuery } from "@tanstack/react-query";
+import { updateProject } from "../utils/project";
+export default function EachProject({ isActive, setIsActive, data, avatars }) {
+	const {
+		refetch: updateProj_refetch,
+		isError: updateProj_isError,
+		error: updateProj_error,
+	} = useQuery({
+		queryKey: ["updateProject"],
+		queryFn: () => updateProject(data.id, data),
+		enabled: false,
+	});
+	if (updateProj_isError) console.log(updateProj_error);
 	return (
 		<>
 			<Button
@@ -44,17 +48,14 @@ export default function EachProject({
 					arrow
 					onClick={(e) => {
 						e.stopPropagation();
-						setProjects(() => {
-							if (!data.archive) {
-								data.archive = true;
-								let newProjects = projects.toSpliced(data.index, 1, data);
-								return newProjects;
-							} else {
-								data.archive = false;
-								let newProjects = projects.toSpliced(data.index, 1, data);
-								return newProjects;
-							}
-						});
+						if (!data.archive) {
+							data.archive = true;
+							updateProj_refetch();
+						} else {
+							data.archive = false;
+							updateProj_refetch();
+						}
+						window.location.reload();
 					}}
 				>
 					<div className="p-3 hover:bg-gray-300 rounded-full flex items-center justify-center cursor-pointer duration-300">

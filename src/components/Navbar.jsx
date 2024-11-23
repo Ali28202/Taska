@@ -12,7 +12,6 @@ export default function Navbar({
 	isLogged,
 	setIsLogged,
 	projects,
-	setProjects,
 	isProjectActive,
 	setIsProjectActive,
 }) {
@@ -86,7 +85,6 @@ export default function Navbar({
 							<Projects
 								className={"lg:hidden flex"}
 								projects={projects}
-								setProjects={setProjects}
 								isProjectActive={isProjectActive}
 								setIsProjectActive={setIsProjectActive}
 							/>

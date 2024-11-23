@@ -5,29 +5,29 @@ import ProjectTitle from "./components/ProjectTitle";
 import TaskContainer from "./components/TaskContainer";
 import { useQuery } from "@tanstack/react-query";
 import { pb } from "./utils/auth";
-import { fetchProjects } from "./utils/http";
+import { fetchProjects } from "./utils/project";
 export default function App() {
 	const [isLogged, setIsLogged] = useState(false);
 	const [isProjectActive, setIsProjectActive] = useState([]);
 	const [tasks, setTasks] = useState(null);
 	const [projects, setProjects] = useState([]);
 	// projects need re write (db changed)
-	const { data, isFetched } = useQuery({
+	const { data: projects_data, isFetched: projects_fetched } = useQuery({
 		queryKey: ["projects"],
 		queryFn: fetchProjects,
 	});
 	if (!isLogged && pb.authStore.model) {
 		setIsLogged(true);
 	}
-	// if (isFetched && data) {
-	// 	if (projects == []) {
-	// 		setProjects(data);
-	// 		let activeArr = new Array(projects?.length || 0);
-	// 		activeArr.fill(0);
-	// 		activeArr[0] = 1;
-	// 		setIsProjectActive(activeArr);
-	// 	}
-	// }
+	if (projects_fetched && projects_data) {
+		if (!projects.length && projects_data.length) {
+			setProjects(projects_data);
+			let activeArr = new Array(projects?.length || 0);
+			activeArr.fill(0);
+			activeArr[0] = 1;
+			setIsProjectActive(activeArr);
+		}
+	}
 	// useEffect(() => {
 	// 	if (isProjectActive?.indexOf(1) !== -1)
 	// 		setTasks(projects[isProjectActive.indexOf(1)]?.tasks);
@@ -49,14 +49,13 @@ export default function App() {
 						isLogged={isLogged}
 						setIsLogged={setIsLogged}
 						projects={projects}
-						setProjects={setProjects}
 						isProjectActive={isProjectActive}
 						setIsProjectActive={setIsProjectActive}
 					/>
 					{isLogged ? (
 						<>
 							<div className="flex flex-col">
-								{projects.length ? (
+								{isProjectActive.indexOf(1) !== -1 ? (
 									<>
 										<ProjectTitle
 											projects={projects}
@@ -82,7 +81,6 @@ export default function App() {
 					<Projects
 						className={"lg:flex hidden"}
 						projects={projects}
-						setProjects={setProjects}
 						isProjectActive={isProjectActive}
 						setIsProjectActive={setIsProjectActive}
 					/>
