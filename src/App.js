@@ -24,6 +24,7 @@ export default function App() {
 	} = useQuery({
 		queryKey: ["tasks"],
 		queryFn: () => fetchTasks(projects[isProjectActive?.indexOf(1)]?.title),
+		staleTime: 1000,
 	});
 	if (!isLogged && pb.authStore.model) {
 		setIsLogged(true);
@@ -66,7 +67,7 @@ export default function App() {
 										<TaskContainer allTask={tasks_data || []} />
 									</>
 								) : (
-									<span className="flex items-center justify-center text-2xl text-center leading-relaxed text-gray-400 2xl:my-[24.6rem] xl:my-[20.4rem] ">
+									<span className="flex items-center justify-center text-2xl text-center leading-relaxed text-gray-400 2xl:my-[24.6rem] xl:!my-[19.2rem] lg:my-44 mt-48">
 										No Project Selected
 									</span>
 								)}
