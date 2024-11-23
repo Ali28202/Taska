@@ -7,7 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import { pb } from "./utils/auth";
 import { fetchProjects } from "./utils/project";
 import { fetchTasks } from "./utils/tasks";
-import CircularProgress from "@mui/material/CircularProgress";
 
 export default function App() {
 	const [isLogged, setIsLogged] = useState(false);
@@ -23,7 +22,6 @@ export default function App() {
 		isError: tasks_isError,
 		error: tasks_error,
 		refetch: tasks_refetch,
-		isLoading: tasks_pending,
 	} = useQuery({
 		queryKey: ["tasks"],
 		queryFn: () => fetchTasks(projects[isProjectActive.indexOf(1)]?.title),
@@ -46,8 +44,6 @@ export default function App() {
 		tasks_refetch();
 	}, [isProjectActive]);
 	if (tasks_isError) console.log(tasks_error);
-	if (tasks_pending) spinner = true;
-	else spinner = false;
 	return (
 		<>
 			{!isLogged && (
@@ -55,7 +51,7 @@ export default function App() {
 					Taska
 				</h1>
 			)}
-			<div className="flex flex-row-reverse h-screen">
+			<div className="flex flex-row-reverse">
 				<div
 					className={
 						isLogged ? "2xl:w-[80%] xl:w-[75%] lg:w-[65%] w-full" : "w-full"
@@ -78,14 +74,7 @@ export default function App() {
 											idxActiveProject={isProjectActive.indexOf(1)}
 											tasks={tasks_data}
 										/>
-										{spinner ? (
-											<CircularProgress
-												size={"50px"}
-												className="mx-auto mt-36"
-											/>
-										) : (
-											<TaskContainer tasks={tasks_data} setTasks={setTasks} />
-										)}
+										<TaskContainer tasks={tasks_data} setTasks={setTasks} />
 									</>
 								) : (
 									<span className="flex items-center justify-center text-2xl text-center leading-relaxed py-80 px-20 text-gray-400">
@@ -95,7 +84,7 @@ export default function App() {
 							</div>
 						</>
 					) : (
-						<span className="flex items-center justify-center h-full text-2xl 2xl:p-72 xl:p-60 lg:p-56 md:p-56 text-center leading-relaxed pt-64 px-20 text-gray-400">
+						<span className="flex items-center justify-center text-2xl pt-72 text-center leading-relaxed px-20 text-gray-400">
 							There is no Project Here. You Should Login First!!!
 						</span>
 					)}
