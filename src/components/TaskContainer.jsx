@@ -3,12 +3,10 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
 import { updateTask } from "../utils/tasks";
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-export default function TaskContainer({ allTask }) {
-	const [tasks, setTasks] = useState(allTask);
+export default function TaskContainer({ tasks, setTasks }) {
 	let task, tl;
-	const { refetch, isError, error } = useQuery({
+	const { refetch, isError, error, isFetched } = useQuery({
 		queryKey: ["updateTask"],
 		queryFn: () => updateTask(task.id, { ...task, status: tl }),
 		enabled: false,

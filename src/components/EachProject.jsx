@@ -4,7 +4,7 @@ import Tooltip from "@mui/material/Tooltip";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
 import { useQuery } from "@tanstack/react-query";
 import { updateProject } from "../utils/project";
-export default function EachProject({ isActive, setIsActive, data, avatars }) {
+export default function EachProject({ isActive, data, avatars }) {
 	const {
 		refetch: updateProj_refetch,
 		isError: updateProj_isError,
