@@ -5,13 +5,14 @@ import SubjectIcon from "@mui/icons-material/Subject";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
 import ImageIcon from "@mui/icons-material/Image";
-
+import { pb } from "../utils/auth";
 export default function ShowTask({ data, openDialog, setOpenDialog }) {
 	let today = new Date().toISOString().split("T")[0];
 	// in array : first = year,second = month, third = day
 	let taskTime = data.time.split("-");
 	today = today.split("-");
 	let bgColorDate, textColorDate;
+	const imgSrc = pb.files.getUrl(data, data.image, { token: "" });
 	if (data.status === "done") {
 		bgColorDate = "#bbf7d0";
 		textColorDate = "#16a34a";
@@ -96,7 +97,7 @@ export default function ShowTask({ data, openDialog, setOpenDialog }) {
 							<span>No Image Attached</span>
 						) : (
 							<img
-								src={data.src}
+								src={imgSrc}
 								alt="img"
 								className="md:w-48 md:h-48 md:mt-2 md:ml-2 w-28 h-28"
 							/>

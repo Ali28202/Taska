@@ -24,14 +24,16 @@ export default function EachProject({ isActive, setIsActive, data, avatars }) {
 						? { backgroundColor: "#365efe", fontFamily: "Poppins" }
 						: { backgroundColor: "white", fontFamily: "Poppins" }
 				}
-				onClick={() =>
-					setIsActive((isActive) => {
-						let newArr = new Array(isActive.length);
-						newArr.fill(0);
-						newArr[data.index] = 1;
-						return newArr;
-					})
-				}
+				onClick={() => {
+					if (!isActive) {
+						setIsActive((perv) => {
+							let newArr = new Array(perv.length);
+							newArr.fill(0);
+							newArr[data.index] = 1;
+							return newArr;
+						});
+					}
+				}}
 				variant="outlined"
 			>
 				<div className="flex items-center gap-3 h-full w-full p-4">

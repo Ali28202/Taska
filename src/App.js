@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Projects from "./components/Projects";
 import ProjectTitle from "./components/ProjectTitle";
@@ -6,16 +6,30 @@ import TaskContainer from "./components/TaskContainer";
 import { useQuery } from "@tanstack/react-query";
 import { pb } from "./utils/auth";
 import { fetchProjects } from "./utils/project";
+import { fetchTasks } from "./utils/tasks";
+import CircularProgress from "@mui/material/CircularProgress";
+
 export default function App() {
 	const [isLogged, setIsLogged] = useState(false);
 	const [isProjectActive, setIsProjectActive] = useState([]);
-	const [tasks, setTasks] = useState(null);
+	const [tasks, setTasks] = useState([]);
 	const [projects, setProjects] = useState([]);
-	// projects need re write (db changed)
 	const { data: projects_data, isFetched: projects_fetched } = useQuery({
 		queryKey: ["projects"],
 		queryFn: fetchProjects,
 	});
+	const {
+		data: tasks_data,
+		isError: tasks_isError,
+		error: tasks_error,
+		refetch: tasks_refetch,
+		isLoading: tasks_pending,
+	} = useQuery({
+		queryKey: ["tasks"],
+		queryFn: () => fetchTasks(projects[isProjectActive.indexOf(1)]?.title),
+		enabled: false,
+	});
+	let spinner = false;
 	if (!isLogged && pb.authStore.model) {
 		setIsLogged(true);
 	}
@@ -28,10 +42,12 @@ export default function App() {
 			setIsProjectActive(activeArr);
 		}
 	}
-	// useEffect(() => {
-	// 	if (isProjectActive?.indexOf(1) !== -1)
-	// 		setTasks(projects[isProjectActive.indexOf(1)]?.tasks);
-	// }, [isProjectActive]);
+	useEffect(() => {
+		tasks_refetch();
+	}, [isProjectActive]);
+	if (tasks_isError) console.log(tasks_error);
+	if (tasks_pending) spinner = true;
+	else spinner = false;
 	return (
 		<>
 			{!isLogged && (
@@ -55,14 +71,21 @@ export default function App() {
 					{isLogged ? (
 						<>
 							<div className="flex flex-col">
-								{isProjectActive.indexOf(1) !== -1 ? (
+								{isProjectActive?.indexOf(1) !== -1 ? (
 									<>
 										<ProjectTitle
 											projects={projects}
 											idxActiveProject={isProjectActive.indexOf(1)}
-											tasks={tasks}
+											tasks={tasks_data}
 										/>
-										<TaskContainer tasks={tasks} setTasks={setTasks} />
+										{spinner ? (
+											<CircularProgress
+												size={"50px"}
+												className="mx-auto mt-36"
+											/>
+										) : (
+											<TaskContainer tasks={tasks_data} setTasks={setTasks} />
+										)}
 									</>
 								) : (
 									<span className="flex items-center justify-center text-2xl text-center leading-relaxed py-80 px-20 text-gray-400">
