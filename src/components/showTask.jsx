@@ -48,16 +48,18 @@ export default function ShowTask({ data, openDialog, setOpenDialog }) {
 				maxWidth={"md"}
 			>
 				<div
-					className="h-12 opacity-75"
+					className="h-12 opacity-75 w-full"
 					style={{ backgroundColor: bgStatusColor }}
 				></div>
 				<div className="flex flex-col gap-6 md:px-10 px-8 md:py-12 py-8">
-					<div className="flex items-start justify-between">
-						<div className="flex items-start gap-5">
+					<div className="flex items-center gap-5 justify-between">
+						<div className="flex items-cen gap-5">
 							<SubtitlesIcon />
 							<div>
-								<h1 className="text-xl font-semibold">{data.title}</h1>
-								<h2 className="flex sm:flex-row flex-col sm:gap-2 sm:items-center sm:mt-0 mt-2">
+								<h1 className="sm:text-xl text-md font-semibold">
+									{data.title}
+								</h1>
+								<h2 className="flex gap-2 items-center sm:mt-0 mt-3">
 									in list
 									<span
 										className="text-sm py-1 px-2 rounded-sm text-white opacity-75 w-fit"
@@ -81,7 +83,7 @@ export default function ShowTask({ data, openDialog, setOpenDialog }) {
 							<h1 className="text-lg font-medium">Description</h1>
 						</div>
 						<textarea
-							className="sm:ml-11 mr-64 border-2 p-3 resize-none rounded-md sm:w-auto w-fit"
+							className="sm:ml-11 mr-64 border-2 p-3 resize-none rounded-md sm:w-auto w-full"
 							value={data.description}
 							disabled
 						>
@@ -99,11 +101,11 @@ export default function ShowTask({ data, openDialog, setOpenDialog }) {
 							<img
 								src={imgSrc}
 								alt="img"
-								className="md:w-24 md:h-fit md:mt-2 md:ml-2 w-32 h-fit"
+								className="md:w-28 md:h-fit md:mt-2 md:ml-2 w-32 h-fit"
 							/>
 						)}
 					</div>
-					<div className="flex sm:flex-row flex-col sm:items-center gap-5">
+					<div className="flex items-center gap-5">
 						<div className="flex flex-row gap-3">
 							<DateRangeIcon />
 							<h1 className="text-lg font-medium">Due date : </h1>

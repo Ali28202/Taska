@@ -89,7 +89,7 @@ export default function Projects({ className, projects, isProjectActive }) {
 						</Drawer>
 					</div>
 					{/* Not Archived Projects */}
-					<div className="mt-6 flex flex-col gap-3 overflow-scroll 2xl:h-[26rem] xl:h-[25rem] lg:h-[24rem] sm:h-80 h-72">
+					<div className="mt-12 flex flex-col gap-3 overflow-scroll 2xl:h-[26rem] xl:h-[25rem] lg:h-[24rem] sm:h-80 h-72">
 						{projects.length ? (
 							projects
 								.filter((t) => {

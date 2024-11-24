@@ -20,7 +20,7 @@ export default function EachProject({ isActive, data, avatars }) {
 	return (
 		<>
 			<Button
-				className="!rounded-xl w-fit !p-0 flex !justify-between !shadow-none !border-slate-300 !pr-3"
+				className="!rounded-xl !p-0 flex !justify-between !shadow-none !border-slate-300 !pr-3"
 				style={
 					isActive[data.index]
 						? { backgroundColor: "#365efe", fontFamily: "Poppins" }
