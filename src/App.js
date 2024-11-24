@@ -7,13 +7,13 @@ import { useQuery } from "@tanstack/react-query";
 import { pb } from "./utils/auth";
 import { fetchProjects } from "./utils/project";
 import { fetchTasks } from "./utils/tasks";
-
 export default function App() {
 	const [isLogged, setIsLogged] = useState(false);
 	const [tasks, setTasks] = useState([]);
 	const isProjectActive =
 		JSON.parse(localStorage.getItem("activeProject")) || [];
 	const [projects, setProjects] = useState([]);
+	const [projTitle, setProjTitle] = useState(null);
 	const { data: projects_data, isFetched: projects_fetched } = useQuery({
 		queryKey: ["projects"],
 		queryFn: fetchProjects,
@@ -23,23 +23,23 @@ export default function App() {
 		isError: tasks_isError,
 		error: tasks_error,
 		isFetched: tasks_fetched,
-		refetch: tasks_refetch,
 	} = useQuery({
-		queryKey: ["tasks"],
-		queryFn: () => fetchTasks(projects[isProjectActive?.indexOf(1)]?.title),
-		enabled: false,
+		queryKey: ["tasks", projTitle],
+		queryFn: () => fetchTasks(projTitle),
 	});
 	if (!isLogged && pb.authStore.model) {
 		setIsLogged(true);
 	}
-	if (projects_fetched && projects_data && !tasks.length) {
+	if (projects_fetched && projects_data) {
 		if (!projects.length && projects_data.length) {
 			setProjects(projects_data);
 		}
-		tasks_refetch();
+	}
+	if (projects[isProjectActive?.indexOf(1)]?.title && !projTitle) {
+		setProjTitle(projects[isProjectActive?.indexOf(1)]?.title);
 	}
 	if (tasks_isError) console.log(tasks_error);
-	if (tasks_fetched && !tasks_isError && tasks_data.length && !tasks.length) {
+	if (tasks_fetched && !tasks_isError && tasks_data?.length && !tasks.length) {
 		setTasks(tasks_data);
 	}
 	return (

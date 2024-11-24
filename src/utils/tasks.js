@@ -2,11 +2,13 @@ import { pb } from "./auth";
 export async function fetchTasks(projTitle) {
 	let userEmail = pb.authStore.model.email;
 	try {
-		const records = await pb.collection("tasks").getFullList({
-			filter: `User_email = '${userEmail}' && Proj_title = '${projTitle}'`,
-		});
-		if (!records.code) return records;
-		else throw new Error(records);
+		if (projTitle) {
+			const records = await pb.collection("tasks").getFullList({
+				filter: `User_email = '${userEmail}' && Proj_title = '${projTitle}'`,
+			});
+			if (!records.code) return records;
+			else throw new Error(records);
+		} else throw new Error("nothing");
 	} catch (e) {
 		console.log(e);
 	}
