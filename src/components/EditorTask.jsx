@@ -48,11 +48,10 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 		enabled: false,
 	});
 	if (updateTask_isError) console.log(updateTask_error);
-	if (updateTask_fetched && updateTask_data) {
-		window.location.reload();
-	}
+	// if (updateTask_fetched && updateTask_data) {
+	// 	window.location.reload();
+	// }
 	const {
-		data: deleteTask_data,
 		refetch: deleteTask_refetch,
 		isError: deleteTask_isError,
 		error: deleteTask_error,
@@ -63,9 +62,9 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 		enabled: false,
 	});
 	if (deleteTask_isError) console.log(deleteTask_error);
-	if (deleteTask_fetched && deleteTask_data) {
-		window.location.reload();
-	}
+	// if (deleteTask_fetched && deleteTask_data) {
+	// 	window.location.reload();
+	// }
 	let today = new Date().toISOString().split("T")[0];
 	return (
 		<>
