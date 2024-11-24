@@ -20,13 +20,7 @@ const VisuallyHiddenInput = styled("input")({
 	width: 1,
 });
 
-export default function EditorTask({
-	data,
-	tasks,
-	setTasks,
-	openDialog,
-	setOpenDialog,
-}) {
+export default function EditorTask({ data, openDialog, setOpenDialog }) {
 	const [value, setValue] = useState(0);
 	const [task, editTask] = useState({
 		id: data.id,
@@ -43,6 +37,7 @@ export default function EditorTask({
 		setValue(newValue);
 	};
 	const {
+		data: updateTask_data,
 		refetch: updateTask_refetch,
 		isError: updateTask_isError,
 		error: updateTask_error,
@@ -53,10 +48,11 @@ export default function EditorTask({
 		enabled: false,
 	});
 	if (updateTask_isError) console.log(updateTask_error);
-	if (updateTask_fetched) {
+	if (updateTask_fetched && updateTask_data) {
 		window.location.reload();
 	}
 	const {
+		data: deleteTask_data,
 		refetch: deleteTask_refetch,
 		isError: deleteTask_isError,
 		error: deleteTask_error,
@@ -67,7 +63,7 @@ export default function EditorTask({
 		enabled: false,
 	});
 	if (deleteTask_isError) console.log(deleteTask_error);
-	if (deleteTask_fetched) {
+	if (deleteTask_fetched && deleteTask_data) {
 		window.location.reload();
 	}
 	let today = new Date().toISOString().split("T")[0];

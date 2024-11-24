@@ -103,8 +103,6 @@ export default function TaskListContainer({
 								{selectedItem && (
 									<EditorTask
 										data={selectedItem}
-										// tasks={tasks}
-										setTasks={setTasks}
 										openDialog={isEditorOpen}
 										setOpenDialog={toggleEditor}
 									/>
