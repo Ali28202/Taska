@@ -52,7 +52,7 @@ export default function App() {
 			<div className="flex flex-row-reverse">
 				<div
 					className={
-						isLogged ? "2xl:w-[80%] xl:w-[75%] lg:w-[65%] w-full" : "w-full"
+						isLogged ? "2xl:w-[75%] xl:w-[75%] lg:w-[65%] w-full" : "w-full"
 					}
 				>
 					<Navbar
@@ -80,7 +80,7 @@ export default function App() {
 										/>
 									</>
 								) : (
-									<span className="flex items-center justify-center text-2xl text-center leading-relaxed text-gray-400 2xl:my-[24.6rem] xl:!my-[19.2rem] lg:my-44 mt-48">
+									<span className="flex items-center justify-center text-2xl text-center leading-relaxed text-gray-400 2xl:my-[18rem] xl:my-[19.2rem] lg:my-44 mt-48">
 										No Project Selected
 									</span>
 								)}
