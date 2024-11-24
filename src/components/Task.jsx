@@ -72,7 +72,7 @@ export default function Task({
 					<p className="2xl:w-80 xl:w-64 lg:w-56 lg:text-sm text-xs text-gray-500 leading-relaxed">
 						{data.description}
 					</p>
-					{data.image !== "/" && (
+					{data.image !== "" && (
 						<div className="flex items-center gap-3 w-fit p-2 rounded-xl border-slate-200 border-[1px]">
 							<AttachFileIcon fontSize="small" />
 							<span className="lg:text-sm text-xs w-24 overflow-hidden">

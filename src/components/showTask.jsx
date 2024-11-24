@@ -93,13 +93,13 @@ export default function ShowTask({ data, openDialog, setOpenDialog }) {
 							<ImageIcon />
 							<h1 className="text-xl font-semibold">Image</h1>
 						</div>
-						{data.src === "/" ? (
+						{data.image === "" ? (
 							<span>No Image Attached</span>
 						) : (
 							<img
 								src={imgSrc}
 								alt="img"
-								className="md:w-fit md:h-fit md:mt-2 md:ml-2 w-32 h-fit"
+								className="md:w-24 md:h-fit md:mt-2 md:ml-2 w-32 h-fit"
 							/>
 						)}
 					</div>

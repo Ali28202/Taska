@@ -148,13 +148,14 @@ export default function AddTask({
 							formData.append("User_email", newTask.User_email.toString());
 							formData.append("Proj_title", project_title);
 							formData.append("status", newTask.status.toString());
-							formData.append("index", tasks.length.toString());
+							formData.append("index", tasks.length);
 							formData.append("description", newTask.description.toString());
-							formData.append(
-								"image",
-								new Blob([newTask.image]),
-								newTask.image.name
-							);
+							newTask.image !== "" &&
+								formData.append(
+									"image",
+									new Blob([newTask.image]),
+									newTask.image.name
+								);
 							formData.append("time", newTask.time.toString());
 							console.log(formData.get("image"));
 							if (newTask.title && newTask.time && newTask.description) {
