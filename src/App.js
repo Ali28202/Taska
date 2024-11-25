@@ -21,7 +21,6 @@ export default function App() {
 	const {
 		data: tasks_data,
 		isError: tasks_isError,
-		error: tasks_error,
 		isFetched: tasks_fetched,
 	} = useQuery({
 		queryKey: ["tasks", projTitle],
@@ -38,7 +37,6 @@ export default function App() {
 	if (projects[isProjectActive?.indexOf(1)]?.title && !projTitle) {
 		setProjTitle(projects[isProjectActive?.indexOf(1)]?.title);
 	}
-	if (tasks_isError) console.log(tasks_error);
 	if (tasks_fetched && !tasks_isError && tasks_data?.length && !tasks.length) {
 		setTasks(tasks_data);
 	}

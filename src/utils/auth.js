@@ -8,7 +8,7 @@ export async function signUp(data) {
 			.collection("users")
 			.authWithPassword(data.email, data.password);
 		if (!record.code) return record;
-		else throw new Error(record);
+		else throw new Error(record, authData);
 	} catch (e) {
 		console.log(e);
 	}
