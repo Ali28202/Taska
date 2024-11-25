@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import styled from "@emotion/styled";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -21,6 +21,10 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export default function EditorTask({ data, openDialog, setOpenDialog }) {
+	const titleRef = useRef(false);
+	const discRef = useRef(false);
+	const imgRef = useRef(false);
+	const timeRef = useRef(false);
 	const [value, setValue] = useState(0);
 	const [task, editTask] = useState({
 		id: data.id,
@@ -37,7 +41,6 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 		setValue(newValue);
 	};
 	const {
-		data: updateTask_data,
 		refetch: updateTask_refetch,
 		isError: updateTask_isError,
 		error: updateTask_error,
@@ -47,10 +50,11 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 		queryFn: () => updateTask(task.id, task),
 		enabled: false,
 	});
+	const [flag, setFlag] = useState(false);
 	if (updateTask_isError) console.log(updateTask_error);
-	// if (updateTask_fetched && updateTask_data) {
-	// 	window.location.reload();
-	// }
+	if (updateTask_fetched && flag) {
+		window.location.reload();
+	}
 	const {
 		refetch: deleteTask_refetch,
 		isError: deleteTask_isError,
@@ -62,9 +66,9 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 		enabled: false,
 	});
 	if (deleteTask_isError) console.log(deleteTask_error);
-	// if (deleteTask_fetched && deleteTask_data) {
-	// 	window.location.reload();
-	// }
+	if (deleteTask_fetched && flag) {
+		window.location.reload();
+	}
 	let today = new Date().toISOString().split("T")[0];
 	return (
 		<>
@@ -81,6 +85,7 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 				<div className="flex flex-col gap-4 md:px-14 px-8 md:py-12 py-8">
 					<label>Title:</label>
 					<TextField
+						ref={titleRef}
 						variant="outlined"
 						className="md:w-72 w-full"
 						placeholder={data.title}
@@ -92,6 +97,7 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 					/>
 					<label>Description:</label>
 					<TextField
+						ref={discRef}
 						variant="outlined"
 						className="md:w-72 w-full"
 						multiline
@@ -114,6 +120,7 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 					>
 						Change Image
 						<VisuallyHiddenInput
+							ref={imgRef}
 							type="file"
 							accept="image/*"
 							onChange={(e) =>
@@ -125,10 +132,10 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 					</Button>
 					<label>Schedule:</label>
 					<input
+						ref={timeRef}
 						type="date"
 						min={today.toString()}
 						max="2025-07-13"
-						defaultValue={data.time}
 						onChange={(e) =>
 							editTask((perv) => {
 								return { ...perv, time: e.target.value };
@@ -139,10 +146,18 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 						variant="contained"
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
 						onClick={() => {
-							// need a if to dont fetch if we dont have inputs
-							if (task.title || task.time || task.description) {
+							if (
+								titleRef.current.firstChild.firstChild.value ||
+								timeRef.current.value ||
+								discRef.current.firstChild.firstChild.value ||
+								imgRef.current.value
+							) {
+								setFlag(true);
 								updateTask_refetch();
-							} else setOpenDialog(false);
+							} else {
+								setFlag(false);
+								setOpenDialog(false);
+							}
 						}}
 					>
 						Edit Task
@@ -152,6 +167,7 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 						color="error"
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
 						onClick={() => {
+							setFlag(true);
 							deleteTask_refetch();
 						}}
 					>
