@@ -6,18 +6,75 @@ import InputAdornment from "@mui/material/InputAdornment";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
+import SubtitlesIcon from "@mui/icons-material/Subtitles";
+import CircularProgress from "@mui/material/CircularProgress";
 import Projects from "./Projects";
 import Auth from "./Auth";
+import { useQuery } from "@tanstack/react-query";
+import { searchTask } from "../utils/tasks";
+import ShowTask from "./showTask";
 export default function Navbar({
 	isLogged,
 	setIsLogged,
 	projects,
 	isProjectActive,
 }) {
+	const [searchTerm, setSerachTerm] = useState("");
+	const [selectedData, setSelectedData] = useState(null);
+	const [showTask, toggleTask] = useState(false);
 	const [open, setOpen] = useState(false);
+	let content;
 	const toggleDrawer = (newOpen) => () => {
 		setOpen(newOpen);
 	};
+	const { data, isFetched, isPending } = useQuery({
+		queryKey: ["searchTask", { search: searchTerm }],
+		queryFn: () => searchTask(searchTerm),
+	});
+	if (isPending) {
+		content = <CircularProgress />;
+	}
+	if (isFetched && data) {
+		content = (
+			<div className="flex flex-col mt-3 gap-3">
+				{data.map((t) => {
+					let statusColor =
+						t.status === "to do"
+							? "red"
+							: t.status === "in progress"
+							? "blue"
+							: "green";
+					return (
+						<div
+							className="hover:bg-gray-100 p-2 rounded-md duration-300 cursor-pointer"
+							onClick={() => {
+								setSelectedData(t);
+								setSerachTerm("");
+								toggleTask(true);
+							}}
+						>
+							<div className="flex items-center gap-3">
+								<SubtitlesIcon />
+								<h1>{t.title}</h1>
+							</div>
+							<span className="flex gap-2 mt-3 text-sm ml-9">
+								in list
+								<span
+									className="px-1 rounded-sm text-white"
+									style={{ backgroundColor: statusColor }}
+								>
+									{t.status.toUpperCase()}
+								</span>
+							</span>
+						</div>
+					);
+				})}
+			</div>
+		);
+	}
+	if (isFetched && !data?.length) {
+		content = <span className="text-sm">nothing found:(</span>;
+	}
 	return (
 		<>
 			{/* Desktop */}
@@ -27,21 +84,32 @@ export default function Navbar({
 				} gap-5 lg:px-6 bg-white pb-5 w-full border-b-2 border-slate-200`}
 			>
 				{isLogged && (
-					<TextField
-						variant="outlined"
-						placeholder="Search..."
-						className="bg-[#f7f7f7] sm:w-96 w-[21rem]  duration-300"
-						sx={{ fontFamily: "Poppins" }}
-						slotProps={{
-							input: {
-								startAdornment: (
-									<InputAdornment position="start">
-										<SearchIcon />
-									</InputAdornment>
-								),
-							},
-						}}
-					/>
+					<div className="flex gap-5 flex-col sm:w-96">
+						<TextField
+							variant="outlined"
+							placeholder="Search by title"
+							className="bg-[#f7f7f7]  duration-300 "
+							sx={{ fontFamily: "Poppins" }}
+							slotProps={{
+								input: {
+									startAdornment: (
+										<InputAdornment position="start">
+											<SearchIcon />
+										</InputAdornment>
+									),
+								},
+							}}
+							onChange={(e) => {
+								setSerachTerm(e.target.value);
+							}}
+						/>
+						{searchTerm && (
+							<div className="fixed z-50 mt-16 bg-white border-[1px] border-slate-200 py-3 px-3 rounded-md 2xl:w-96 xl:w-96 lg:w-[13.6rem]">
+								<h1>Tasks</h1>
+								{content}
+							</div>
+						)}
+					</div>
 				)}
 				<Auth isLogged={isLogged} setIsLogged={setIsLogged} />
 			</div>
@@ -62,12 +130,12 @@ export default function Navbar({
 								<CloseIcon fontSize="large" sx={{ marginTop: "1px" }} />
 							</IconButton>
 						</div>
-						<div className="flex flex-col gap-5 border-b-2 border-slate-200 pb-8 px-8 pt-3">
+						<div className="flex flex-col border-b-2 border-slate-200 pb-8 px-8 pt-3">
 							<Auth isLogged={isLogged} setIsLogged={setIsLogged} />
 							<TextField
 								variant="outlined"
-								placeholder="Search..."
-								className="bg-[#f7f7f7] w-54 duration-300 border-b-2 border-slate-300"
+								placeholder="Search by title"
+								className="bg-[#f7f7f7] w-54 duration-300 border-b-2 border-slate-300 !mt-5"
 								sx={{ fontFamily: "Poppins" }}
 								slotProps={{
 									input: {
@@ -78,7 +146,14 @@ export default function Navbar({
 										),
 									},
 								}}
+								onChange={(e) => setSerachTerm(e.target.value)}
 							/>
+							{searchTerm && (
+								<div className="border-[1px] border-slate-200 py-3 px-3 rounded-md mt-3">
+									<h1>Tasks</h1>
+									{content}
+								</div>
+							)}
 						</div>
 						{isLogged ? (
 							<Projects
@@ -97,6 +172,13 @@ export default function Navbar({
 					<h1 className="text-3xl font-bold">Taska</h1>
 				</a>
 			</div>
+			{selectedData && (
+				<ShowTask
+					data={selectedData}
+					openDialog={showTask}
+					setOpenDialog={toggleTask}
+				/>
+			)}
 		</>
 	);
 }

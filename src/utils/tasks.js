@@ -9,9 +9,19 @@ export async function fetchTasks(projTitle) {
 			if (!records.code) return records;
 			else throw new Error(records);
 		} else throw new Error("nothing");
-	} catch (e) {
-		console.log(e);
-	}
+	} catch (e) {}
+}
+export async function searchTask(title) {
+	let userEmail = pb.authStore.model.email;
+	try {
+		if (title) {
+			const records = await pb.collection("tasks").getFullList({
+				filter: `User_email = '${userEmail}' && title = '${title}'`,
+			});
+			if (!records.code) return records;
+			else throw new Error(records);
+		} else throw new Error("nothing");
+	} catch (e) {}
 }
 export async function postTask(data) {
 	try {
