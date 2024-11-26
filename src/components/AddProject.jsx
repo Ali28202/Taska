@@ -21,7 +21,7 @@ export default function AddProject({ openDialog, setOpenDialog, projects }) {
 	};
 	const [textInput, setTextInput] = useState("");
 	let newProject = {
-		User_email: pb.authStore.model.email,
+		User_email: pb.authStore.model?.email,
 		title: textInput,
 		archive: false,
 		index: projects?.length,
