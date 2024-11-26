@@ -24,7 +24,7 @@ export default function AddProject({ openDialog, setOpenDialog, projects }) {
 		User_email: pb.authStore.model.email,
 		title: textInput,
 		archive: false,
-		index: projects.length,
+		index: projects?.length,
 		avatarId: invisible.indexOf(false),
 	};
 	const {
