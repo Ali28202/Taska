@@ -4,6 +4,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Button } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import PropTypes from "prop-types";
@@ -100,210 +101,224 @@ export default function LOGIN_LOGOUT() {
 		navigate("/project");
 	}
 	return (
-		<div className="h-screen w-screen flex items-center justify-center">
-			<Card className="2xl:w-1/4 xl:w-1/3 md:w-1/2 w-4/5">
-				<Tabs
-					value={value}
-					onChange={handleChange}
-					aria-label="basic tabs example"
-					centered
-					variant="fullWidth"
+		<div className="h-screen w-screen">
+			<div className="flex justify-between items-center px-10 py-10">
+				<h1 className="text-3xl font-bold">Taska</h1>
+				<Button
+					variant="contained"
+					className="flex items-center justify-center gap-3"
+					sx={{ fontFamily: "Poppins", backgroundColor: "slategray" }}
+					onClick={() => navigate("/")}
 				>
-					<Tab
-						label="Sign in"
-						{...allyProps(0)}
-						sx={{ fontFamily: "Poppins" }}
-					/>
-					<Tab
-						label="Sign Up"
-						{...allyProps(1)}
-						sx={{ fontFamily: "Poppins" }}
-					/>
-				</Tabs>
-				<CardContent>
-					{/* Sign IN */}
-					<CustomTabPanel value={value} index={0}>
-						<div className="flex flex-col gap-3 lg:px-10 md:py-5 py-3">
-							<h1>Email:</h1>
-							<TextField
-								label="Email"
-								variant="outlined"
-								className="w-full"
-								error={signInError}
-								helperText={signInError && "Incorrect Entry"}
-								onChange={(e) => {
-									getExistUserData((perv) => {
-										return { ...perv, email: e.target.value.toLowerCase() };
-									});
-								}}
-							/>
-							<h1>Password:</h1>
-							<FormControl variant="outlined">
-								<InputLabel htmlFor="outlined-adornment-password">
-									Password
-								</InputLabel>
-								<OutlinedInput
-									id="outlined-adornment-password"
-									type={showPassword ? "text" : "password"}
+					<ArrowBackIcon fontSize="small" />
+					Home
+				</Button>
+			</div>
+			<div className="flex items-center justify-center mt-24">
+				<Card className="2xl:w-1/4 xl:w-1/3 md:w-1/2 w-4/5">
+					<Tabs
+						value={value}
+						onChange={handleChange}
+						aria-label="basic tabs example"
+						centered
+						variant="fullWidth"
+					>
+						<Tab
+							label="Sign in"
+							{...allyProps(0)}
+							sx={{ fontFamily: "Poppins" }}
+						/>
+						<Tab
+							label="Sign Up"
+							{...allyProps(1)}
+							sx={{ fontFamily: "Poppins" }}
+						/>
+					</Tabs>
+					<CardContent>
+						{/* Sign IN */}
+						<CustomTabPanel value={value} index={0}>
+							<div className="flex flex-col gap-3 lg:px-10 md:py-5 py-3">
+								<h1>Email:</h1>
+								<TextField
+									label="Email"
+									variant="outlined"
+									className="w-full"
 									error={signInError}
+									helperText={signInError && "Incorrect Entry"}
 									onChange={(e) => {
 										getExistUserData((perv) => {
-											return { ...perv, password: e.target.value };
+											return { ...perv, email: e.target.value.toLowerCase() };
 										});
 									}}
-									endAdornment={
-										<InputAdornment position="end">
-											<IconButton
-												aria-label={
-													showPassword
-														? "hide the password"
-														: "display the password"
-												}
-												onClick={() => setShowPassword((show) => !show)}
-												onMouseDown={(e) => e.preventDefault()}
-												onMouseUp={(e) => e.preventDefault()}
-												edge="end"
-											>
-												{showPassword ? <VisibilityOff /> : <Visibility />}
-											</IconButton>
-										</InputAdornment>
-									}
-									label="Password"
 								/>
-								{signInError && (
-									<FormHelperText className="!text-red-600">
-										Incorrect Entry
-									</FormHelperText>
-								)}
-							</FormControl>
-							<div
-								className={isSignInBarActive ? "flex gap-4 items-center" : ""}
-							>
-								<Button
-									variant="contained"
-									sx={{
-										fontFamily: "Poppins",
-										textTransform: "none",
-										marginTop: 2,
-										width: !isSignInBarActive ? "100%" : "85%",
-									}}
-									onClick={() => {
-										signIn_refetch();
-									}}
+								<h1>Password:</h1>
+								<FormControl variant="outlined">
+									<InputLabel htmlFor="outlined-adornment-password">
+										Password
+									</InputLabel>
+									<OutlinedInput
+										id="outlined-adornment-password"
+										type={showPassword ? "text" : "password"}
+										error={signInError}
+										onChange={(e) => {
+											getExistUserData((perv) => {
+												return { ...perv, password: e.target.value };
+											});
+										}}
+										endAdornment={
+											<InputAdornment position="end">
+												<IconButton
+													aria-label={
+														showPassword
+															? "hide the password"
+															: "display the password"
+													}
+													onClick={() => setShowPassword((show) => !show)}
+													onMouseDown={(e) => e.preventDefault()}
+													onMouseUp={(e) => e.preventDefault()}
+													edge="end"
+												>
+													{showPassword ? <VisibilityOff /> : <Visibility />}
+												</IconButton>
+											</InputAdornment>
+										}
+										label="Password"
+									/>
+									{signInError && (
+										<FormHelperText className="!text-red-600">
+											Incorrect Entry
+										</FormHelperText>
+									)}
+								</FormControl>
+								<div
+									className={isSignInBarActive ? "flex gap-4 items-center" : ""}
 								>
-									Log In
-								</Button>
-								{isSignInBarActive && (
-									<div className="w-fit flex items-center justify-center mt-3">
-										<CircularProgress size={"30px"} />
-									</div>
-								)}
+									<Button
+										variant="contained"
+										sx={{
+											fontFamily: "Poppins",
+											textTransform: "none",
+											marginTop: 2,
+											width: !isSignInBarActive ? "100%" : "85%",
+										}}
+										onClick={() => {
+											signIn_refetch();
+										}}
+									>
+										Log In
+									</Button>
+									{isSignInBarActive && (
+										<div className="w-fit flex items-center justify-center mt-3">
+											<CircularProgress size={"30px"} />
+										</div>
+									)}
+								</div>
 							</div>
-						</div>
-					</CustomTabPanel>
-					{/* Sign UP */}
-					<CustomTabPanel value={value} index={1}>
-						<div className="flex flex-col gap-3 lg:px-10 md:py-5 py-3">
-							<h1>Email:</h1>
-							<TextField
-								label="Email"
-								type="email"
-								variant="outlined"
-								className="w-full"
-								error={signUpError}
-								helperText={signUpError && "Incorrect Entry"}
-								onChange={(e) => {
-									setNewUserData((perv) => {
-										return {
-											...perv,
-											email: e.target.value.toLowerCase(),
-											emailVisibility: true,
-										};
-									});
-								}}
-							/>
-							<h1>Password:</h1>
-							<FormControl variant="outlined">
-								<InputLabel htmlFor="outlined-adornment-password">
-									Password
-								</InputLabel>
-								<OutlinedInput
-									id="outlined-adornment-password"
-									type={showPassword ? "text" : "password"}
+						</CustomTabPanel>
+						{/* Sign UP */}
+						<CustomTabPanel value={value} index={1}>
+							<div className="flex flex-col gap-3 lg:px-10 md:py-5 py-3">
+								<h1>Email:</h1>
+								<TextField
+									label="Email"
+									type="email"
+									variant="outlined"
+									className="w-full"
 									error={signUpError}
+									helperText={signUpError && "Incorrect Entry"}
 									onChange={(e) => {
 										setNewUserData((perv) => {
 											return {
 												...perv,
-												password: e.target.value,
-												passwordConfirm: e.target.value,
+												email: e.target.value.toLowerCase(),
+												emailVisibility: true,
 											};
 										});
 									}}
-									endAdornment={
-										<InputAdornment position="end">
-											<IconButton
-												aria-label={
-													showPassword
-														? "hide the password"
-														: "display the password"
-												}
-												onClick={() => setShowPassword((show) => !show)}
-												onMouseDown={(e) => e.preventDefault()}
-												onMouseUp={(e) => e.preventDefault()}
-												edge="end"
-											>
-												{showPassword ? <VisibilityOff /> : <Visibility />}
-											</IconButton>
-										</InputAdornment>
-									}
-									label="Password"
 								/>
-								{signUpError && (
-									<FormHelperText className="!text-red-600">
-										Incorrect Entry
-									</FormHelperText>
-								)}
-							</FormControl>
-							<h1>Your Name:</h1>
-							<TextField
-								label="Name"
-								variant="outlined"
-								error={signUpError}
-								helperText={signUpError && "Incorrect Entry"}
-								onChange={(e) => {
-									setNewUserData((perv) => {
-										return { ...perv, name: e.target.value };
-									});
-								}}
-							/>
-							<div
-								className={isSignUpBarActive ? "flex gap-4 items-center" : ""}
-							>
-								<Button
-									variant="contained"
-									sx={{
-										fontFamily: "Poppins",
-										textTransform: "none",
-										marginTop: 2,
-										width: !isSignUpBarActive ? "100%" : "85%",
+								<h1>Password:</h1>
+								<FormControl variant="outlined">
+									<InputLabel htmlFor="outlined-adornment-password">
+										Password
+									</InputLabel>
+									<OutlinedInput
+										id="outlined-adornment-password"
+										type={showPassword ? "text" : "password"}
+										error={signUpError}
+										onChange={(e) => {
+											setNewUserData((perv) => {
+												return {
+													...perv,
+													password: e.target.value,
+													passwordConfirm: e.target.value,
+												};
+											});
+										}}
+										endAdornment={
+											<InputAdornment position="end">
+												<IconButton
+													aria-label={
+														showPassword
+															? "hide the password"
+															: "display the password"
+													}
+													onClick={() => setShowPassword((show) => !show)}
+													onMouseDown={(e) => e.preventDefault()}
+													onMouseUp={(e) => e.preventDefault()}
+													edge="end"
+												>
+													{showPassword ? <VisibilityOff /> : <Visibility />}
+												</IconButton>
+											</InputAdornment>
+										}
+										label="Password"
+									/>
+									{signUpError && (
+										<FormHelperText className="!text-red-600">
+											Incorrect Entry
+										</FormHelperText>
+									)}
+								</FormControl>
+								<h1>Your Name:</h1>
+								<TextField
+									label="Name"
+									variant="outlined"
+									error={signUpError}
+									helperText={signUpError && "Incorrect Entry"}
+									onChange={(e) => {
+										setNewUserData((perv) => {
+											return { ...perv, name: e.target.value };
+										});
 									}}
-									onClick={() => {
-										signUp_refetch();
-									}}
+								/>
+								<div
+									className={isSignUpBarActive ? "flex gap-4 items-center" : ""}
 								>
-									Create User
-								</Button>
-								{isSignUpBarActive && (
-									<div className="w-fit flex items-center justify-center mt-3">
-										<CircularProgress size={"30px"} />
-									</div>
-								)}
+									<Button
+										variant="contained"
+										sx={{
+											fontFamily: "Poppins",
+											textTransform: "none",
+											marginTop: 2,
+											width: !isSignUpBarActive ? "100%" : "85%",
+										}}
+										onClick={() => {
+											signUp_refetch();
+										}}
+									>
+										Create User
+									</Button>
+									{isSignUpBarActive && (
+										<div className="w-fit flex items-center justify-center mt-3">
+											<CircularProgress size={"30px"} />
+										</div>
+									)}
+								</div>
 							</div>
-						</div>
-					</CustomTabPanel>
-				</CardContent>
-			</Card>
+						</CustomTabPanel>
+					</CardContent>
+				</Card>
+			</div>
 		</div>
 	);
 }
