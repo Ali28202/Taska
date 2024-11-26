@@ -5,11 +5,11 @@ import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router";
 import { pb } from "../utils/auth";
 
-export default function Auth({ isLogged, setIsLogged }) {
+export default function Auth() {
 	let navigate = useNavigate();
 	return (
 		<>
-			{isLogged ? (
+			{pb.authStore.model ? (
 				<div className="flex items-center lg:justify-normal justify-between xl:gap-4 lg:gap-6">
 					<div className="flex items-center gap-3">
 						<Avatar sx={{ width: 32, height: 32, bgcolor: "blueviolet" }}>
@@ -23,8 +23,7 @@ export default function Auth({ isLogged, setIsLogged }) {
 						onClick={() => {
 							pb.authStore.clear();
 							localStorage.clear();
-							setIsLogged(false);
-							window.location.reload();
+							navigate("/");
 						}}
 					>
 						<ExitToAppIcon fontSize="medium" />

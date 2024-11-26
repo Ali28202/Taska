@@ -6,6 +6,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import LOGIN_LOGOUT from "./components/Login-Logout";
+import Project from "./components/Project";
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -15,6 +16,7 @@ root.render(
 				<Routes>
 					<Route path="/" element={<App />} />
 					<Route path="auth" element={<LOGIN_LOGOUT />} />
+					<Route path="project" element={<Project />} />
 				</Routes>
 			</BrowserRouter>
 		</QueryClientProvider>

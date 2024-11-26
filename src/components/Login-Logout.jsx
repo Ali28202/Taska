@@ -78,7 +78,7 @@ export default function LOGIN_LOGOUT() {
 		signInError = true;
 	} else signInError = false;
 	if (signIn_fetched && pb.authStore.model) {
-		navigate("/");
+		navigate("/project");
 	}
 	const {
 		refetch: signUp_refetch,
@@ -97,7 +97,7 @@ export default function LOGIN_LOGOUT() {
 		signUpError = true;
 	} else signUpError = false;
 	if (signUp_fetched && pb.authStore.model) {
-		navigate("/");
+		navigate("/project");
 	}
 	return (
 		<div className="h-screen w-screen flex items-center justify-center">

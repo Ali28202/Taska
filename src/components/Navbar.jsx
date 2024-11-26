@@ -10,15 +10,11 @@ import SubtitlesIcon from "@mui/icons-material/Subtitles";
 import CircularProgress from "@mui/material/CircularProgress";
 import ProjectsContainer from "./ProjectsContainer";
 import Auth from "./Auth";
+import { pb } from "../utils/auth";
 import { useQuery } from "@tanstack/react-query";
 import { searchTask } from "../utils/tasks";
 import ShowTask from "./showTask";
-export default function Navbar({
-	isLogged,
-	setIsLogged,
-	projects,
-	isProjectActive,
-}) {
+export default function Navbar({ projects, isProjectActive }) {
 	const [searchTerm, setSerachTerm] = useState("");
 	const [selectedData, setSelectedData] = useState(null);
 	const [showTask, toggleTask] = useState(false);
@@ -80,10 +76,10 @@ export default function Navbar({
 			{/* Desktop */}
 			<div
 				className={`lg:flex hidden items-center lg:justify-end lg:gap-48 mt-5 ${
-					isLogged ? "mb-5 xl:justify-between" : "xl:justify-end"
+					pb.authStore.model ? "mb-5 xl:justify-between" : "xl:justify-end"
 				} gap-5 lg:px-6 bg-white pb-5 w-full border-b-2 border-slate-200`}
 			>
-				{isLogged && (
+				{pb.authStore.model && (
 					<div className="flex gap-5 flex-col sm:w-96">
 						<TextField
 							variant="outlined"
@@ -111,7 +107,7 @@ export default function Navbar({
 						)}
 					</div>
 				)}
-				<Auth isLogged={isLogged} setIsLogged={setIsLogged} />
+				<Auth />
 			</div>
 			{/* Mobile */}
 			<div className="lg:hidden flex items-center justify-between mt-5 pr-6 pl-4 bg-white pb-5 w-full border-b-2 border-slate-200">
@@ -131,7 +127,7 @@ export default function Navbar({
 							</IconButton>
 						</div>
 						<div className="flex flex-col border-b-2 border-slate-200 pb-8 px-8 pt-3">
-							<Auth isLogged={isLogged} setIsLogged={setIsLogged} />
+							<Auth />
 							<TextField
 								variant="outlined"
 								placeholder="Search by title"
@@ -155,7 +151,7 @@ export default function Navbar({
 								</div>
 							)}
 						</div>
-						{isLogged ? (
+						{pb.authStore.model ? (
 							<ProjectsContainer
 								className={"lg:hidden flex"}
 								projects={projects}
