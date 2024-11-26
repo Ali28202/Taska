@@ -79,7 +79,7 @@ export default function TaskListContainer({
 				{/* task place */}
 				<section
 					ref={drop}
-					className="sm:overflow-scroll 2xl:h-[22.5rem] xl:h-[24rem] lg:h-[25rem] md:h-[27rem] h-[29rem] flex flex-col gap-5 2xl:mb-1 xl:mb-3 lg:mb-2 mb-1 rounded-md"
+					className="sm:overflow-scroll 2xl:h-[35.5rem] xl:h-[24rem] lg:h-[25rem] md:h-[27rem] h-[29rem] flex flex-col gap-5 2xl:mb-1 xl:mb-3 lg:mb-2 mb-1 rounded-md"
 					style={{ backgroundColor: isOver ? "#cbd5e1" : "initial" }}
 				>
 					{data?.map((t) => {

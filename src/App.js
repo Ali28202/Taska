@@ -78,7 +78,7 @@ export default function App() {
 										/>
 									</>
 								) : (
-									<span className="flex items-center justify-center text-2xl text-center leading-relaxed text-gray-400 2xl:my-[18rem] xl:my-[19.2rem] lg:my-44 mt-48">
+									<span className="flex items-center justify-center text-2xl text-center leading-relaxed text-gray-400 2xl:my-[24.5rem] xl:my-[20.4rem] lg:my-44 mt-48">
 										No Project Selected
 									</span>
 								)}
