@@ -29,6 +29,9 @@ export default function App() {
 	if (!isLogged && pb.authStore.model) {
 		setIsLogged(true);
 	}
+	if (isLogged && !pb.authStore.model) {
+		setIsLogged(false);
+	}
 	if (projects_fetched && projects_data) {
 		if (!projects.length && projects_data.length) {
 			setProjects(projects_data);
