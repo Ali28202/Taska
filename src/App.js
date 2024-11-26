@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Navbar from "./components/Navbar";
-import Projects from "./components/Projects";
+import ProjectsContainer from "./components/ProjectsContainer";
 import ProjectTitle from "./components/ProjectTitle";
 import TaskContainer from "./components/TaskContainer";
 import { useQuery } from "@tanstack/react-query";
@@ -94,7 +94,7 @@ export default function App() {
 					)}
 				</div>
 				{isLogged && (
-					<Projects
+					<ProjectsContainer
 						className={"lg:flex hidden"}
 						projects={projects}
 						isProjectActive={isProjectActive}

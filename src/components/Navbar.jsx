@@ -8,7 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
 import CircularProgress from "@mui/material/CircularProgress";
-import Projects from "./Projects";
+import ProjectsContainer from "./ProjectsContainer";
 import Auth from "./Auth";
 import { useQuery } from "@tanstack/react-query";
 import { searchTask } from "../utils/tasks";
@@ -156,7 +156,7 @@ export default function Navbar({
 							)}
 						</div>
 						{isLogged ? (
-							<Projects
+							<ProjectsContainer
 								className={"lg:hidden flex"}
 								projects={projects}
 								isProjectActive={isProjectActive}

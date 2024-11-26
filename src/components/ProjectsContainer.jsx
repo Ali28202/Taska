@@ -10,7 +10,11 @@ import SendToMobileIcon from "@mui/icons-material/SendToMobile";
 import SquareIcon from "@mui/icons-material/Square";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import CloseIcon from "@mui/icons-material/Close";
-export default function Projects({ className, projects, isProjectActive }) {
+export default function ProjectsContainer({
+	className,
+	projects,
+	isProjectActive,
+}) {
 	const [openDialog, setOpenDialog] = useState(false);
 	const [openArchive, setOpenArchive] = useState(false);
 	let avatars = [
