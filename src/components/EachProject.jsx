@@ -4,7 +4,9 @@ import Tooltip from "@mui/material/Tooltip";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
 import { useQuery } from "@tanstack/react-query";
 import { updateProject } from "../utils/project";
+import { useNavigate } from "react-router-dom";
 export default function EachProject({ isActive, data, avatars }) {
+	let navigate = useNavigate();
 	const {
 		refetch: updateProj_refetch,
 		isError: updateProj_isError,
@@ -32,7 +34,7 @@ export default function EachProject({ isActive, data, avatars }) {
 						newArr.fill(0);
 						newArr[data.index] = 1;
 						localStorage.setItem("activeProject", JSON.stringify(newArr));
-						window.location.reload();
+						navigate("/project/" + data.title);
 					}
 				}}
 				variant="outlined"

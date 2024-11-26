@@ -17,6 +17,7 @@ root.render(
 					<Route path="/" element={<App />} />
 					<Route path="auth" element={<LOGIN_LOGOUT />} />
 					<Route path="project" element={<Project />} />
+					<Route path="project/:title" element={<Project />} />
 				</Routes>
 			</BrowserRouter>
 		</QueryClientProvider>

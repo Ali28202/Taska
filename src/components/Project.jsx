@@ -2,16 +2,26 @@ import Navbar from "./Navbar";
 import ProjectTitle from "./ProjectTitle";
 import ProjectsContainer from "./ProjectsContainer";
 import TaskContainer from "./TaskContainer";
-import { useState } from "react";
+import { pb } from "../utils/auth";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTasks } from "../utils/tasks";
 import { fetchProjects } from "../utils/project";
+import { useParams, useNavigate } from "react-router-dom";
 export default function Project() {
+	let navigator = useNavigate();
 	const [tasks, setTasks] = useState([]);
 	const isProjectActive =
 		JSON.parse(localStorage.getItem("activeProject")) || [];
+	const { title } = useParams();
+	useEffect(() => {
+		setTasks([]);
+	}, [title]);
+	useEffect(() => {
+		if (pb.authStore.model) setProjects([]);
+		else navigator("/auth");
+	}, [pb.authStore.model]);
 	const [projects, setProjects] = useState([]);
-	const [projTitle, setProjTitle] = useState(null);
 	const { data: projects_data, isFetched: projects_fetched } = useQuery({
 		queryKey: ["projects"],
 		queryFn: fetchProjects,
@@ -21,16 +31,13 @@ export default function Project() {
 		isError: tasks_isError,
 		isFetched: tasks_fetched,
 	} = useQuery({
-		queryKey: ["tasks", projTitle],
-		queryFn: () => fetchTasks(projTitle),
+		queryKey: ["tasks", title],
+		queryFn: () => fetchTasks(title),
 	});
 	if (projects_fetched && projects_data) {
 		if (!projects.length && projects_data.length) {
 			setProjects(projects_data);
 		}
-	}
-	if (projects[isProjectActive?.indexOf(1)]?.title && !projTitle) {
-		setProjTitle(projects[isProjectActive?.indexOf(1)]?.title);
 	}
 	if (tasks_fetched && !tasks_isError && tasks_data?.length && !tasks.length) {
 		setTasks(tasks_data);
@@ -50,7 +57,7 @@ export default function Project() {
 							<TaskContainer
 								tasks={tasks}
 								setTasks={setTasks}
-								project_title={projects[isProjectActive.indexOf(1)]?.title}
+								project_title={title}
 							/>
 						</>
 					) : (
