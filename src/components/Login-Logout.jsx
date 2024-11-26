@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -47,6 +47,11 @@ function allyProps(index) {
 }
 export default function LOGIN_LOGOUT() {
 	let navigate = useNavigate();
+	useEffect(() => {
+		if (pb.authStore.model) {
+			navigate("/project");
+		}
+	}, [pb.authStore.model]);
 	// getting data from signup page
 	const [newUserData, setNewUserData] = useState(null);
 	// getting data from signin page
