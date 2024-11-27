@@ -53,15 +53,26 @@ export default function Navbar({ projects, isProjectActive }) {
 								<SubtitlesIcon />
 								<h1>{t.title}</h1>
 							</div>
-							<span className="flex gap-2 mt-3 text-sm ml-9">
-								in list
-								<span
-									className="px-1 rounded-sm text-white"
-									style={{ backgroundColor: statusColor }}
-								>
-									{t.status.toUpperCase()}
-								</span>
-							</span>
+							<div className="flex flex-col gap-4 mt-3 text-sm ml-9">
+								<div className="flex items-center gap-3">
+									in project
+									<span
+										className="px-1 rounded-sm text-white text-base"
+										style={{ backgroundColor: "darkgoldenrod" }}
+									>
+										{t.Proj_title}
+									</span>
+								</div>
+								<div className="flex items-center gap-3">
+									in list
+									<span
+										className="px-1 rounded-sm text-white text-base"
+										style={{ backgroundColor: statusColor }}
+									>
+										{t.status.toUpperCase()}
+									</span>
+								</div>
+							</div>
 						</div>
 					);
 				})}

@@ -51,7 +51,27 @@ export default function LOGIN_LOGOUT() {
 		if (pb.authStore.model) {
 			navigate("/project");
 		}
-	}, [pb.authStore.model]);
+	}, [pb.authStore]);
+	const {
+		refetch: signIn_refetch,
+		isError: signIn_error,
+		isFetched: signIn_fetched,
+		isLoading: signIn_loading,
+	} = useQuery({
+		queryKey: ["signIn"],
+		queryFn: () => signIn(existUserData || ""),
+		enabled: false,
+	});
+	const {
+		refetch: signUp_refetch,
+		isError: signUp_error,
+		isFetched: signUp_fetched,
+		isLoading: signUp_loading,
+	} = useQuery({
+		queryKey: ["signUp"],
+		queryFn: () => signUp(newUserData || ""),
+		enabled: false,
+	});
 	// getting data from signup page
 	const [newUserData, setNewUserData] = useState(null);
 	// getting data from signin page
@@ -65,16 +85,6 @@ export default function LOGIN_LOGOUT() {
 	let signUpError = false;
 	let isSignInBarActive = false;
 	let isSignUpBarActive = false;
-	const {
-		refetch: signIn_refetch,
-		isError: signIn_error,
-		isFetched: signIn_fetched,
-		isLoading: signIn_loading,
-	} = useQuery({
-		queryKey: ["signIn"],
-		queryFn: () => signIn(existUserData || ""),
-		enabled: false,
-	});
 	if (signIn_loading) {
 		isSignInBarActive = true;
 	} else {
@@ -86,16 +96,6 @@ export default function LOGIN_LOGOUT() {
 	if (signIn_fetched && pb.authStore.model) {
 		navigate("/project");
 	}
-	const {
-		refetch: signUp_refetch,
-		isError: signUp_error,
-		isFetched: signUp_fetched,
-		isLoading: signUp_loading,
-	} = useQuery({
-		queryKey: ["signUp"],
-		queryFn: () => signUp(newUserData || ""),
-		enabled: false,
-	});
 	if (signUp_loading) {
 		isSignUpBarActive = true;
 	} else isSignUpBarActive = false;
@@ -113,7 +113,10 @@ export default function LOGIN_LOGOUT() {
 					variant="contained"
 					className="flex items-center justify-center gap-3"
 					sx={{ fontFamily: "Poppins", backgroundColor: "slategray" }}
-					onClick={() => navigate("/")}
+					onClick={() => {
+						navigate("/");
+						navigate(0);
+					}}
 				>
 					<ArrowBackIcon fontSize="small" />
 					Home

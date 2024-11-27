@@ -18,7 +18,7 @@ export default function EachProject({ isActive, data, avatars }) {
 		enabled: false,
 	});
 	if (updateProj_isError) console.log(updateProj_error);
-	if (updateProj_fetched) window.location.reload();
+	if (updateProj_fetched) navigate(0);
 	return (
 		<>
 			<Button
@@ -35,6 +35,7 @@ export default function EachProject({ isActive, data, avatars }) {
 						newArr[data.index] = 1;
 						localStorage.setItem("activeProject", JSON.stringify(newArr));
 						navigate("/project/" + data.title);
+						navigate(0);
 					}
 				}}
 				variant="outlined"

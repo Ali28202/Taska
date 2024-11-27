@@ -23,7 +23,8 @@ export default function Auth() {
 						onClick={() => {
 							pb.authStore.clear();
 							localStorage.clear();
-							navigate("/");
+							navigate("/auth");
+							navigate(0);
 						}}
 					>
 						<ExitToAppIcon fontSize="medium" />

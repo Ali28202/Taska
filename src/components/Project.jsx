@@ -15,12 +15,9 @@ export default function Project() {
 		JSON.parse(localStorage.getItem("activeProject")) || [];
 	const { title } = useParams();
 	useEffect(() => {
-		setTasks([]);
-	}, [title]);
-	useEffect(() => {
-		if (pb.authStore.model) setProjects([]);
+		if (pb.authStore.model) setTasks([]);
 		else navigator("/auth");
-	}, [pb.authStore.model]);
+	}, [title]);
 	const [projects, setProjects] = useState([]);
 	const { data: projects_data, isFetched: projects_fetched } = useQuery({
 		queryKey: ["projects"],
