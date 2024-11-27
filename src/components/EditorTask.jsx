@@ -8,6 +8,7 @@ import Tab from "@mui/material/Tab";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useQuery } from "@tanstack/react-query";
 import { updateTask, deleteTask } from "../utils/tasks";
+import { useNavigate } from "react-router-dom";
 const VisuallyHiddenInput = styled("input")({
 	clip: "rect(0 0 0 0)",
 	clipPath: "inset(50%)",
@@ -21,6 +22,7 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export default function EditorTask({ data, openDialog, setOpenDialog }) {
+	const navigator = useNavigate();
 	const titleRef = useRef(false);
 	const discRef = useRef(false);
 	const imgRef = useRef(false);
@@ -35,15 +37,13 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 		image: data.image,
 		time: data.time,
 		status: data.status,
-		index: data.index,
 	});
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
 	const {
+		data: updateTask_data,
 		refetch: updateTask_refetch,
-		isError: updateTask_isError,
-		error: updateTask_error,
 		isFetched: updateTask_fetched,
 	} = useQuery({
 		queryKey: ["updateTask"],
@@ -51,23 +51,20 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 		enabled: false,
 	});
 	const [flag, setFlag] = useState(false);
-	if (updateTask_isError) console.log(updateTask_error);
-	if (updateTask_fetched && flag) {
-		window.location.reload();
+	if (updateTask_fetched && flag && updateTask_data) {
+		navigator(0);
 	}
 	const {
+		data: deleteTask_data,
 		refetch: deleteTask_refetch,
-		isError: deleteTask_isError,
-		error: deleteTask_error,
 		isFetched: deleteTask_fetched,
 	} = useQuery({
-		queryKey: ["updateTask"],
+		queryKey: ["deleteTask"],
 		queryFn: () => deleteTask(task.id),
 		enabled: false,
 	});
-	if (deleteTask_isError) console.log(deleteTask_error);
-	if (deleteTask_fetched && flag) {
-		window.location.reload();
+	if (deleteTask_fetched && flag && deleteTask_data) {
+		navigator(0);
 	}
 	let today = new Date().toISOString().split("T")[0];
 	return (

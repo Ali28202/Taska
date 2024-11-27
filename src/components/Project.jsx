@@ -23,11 +23,7 @@ export default function Project() {
 		queryKey: ["projects"],
 		queryFn: fetchProjects,
 	});
-	const {
-		data: tasks_data,
-		isError: tasks_isError,
-		isFetched: tasks_fetched,
-	} = useQuery({
+	const { data: tasks_data, isFetched: tasks_fetched } = useQuery({
 		queryKey: ["tasks", title],
 		queryFn: () => fetchTasks(title),
 	});
@@ -36,7 +32,7 @@ export default function Project() {
 			setProjects(projects_data);
 		}
 	}
-	if (tasks_fetched && !tasks_isError && tasks_data?.length && !tasks.length) {
+	if (tasks_fetched && tasks_data?.length && !tasks?.length) {
 		setTasks(tasks_data);
 	}
 	return (

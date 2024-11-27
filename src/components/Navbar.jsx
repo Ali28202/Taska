@@ -30,10 +30,10 @@ export default function Navbar({ projects, isProjectActive }) {
 	if (isPending) {
 		content = <CircularProgress />;
 	}
-	if (isFetched && data) {
+	if (isFetched && data?.length) {
 		content = (
 			<div className="flex flex-col mt-3 gap-3">
-				{data.map((t) => {
+				{data?.map((t) => {
 					let statusColor =
 						t.status === "to do"
 							? "red"
@@ -43,6 +43,7 @@ export default function Navbar({ projects, isProjectActive }) {
 					return (
 						<div
 							className="hover:bg-gray-100 p-2 rounded-md duration-300 cursor-pointer"
+							key={t.id}
 							onClick={() => {
 								setSelectedData(t);
 								setSerachTerm("");
