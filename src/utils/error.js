@@ -14,15 +14,12 @@ export function errorPostTask(error) {
 	}
 }
 export function errorSignIn(error) {
-	let data = Object.entries(error.data);
-	const idx = data.findIndex("identity");
-	data[idx] = "Email";
-	console.log(data);
+	console.log(error);
 	if (error.code === 400) {
 		return {
 			code: error.code,
-			message: "An Error occurred.:",
-			data: data,
+			message: "An Error occurred",
+			data: Object.entries(error.data),
 		};
 	}
 }

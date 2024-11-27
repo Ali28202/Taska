@@ -46,7 +46,7 @@ function allyProps(index) {
 	};
 }
 export default function LOGIN_LOGOUT() {
-	let navigate = useNavigate();
+	const navigate = useNavigate();
 	let signInModal;
 	let signUpModal;
 	useEffect(() => {
@@ -58,7 +58,7 @@ export default function LOGIN_LOGOUT() {
 		refetch: signIn_refetch,
 		data: signIn_data,
 		isFetched: signIn_fetched,
-		isLoading: signIn_loading,
+		isFetching: signIn_fetching,
 	} = useQuery({
 		queryKey: ["signIn"],
 		queryFn: () => signIn(existUserData || ""),
@@ -81,15 +81,20 @@ export default function LOGIN_LOGOUT() {
 	const [value, setValue] = useState(0);
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
+		signInModal = <></>;
+		signUpModal = <></>;
 	};
 	const [showPassword, setShowPassword] = useState(false);
-	let isSignInBarActive = false;
+	let signInBarActive = false;
 	let isSignUpBarActive = false;
-	if (signIn_loading) {
-		isSignInBarActive = true;
-	} else {
-		isSignInBarActive = false;
-	}
+	if (signIn_fetching) {
+		signInModal = <></>;
+		signInBarActive = (
+			<div className="w-fit flex items-center justify-center mt-3">
+				<CircularProgress size={"30px"} />
+			</div>
+		);
+	} else signInBarActive = false;
 	if (signIn_fetched) {
 		signInModal = <></>;
 	}
@@ -105,14 +110,26 @@ export default function LOGIN_LOGOUT() {
 					</span>
 					<span className="h-0.5 w-full my-2 bg-slate-300"></span>
 					<div className="flex flex-col gap-1 text-white sm:text-base text-sm">
-						{signIn_data.data?.map((t) => {
-							return (
-								<>
-									<span>{t[0]}</span>
-									<span>{t[1].message}</span>
-								</>
-							);
-						})}
+						{signIn_data.data.length ? (
+							signIn_data.data?.map((t) => {
+								if (t[0] === "identity") {
+									return (
+										<div className="flex items-center gap-5">
+											<span className="font-semibold">Email:</span>
+											<span className="">{t[1].message}</span>
+										</div>
+									);
+								}
+								return (
+									<div className="flex items-center gap-5">
+										<span className="font-semibold">{t[0]}:</span>
+										<span>{t[1].message}</span>
+									</div>
+								);
+							})
+						) : (
+							<div>Your Email or Password are incorrect</div>
+						)}
 					</div>
 				</div>
 			</div>
@@ -165,8 +182,8 @@ export default function LOGIN_LOGOUT() {
 					Home
 				</Button>
 			</div>
-			<div className="flex items-center justify-center mt-24">
-				<Card className="2xl:w-1/4 xl:w-1/3 md:w-1/2 w-4/5">
+			<div className="flex items-center justify-center mt-14">
+				<Card className="xl:w-1/3 md:w-1/2 w-4/5">
 					<Tabs
 						value={value}
 						onChange={handleChange}
@@ -235,7 +252,7 @@ export default function LOGIN_LOGOUT() {
 									/>
 								</FormControl>
 								<div
-									className={isSignInBarActive ? "flex gap-4 items-center" : ""}
+									className={signInBarActive ? "flex gap-4 items-center" : ""}
 								>
 									<Button
 										variant="contained"
@@ -243,7 +260,7 @@ export default function LOGIN_LOGOUT() {
 											fontFamily: "Poppins",
 											textTransform: "none",
 											marginTop: 2,
-											width: !isSignInBarActive ? "100%" : "85%",
+											width: !signInBarActive ? "100%" : "85%",
 										}}
 										onClick={() => {
 											signIn_refetch();
@@ -251,11 +268,12 @@ export default function LOGIN_LOGOUT() {
 									>
 										Log In
 									</Button>
-									{isSignInBarActive && (
+									{/* {signInBarActive && (
 										<div className="w-fit flex items-center justify-center mt-3">
 											<CircularProgress size={"30px"} />
 										</div>
-									)}
+									)} */}
+									{signInBarActive}
 								</div>
 							</div>
 						</CustomTabPanel>
