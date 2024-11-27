@@ -9,6 +9,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useQuery } from "@tanstack/react-query";
 import { postTask } from "../utils/tasks";
 import { pb } from "../utils/auth";
+import { useNavigate } from "react-router-dom";
 const VisuallyHiddenInput = styled("input")({
 	clip: "rect(0 0 0 0)",
 	clipPath: "inset(50%)",
@@ -22,13 +23,13 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export default function AddTask({
-	tasks,
-	setTasks,
 	status,
 	openDialog,
 	setOpenDialog,
 	project_title,
 }) {
+	const navigator = useNavigate();
+	let modal;
 	const formData = new FormData();
 	const [value, setValue] = useState(0);
 	const [newTask, addNewTask] = useState({
@@ -39,31 +40,45 @@ export default function AddTask({
 		image: "",
 		time: "",
 		status: status,
-		index: "",
 	});
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
 	const {
 		data: newTask_data,
+		isLoading: newTask_loading,
 		isFetched: newTask_fetched,
-		isError: newTask_isError,
-		error: newTask_error,
 		refetch: newTask_refetch,
 	} = useQuery({
-		queryKey: ["addTask"],
+		queryKey: ["addTask", { data: formData }],
 		queryFn: () => postTask(formData),
 		enabled: false,
 	});
-	if (newTask_isError) console.log(newTask_error);
-	if (newTask_fetched && newTask_data) {
-		setTasks(() => {
-			newTask.Proj_title = project_title;
-			newTask.index = tasks.length.toString();
-			tasks.push(newTask);
-			return tasks;
-		});
-		window.location.reload();
+	if (newTask_loading) {
+		modal = "";
+	}
+	if (newTask_fetched && !newTask_data?.code) {
+		navigator(0);
+	}
+	if (newTask_fetched && newTask_data?.code) {
+		modal = (
+			<div className="bg-red-600 h-fit w-full rounded-md border-[1px] px-5 py-3 border-red-800">
+				<div className="flex flex-col gap-1">
+					<span className="text-white sm:text-base text-sm font-bold">
+						Error
+					</span>
+					<span className="text-white sm:text-base text-xs">
+						{newTask_data.message}
+					</span>
+					<span className="h-0.5 w-full my-2 bg-slate-300"></span>
+					<div className="flex flex-col gap-1 text-white sm:text-base text-sm">
+						{newTask_data.data?.map((t) => {
+							return <span>{t[0]}</span>;
+						})}
+					</div>
+				</div>
+			</div>
+		);
 	}
 	let today = new Date().toISOString().split("T")[0];
 	return (
@@ -78,7 +93,8 @@ export default function AddTask({
 				>
 					<Tab label="Add Task" sx={{ fontFamily: "Poppins" }} />
 				</Tabs>
-				<div className="flex flex-col gap-4 md:px-14 px-8 md:py-12 py-8">
+				<div className="flex flex-col gap-4 md:px-14 px-8 md:py-8 py-8">
+					{modal}
 					<label>Title:</label>
 					<TextField
 						label="Title"
@@ -148,7 +164,6 @@ export default function AddTask({
 							formData.append("User_email", newTask.User_email.toString());
 							formData.append("Proj_title", project_title);
 							formData.append("status", newTask.status.toString());
-							formData.append("index", tasks.length);
 							formData.append("description", newTask.description.toString());
 							newTask.image !== "" &&
 								formData.append(
@@ -157,10 +172,7 @@ export default function AddTask({
 									newTask.image.name
 								);
 							formData.append("time", newTask.time.toString());
-							console.log(formData.get("image"));
-							if (newTask.title && newTask.time && newTask.description) {
-								newTask_refetch();
-							}
+							newTask_refetch();
 						}}
 					>
 						Add Task
