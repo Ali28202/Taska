@@ -13,12 +13,10 @@ export default function TaskContainer({ tasks, setTasks, project_title }) {
 	});
 	const moveTask = (taskId, targetList) => {
 		setTasks((prevTasks) =>
-			prevTasks.map((task) => {
-				return task.index === taskId ? { ...task, status: targetList } : task;
-			})
+			prevTasks.map((t) => (t.id === taskId ? { ...t, status: targetList } : t))
 		);
 		task = tasks.find((t) => {
-			return t.index === taskId;
+			return t.id === taskId;
 		});
 		tl = targetList;
 		if (task.status !== tl) refetch();
@@ -35,7 +33,6 @@ export default function TaskContainer({ tasks, setTasks, project_title }) {
 						name="to do"
 						tasks={tasks}
 						moveTask={moveTask}
-						setTasks={setTasks}
 						project_title={project_title}
 					/>
 					<TaskListContainer
@@ -43,7 +40,6 @@ export default function TaskContainer({ tasks, setTasks, project_title }) {
 						name="in progress"
 						tasks={tasks}
 						moveTask={moveTask}
-						setTasks={setTasks}
 						project_title={project_title}
 					/>
 					<TaskListContainer
@@ -51,7 +47,6 @@ export default function TaskContainer({ tasks, setTasks, project_title }) {
 						name="done"
 						tasks={tasks}
 						moveTask={moveTask}
-						setTasks={setTasks}
 						project_title={project_title}
 					/>
 				</div>

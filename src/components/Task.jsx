@@ -3,7 +3,6 @@ import IconButton from "@mui/material/IconButton";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useDrag } from "react-dnd";
 export default function Task({
-	id,
 	data,
 	toggleEditor,
 	setSelectedItem,
@@ -36,7 +35,7 @@ export default function Task({
 	}
 	const [, ref] = useDrag({
 		type: "TASK",
-		item: { id: id },
+		item: { id: data.id },
 	});
 	return (
 		<>

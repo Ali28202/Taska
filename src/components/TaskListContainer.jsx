@@ -13,7 +13,6 @@ export default function TaskListContainer({
 	title,
 	name,
 	tasks,
-	setTasks,
 	moveTask,
 	project_title,
 }) {
@@ -71,8 +70,6 @@ export default function TaskListContainer({
 				<AddTask
 					openDialog={openDialog}
 					setOpenDialog={setOpenDialog}
-					tasks={tasks}
-					setTasks={setTasks}
 					status={title.toLowerCase()}
 					project_title={project_title}
 				/>
@@ -84,9 +81,8 @@ export default function TaskListContainer({
 				>
 					{data?.map((t) => {
 						return (
-							<div key={t.title}>
+							<div key={t.id}>
 								<Task
-									id={t.index}
 									data={t}
 									isOver={isOver}
 									toggleEditor={toggleEditor}
