@@ -24,7 +24,7 @@ export default function Auth() {
 							pb.authStore.clear();
 							localStorage.clear();
 							navigate("/auth");
-							navigate(0);
+							// navigate(0);
 						}}
 					>
 						<ExitToAppIcon fontSize="medium" />

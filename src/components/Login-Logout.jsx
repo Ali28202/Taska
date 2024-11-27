@@ -47,6 +47,8 @@ function allyProps(index) {
 }
 export default function LOGIN_LOGOUT() {
 	let navigate = useNavigate();
+	let signInModal;
+	let signUpModal;
 	useEffect(() => {
 		if (pb.authStore.model) {
 			navigate("/project");
@@ -54,7 +56,7 @@ export default function LOGIN_LOGOUT() {
 	}, [pb.authStore]);
 	const {
 		refetch: signIn_refetch,
-		isError: signIn_error,
+		data: signIn_data,
 		isFetched: signIn_fetched,
 		isLoading: signIn_loading,
 	} = useQuery({
@@ -81,8 +83,6 @@ export default function LOGIN_LOGOUT() {
 		setValue(newValue);
 	};
 	const [showPassword, setShowPassword] = useState(false);
-	let signInError = false;
-	let signUpError = false;
 	let isSignInBarActive = false;
 	let isSignUpBarActive = false;
 	if (signIn_loading) {
@@ -90,9 +90,34 @@ export default function LOGIN_LOGOUT() {
 	} else {
 		isSignInBarActive = false;
 	}
-	if (signIn_error) {
-		signInError = true;
-	} else signInError = false;
+	if (signIn_fetched) {
+		signInModal = <></>;
+	}
+	if (signIn_fetched && signIn_data?.code) {
+		signInModal = (
+			<div className="bg-red-600 h-fit w-full rounded-md border-[1px] px-5 py-3 border-red-800">
+				<div className="flex flex-col gap-1">
+					<span className="text-white sm:text-base text-sm font-bold">
+						Error
+					</span>
+					<span className="text-white sm:text-base text-xs">
+						{signIn_data.message}
+					</span>
+					<span className="h-0.5 w-full my-2 bg-slate-300"></span>
+					<div className="flex flex-col gap-1 text-white sm:text-base text-sm">
+						{signIn_data.data?.map((t) => {
+							return (
+								<>
+									<span>{t[0]}</span>
+									<span>{t[1].message}</span>
+								</>
+							);
+						})}
+					</div>
+				</div>
+			</div>
+		);
+	}
 	if (signIn_fetched && pb.authStore.model) {
 		navigate("/project");
 	}
@@ -100,8 +125,27 @@ export default function LOGIN_LOGOUT() {
 		isSignUpBarActive = true;
 	} else isSignUpBarActive = false;
 	if (signUp_error) {
-		signUpError = true;
-	} else signUpError = false;
+		signUpModal = (
+			<div className="bg-red-600 h-fit w-full rounded-md border-[1px] px-5 py-3 border-red-800">
+				<div className="flex flex-col gap-1">
+					<span className="text-white sm:text-base text-sm font-bold">
+						Error
+					</span>
+					<span className="text-white sm:text-base text-xs">
+						{/* {newTask_data.message} */}
+						salam
+					</span>
+					<span className="h-0.5 w-full my-2 bg-slate-300"></span>
+					<div className="flex flex-col gap-1 text-white sm:text-base text-sm">
+						{/* {newTask_data.data?.map((t) => {
+							return <span>{t[0]}</span>;
+						})} */}
+						khodafez
+					</div>
+				</div>
+			</div>
+		);
+	}
 	if (signUp_fetched && pb.authStore.model) {
 		navigate("/project");
 	}
@@ -115,7 +159,6 @@ export default function LOGIN_LOGOUT() {
 					sx={{ fontFamily: "Poppins", backgroundColor: "slategray" }}
 					onClick={() => {
 						navigate("/");
-						navigate(0);
 					}}
 				>
 					<ArrowBackIcon fontSize="small" />
@@ -146,13 +189,12 @@ export default function LOGIN_LOGOUT() {
 						{/* Sign IN */}
 						<CustomTabPanel value={value} index={0}>
 							<div className="flex flex-col gap-3 lg:px-10 md:py-5 py-3">
+								{signInModal}
 								<h1>Email:</h1>
 								<TextField
 									label="Email"
 									variant="outlined"
 									className="w-full"
-									error={signInError}
-									helperText={signInError && "Incorrect Entry"}
 									onChange={(e) => {
 										getExistUserData((perv) => {
 											return { ...perv, email: e.target.value.toLowerCase() };
@@ -167,7 +209,6 @@ export default function LOGIN_LOGOUT() {
 									<OutlinedInput
 										id="outlined-adornment-password"
 										type={showPassword ? "text" : "password"}
-										error={signInError}
 										onChange={(e) => {
 											getExistUserData((perv) => {
 												return { ...perv, password: e.target.value };
@@ -192,11 +233,6 @@ export default function LOGIN_LOGOUT() {
 										}
 										label="Password"
 									/>
-									{signInError && (
-										<FormHelperText className="!text-red-600">
-											Incorrect Entry
-										</FormHelperText>
-									)}
 								</FormControl>
 								<div
 									className={isSignInBarActive ? "flex gap-4 items-center" : ""}
@@ -226,14 +262,13 @@ export default function LOGIN_LOGOUT() {
 						{/* Sign UP */}
 						<CustomTabPanel value={value} index={1}>
 							<div className="flex flex-col gap-3 lg:px-10 md:py-5 py-3">
+								{signUpModal}
 								<h1>Email:</h1>
 								<TextField
 									label="Email"
 									type="email"
 									variant="outlined"
 									className="w-full"
-									error={signUpError}
-									helperText={signUpError && "Incorrect Entry"}
 									onChange={(e) => {
 										setNewUserData((perv) => {
 											return {
@@ -252,7 +287,6 @@ export default function LOGIN_LOGOUT() {
 									<OutlinedInput
 										id="outlined-adornment-password"
 										type={showPassword ? "text" : "password"}
-										error={signUpError}
 										onChange={(e) => {
 											setNewUserData((perv) => {
 												return {
@@ -281,18 +315,11 @@ export default function LOGIN_LOGOUT() {
 										}
 										label="Password"
 									/>
-									{signUpError && (
-										<FormHelperText className="!text-red-600">
-											Incorrect Entry
-										</FormHelperText>
-									)}
 								</FormControl>
 								<h1>Your Name:</h1>
 								<TextField
 									label="Name"
 									variant="outlined"
-									error={signUpError}
-									helperText={signUpError && "Incorrect Entry"}
 									onChange={(e) => {
 										setNewUserData((perv) => {
 											return { ...perv, name: e.target.value };

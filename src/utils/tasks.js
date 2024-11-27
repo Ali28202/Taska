@@ -1,5 +1,5 @@
 import { pb } from "./auth";
-import { errorTask } from "./error";
+import { errorPostTask } from "./error";
 export async function fetchTasks(projTitle) {
 	let userEmail = pb.authStore.model.email;
 	const records = await pb.collection("tasks").getFullList({
@@ -19,7 +19,7 @@ export async function postTask(data) {
 		const record = await pb.collection("tasks").create(data);
 		if (!record.code) return record;
 	} catch (e) {
-		return errorTask(e.data);
+		return errorPostTask(e.data);
 	}
 }
 export async function deleteTask(record_id) {
