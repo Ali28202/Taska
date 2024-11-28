@@ -1,3 +1,25 @@
+//Project
+export function errorPatchProj(error) {
+	if (error.code === 400) {
+		return {
+			code: error.code,
+			message: error.message,
+			data: Object.entries(error.data),
+		};
+	}
+	if (error.code === 403) {
+		return {
+			code: error.code,
+			message: "You don't have permission to do this",
+		};
+	}
+	if (error.code === 404) {
+		return {
+			code: error.code,
+			message: error.message,
+		};
+	}
+}
 //Task
 export function errorPostTask(error) {
 	if (error.code === 400) {
@@ -11,6 +33,14 @@ export function errorPostTask(error) {
 		return {
 			code: error.code,
 			message: "You don't have permission to do this",
+		};
+	}
+}
+export function errorFetchTask(error) {
+	if (error.code === 400) {
+		return {
+			code: error.code,
+			message: "Something Went Wrong during fetch tasks",
 		};
 	}
 }

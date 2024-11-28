@@ -1,4 +1,5 @@
 import { pb } from "./auth";
+import { errorPatchProj } from "./error";
 export async function fetchProjects() {
 	let userEmail = pb.authStore.model.email;
 	const records = await pb.collection("projects").getFullList({
@@ -13,9 +14,12 @@ export async function postProject(newProject) {
 	else throw new Error(record);
 }
 export async function updateProject(record_id, updatedProject) {
-	const record = await pb
-		.collection("projects")
-		.update(record_id, updatedProject);
-	if (!record.code) return record;
-	else throw new Error(record);
+	try {
+		const record = await pb
+			.collection("projects")
+			.update(record_id, updatedProject);
+		return record;
+	} catch (e) {
+		return errorPatchProj(e);
+	}
 }
