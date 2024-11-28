@@ -2,23 +2,22 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 import { Button } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { updateProject } from "../utils/project";
 import { useNavigate } from "react-router-dom";
+import { queryClient } from "../utils/query";
 export default function EachProject({ isActive, data, avatars }) {
 	let navigate = useNavigate();
 	const {
-		refetch: updateProj_refetch,
-		isError: updateProj_isError,
-		error: updateProj_error,
-		isFetched: updateProj_fetched,
-	} = useQuery({
-		queryKey: ["updateProject"],
-		queryFn: () => updateProject(data.id, data),
-		enabled: false,
+		mutate: updateProj_mutate,
+		data: updateProj_data,
+		isSuccess: updateProj_success,
+	} = useMutation({
+		mutationFn: () => updateProject(data.id, data),
 	});
-	if (updateProj_isError) console.log(updateProj_error);
-	if (updateProj_fetched) navigate(0);
+	if (updateProj_success && !updateProj_data?.code) {
+		queryClient.invalidateQueries(["projects"]);
+	}
 	return (
 		<>
 			<Button
@@ -35,7 +34,6 @@ export default function EachProject({ isActive, data, avatars }) {
 						newArr[data.index] = 1;
 						localStorage.setItem("activeProject", JSON.stringify(newArr));
 						navigate("/project/" + data.title);
-						navigate(0);
 					}
 				}}
 				variant="outlined"
@@ -56,13 +54,8 @@ export default function EachProject({ isActive, data, avatars }) {
 						className="p-3 hover:bg-gray-300 rounded-full flex items-center justify-center cursor-pointer duration-300"
 						onClick={(e) => {
 							e.stopPropagation();
-							if (!data.archive) {
-								data.archive = true;
-								updateProj_refetch();
-							} else {
-								data.archive = false;
-								updateProj_refetch();
-							}
+							data.archive = !data.archive;
+							updateProj_mutate();
 						}}
 					>
 						{data.archive ? (

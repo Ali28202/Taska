@@ -6,7 +6,8 @@ import { Button } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { useQuery } from "@tanstack/react-query";
+import { queryClient } from "../utils/query";
+import { useMutation } from "@tanstack/react-query";
 import { postTask } from "../utils/tasks";
 import { pb } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +29,6 @@ export default function AddTask({
 	setOpenDialog,
 	project_title,
 }) {
-	const navigator = useNavigate();
 	let modal;
 	const formData = new FormData();
 	const [value, setValue] = useState(0);
@@ -45,22 +45,23 @@ export default function AddTask({
 		setValue(newValue);
 	};
 	const {
+		mutate: newTask_mutate,
 		data: newTask_data,
-		isLoading: newTask_loading,
-		isFetched: newTask_fetched,
-		refetch: newTask_refetch,
-	} = useQuery({
-		queryKey: ["addTask", { data: formData }],
-		queryFn: () => postTask(formData),
-		enabled: false,
+		isSuccess: newTask_success,
+		isPending: newTask_pending,
+		reset: newTask_reset,
+	} = useMutation({
+		mutationFn: postTask,
 	});
-	if (newTask_loading) {
+	if (newTask_pending) {
 		modal = "";
 	}
-	if (newTask_fetched && !newTask_data?.code) {
-		navigator(0);
+	if (newTask_success && !newTask_data?.code) {
+		queryClient.invalidateQueries(["tasks", project_title]);
+		newTask_reset();
+		setOpenDialog(false);
 	}
-	if (newTask_fetched && newTask_data?.code) {
+	if (newTask_success && newTask_data?.code) {
 		modal = (
 			<div className="bg-red-600 h-fit w-full rounded-md border-[1px] px-5 py-3 border-red-800">
 				<div className="flex flex-col gap-1">
@@ -172,7 +173,7 @@ export default function AddTask({
 									newTask.image.name
 								);
 							formData.append("time", newTask.time.toString());
-							newTask_refetch();
+							newTask_mutate(formData);
 						}}
 					>
 						Add Task
