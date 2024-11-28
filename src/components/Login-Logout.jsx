@@ -108,21 +108,21 @@ export default function LOGIN_LOGOUT() {
 								if (t[0] === "identity") {
 									return (
 										<div
-											className="flex items-center gap-5"
+											className="flex lg:items-center items-start  gap-5"
 											key={t[0] + t[1].message}
 										>
 											<span className="font-semibold">email:</span>
-											<span className="">{t[1].message}</span>
+											<span className="text-center">{t[1].message}</span>
 										</div>
 									);
 								}
 								return (
 									<div
-										className="flex items-center gap-5"
+										className="flex lg:items-center items-start gap-5"
 										key={t[0] + t[1].message}
 									>
 										<span className="font-semibold">{t[0]}:</span>
-										<span>{t[1].message}</span>
+										<span className="text-center">{t[1].message}</span>
 									</div>
 								);
 							})
@@ -166,11 +166,11 @@ export default function LOGIN_LOGOUT() {
 							signUp_data.data?.map((t) => {
 								return (
 									<div
-										className="flex items-center gap-5"
+										className="flex lg:items-center items-start gap-5"
 										key={t[0] + t[1].message}
 									>
 										<span className="font-semibold">{t[0]}:</span>
-										<span>{t[1].message}</span>
+										<span className="text-center">{t[1].message}</span>
 									</div>
 								);
 							})
@@ -237,7 +237,7 @@ export default function LOGIN_LOGOUT() {
 								{signInModal}
 								<h1>Email:</h1>
 								<TextField
-									label="Email"
+									label="Email *"
 									variant="outlined"
 									className="w-full"
 									onChange={(e) => {
@@ -249,7 +249,7 @@ export default function LOGIN_LOGOUT() {
 								<h1>Password:</h1>
 								<FormControl variant="outlined">
 									<InputLabel htmlFor="outlined-adornment-password">
-										Password
+										Password *
 									</InputLabel>
 									<OutlinedInput
 										id="outlined-adornment-password"
@@ -281,7 +281,7 @@ export default function LOGIN_LOGOUT() {
 								</FormControl>
 								<div
 									className={
-										signInBar ? "flex items-center justify-between pr-5" : ""
+										signInBar ? "flex items-center justify-between lg:pr-5" : ""
 									}
 								>
 									<Button
@@ -308,7 +308,7 @@ export default function LOGIN_LOGOUT() {
 								{signUpModal}
 								<h1>Email:</h1>
 								<TextField
-									label="Email"
+									label="Email *"
 									type="email"
 									variant="outlined"
 									className="w-full"
@@ -325,7 +325,7 @@ export default function LOGIN_LOGOUT() {
 								<h1>Password:</h1>
 								<FormControl variant="outlined">
 									<InputLabel htmlFor="outlined-adornment-password">
-										Password
+										Password *
 									</InputLabel>
 									<OutlinedInput
 										id="outlined-adornment-password"
@@ -361,7 +361,7 @@ export default function LOGIN_LOGOUT() {
 								</FormControl>
 								<h1>Your Name:</h1>
 								<TextField
-									label="Name"
+									label="Name *"
 									variant="outlined"
 									onChange={(e) => {
 										setNewUserData((perv) => {
@@ -369,7 +369,11 @@ export default function LOGIN_LOGOUT() {
 										});
 									}}
 								/>
-								<div className={signUpBar ? "flex gap-4 items-center" : ""}>
+								<div
+									className={
+										signUpBar ? "flex items-center justify-between lg:pr-5" : ""
+									}
+								>
 									<Button
 										variant="contained"
 										sx={{
