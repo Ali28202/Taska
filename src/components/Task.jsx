@@ -57,8 +57,7 @@ export default function Task({
 					<IconButton
 						variant="text"
 						sx={{ padding: 1.5 }}
-						onClick={(e) => {
-							e.stopPropagation();
+						onClick={() => {
 							setSelectedItem(data);
 							toggleEditor(true);
 						}}

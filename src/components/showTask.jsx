@@ -44,6 +44,7 @@ export default function ShowTask({ data, openDialog, setOpenDialog }) {
 			<Dialog
 				open={openDialog}
 				onClose={() => setOpenDialog(false)}
+				aria-hidden={"false"}
 				fullWidth={true}
 				maxWidth={"md"}
 			>

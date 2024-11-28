@@ -89,23 +89,23 @@ export default function TaskListContainer({
 									toggleTask={toggleTask}
 									setSelectedItem={setSelectedItem}
 								/>
-								{selectedItem && (
-									<ShowTask
-										data={selectedItem}
-										openDialog={isTaskOpen}
-										setOpenDialog={toggleTask}
-									/>
-								)}
-								{selectedItem && (
-									<EditorTask
-										data={selectedItem}
-										openDialog={isEditorOpen}
-										setOpenDialog={toggleEditor}
-									/>
-								)}
 							</div>
 						);
 					})}
+					{selectedItem && (
+						<ShowTask
+							data={selectedItem}
+							openDialog={isTaskOpen}
+							setOpenDialog={toggleTask}
+						/>
+					)}
+					{selectedItem && (
+						<EditorTask
+							data={selectedItem}
+							openDialog={isEditorOpen}
+							setOpenDialog={toggleEditor}
+						/>
+					)}
 				</section>
 			</div>
 		</>
