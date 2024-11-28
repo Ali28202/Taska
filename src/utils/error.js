@@ -1,3 +1,4 @@
+//Task
 export function errorPostTask(error) {
 	if (error.code === 400) {
 		return {
@@ -13,6 +14,7 @@ export function errorPostTask(error) {
 		};
 	}
 }
+//Auth
 export function errorSignIn(error) {
 	if (error.code === 400) {
 		return {

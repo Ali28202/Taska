@@ -38,7 +38,7 @@ export default function ProjectsContainer({
 	return (
 		<>
 			<div
-				className={`${className} lg:border-r-2 border-slate-200 2xl:w-[25%] xl:w-[25%] lg:w-[35%] w-full flex-col px-10 lg:pt-9 pt-3 justify-between`}
+				className={`${className} 2xl:w-[25%] xl:w-[25%] lg:w-[35%] w-full flex-col px-10 lg:pt-9 pt-3 justify-between`}
 			>
 				<div>
 					<div className="flex items-center justify-between">

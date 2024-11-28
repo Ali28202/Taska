@@ -19,6 +19,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useMutation } from "@tanstack/react-query";
 import { pb, signIn, signUp } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
+import { queryClient } from "../utils/query";
 function CustomTabPanel(props) {
 	const { children, value, index, ...other } = props;
 	return (
@@ -135,6 +136,7 @@ export default function LOGIN_LOGOUT() {
 		);
 	}
 	if (signIn_success && pb.authStore.model) {
+		queryClient.invalidateQueries({ queryKey: ["projects"] });
 		navigate("/project");
 	}
 	// sign up
@@ -183,9 +185,9 @@ export default function LOGIN_LOGOUT() {
 		);
 	}
 	if (signUp_success && pb.authStore.model) {
+		queryClient.invalidateQueries({ queryKey: ["projects"] });
 		navigate("/project");
 	}
-
 	return (
 		<div className="h-screen w-screen">
 			<div className="flex justify-between items-center px-10 py-10">
