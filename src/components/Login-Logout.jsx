@@ -16,8 +16,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import CircularProgress from "@mui/material/CircularProgress";
-import FormHelperText from "@mui/material/FormHelperText";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { pb, signIn, signUp } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 function CustomTabPanel(props) {
@@ -46,6 +45,10 @@ function allyProps(index) {
 	};
 }
 export default function LOGIN_LOGOUT() {
+	// getting data from signup page
+	const [newUserData, setNewUserData] = useState(null);
+	// getting data from signin page
+	const [existUserData, getExistUserData] = useState(null);
 	const navigate = useNavigate();
 	let signInModal;
 	let signUpModal;
@@ -55,57 +58,47 @@ export default function LOGIN_LOGOUT() {
 		}
 	}, [pb.authStore]);
 	const {
-		refetch: signIn_refetch,
 		data: signIn_data,
-		isFetched: signIn_fetched,
-		isFetching: signIn_fetching,
-	} = useQuery({
-		queryKey: ["signIn"],
-		queryFn: () => signIn(existUserData || ""),
-		enabled: false,
+		mutate: signIn_mutate,
+		isSuccess: signIn_success,
+		isPending: signIn_pending,
+		reset: signIn_reset,
+	} = useMutation({
+		mutationFn: signIn,
 	});
 	const {
-		refetch: signUp_refetch,
-		isError: signUp_error,
-		isFetched: signUp_fetched,
-		isLoading: signUp_loading,
-	} = useQuery({
-		queryKey: ["signUp"],
-		queryFn: () => signUp(newUserData || ""),
-		enabled: false,
+		data: signUp_data,
+		mutate: signUp_mutate,
+		isSuccess: signUp_success,
+		isPending: signUp_pending,
+		reset: signUp_reset,
+	} = useMutation({
+		mutationFn: signUp,
 	});
-	// getting data from signup page
-	const [newUserData, setNewUserData] = useState(null);
-	// getting data from signin page
-	const [existUserData, getExistUserData] = useState(null);
 	const [value, setValue] = useState(0);
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
-		signInModal = <></>;
-		signUpModal = <></>;
 	};
 	const [showPassword, setShowPassword] = useState(false);
-	let signInBarActive = false;
-	let isSignUpBarActive = false;
-	if (signIn_fetching) {
+	let signInBar = false;
+	let signUpBar = false;
+	// sign in
+	if (signIn_pending) {
 		signInModal = <></>;
-		signInBarActive = (
-			<div className="w-fit flex items-center justify-center mt-3">
+		signInBar = (
+			<div className="w-fit flex items-center justify-center mt-4">
 				<CircularProgress size={"30px"} />
 			</div>
 		);
-	} else signInBarActive = false;
-	if (signIn_fetched) {
-		signInModal = <></>;
-	}
-	if (signIn_fetched && signIn_data?.code) {
+	} else signInBar = false;
+	if (signIn_data?.code && !signIn_pending) {
 		signInModal = (
 			<div className="bg-red-600 h-fit w-full rounded-md border-[1px] px-5 py-3 border-red-800">
 				<div className="flex flex-col gap-1">
 					<span className="text-white sm:text-base text-sm font-bold">
 						Error
 					</span>
-					<span className="text-white sm:text-base text-xs">
+					<span className="text-white sm:text-base text-xs mt-2">
 						{signIn_data.message}
 					</span>
 					<span className="h-0.5 w-full my-2 bg-slate-300"></span>
@@ -114,14 +107,20 @@ export default function LOGIN_LOGOUT() {
 							signIn_data.data?.map((t) => {
 								if (t[0] === "identity") {
 									return (
-										<div className="flex items-center gap-5">
-											<span className="font-semibold">Email:</span>
+										<div
+											className="flex items-center gap-5"
+											key={t[0] + t[1].message}
+										>
+											<span className="font-semibold">email:</span>
 											<span className="">{t[1].message}</span>
 										</div>
 									);
 								}
 								return (
-									<div className="flex items-center gap-5">
+									<div
+										className="flex items-center gap-5"
+										key={t[0] + t[1].message}
+									>
 										<span className="font-semibold">{t[0]}:</span>
 										<span>{t[1].message}</span>
 									</div>
@@ -135,37 +134,58 @@ export default function LOGIN_LOGOUT() {
 			</div>
 		);
 	}
-	if (signIn_fetched && pb.authStore.model) {
+	if (signIn_success && pb.authStore.model) {
 		navigate("/project");
 	}
-	if (signUp_loading) {
-		isSignUpBarActive = true;
-	} else isSignUpBarActive = false;
-	if (signUp_error) {
+	// sign up
+	if (signUp_pending) {
+		signUpModal = <></>;
+		signUpBar = (
+			<div className="w-fit flex items-center justify-center mt-4">
+				<CircularProgress size={"30px"} />
+			</div>
+		);
+	} else signUpBar = false;
+	if (signUp_data?.code && !signUp_pending) {
 		signUpModal = (
 			<div className="bg-red-600 h-fit w-full rounded-md border-[1px] px-5 py-3 border-red-800">
 				<div className="flex flex-col gap-1">
 					<span className="text-white sm:text-base text-sm font-bold">
 						Error
 					</span>
-					<span className="text-white sm:text-base text-xs">
-						{/* {newTask_data.message} */}
-						salam
+					<span className="text-white sm:text-base text-xs mt-2">
+						{signUp_data.message}
 					</span>
-					<span className="h-0.5 w-full my-2 bg-slate-300"></span>
+					{signUp_data.data.length ? (
+						<span className="h-0.5 w-full my-2 bg-slate-300"></span>
+					) : (
+						<></>
+					)}
 					<div className="flex flex-col gap-1 text-white sm:text-base text-sm">
-						{/* {newTask_data.data?.map((t) => {
-							return <span>{t[0]}</span>;
-						})} */}
-						khodafez
+						{signUp_data.data.length ? (
+							signUp_data.data?.map((t) => {
+								return (
+									<div
+										className="flex items-center gap-5"
+										key={t[0] + t[1].message}
+									>
+										<span className="font-semibold">{t[0]}:</span>
+										<span>{t[1].message}</span>
+									</div>
+								);
+							})
+						) : (
+							<></>
+						)}
 					</div>
 				</div>
 			</div>
 		);
 	}
-	if (signUp_fetched && pb.authStore.model) {
+	if (signUp_success && pb.authStore.model) {
 		navigate("/project");
 	}
+
 	return (
 		<div className="h-screen w-screen">
 			<div className="flex justify-between items-center px-10 py-10">
@@ -182,8 +202,8 @@ export default function LOGIN_LOGOUT() {
 					Home
 				</Button>
 			</div>
-			<div className="flex items-center justify-center mt-14">
-				<Card className="xl:w-1/3 md:w-1/2 w-4/5">
+			<div className="flex items-center justify-center py-5">
+				<Card className="2xl:w-1/3 xl:w-2/5 md:w-1/2 w-4/5">
 					<Tabs
 						value={value}
 						onChange={handleChange}
@@ -195,17 +215,25 @@ export default function LOGIN_LOGOUT() {
 							label="Sign in"
 							{...allyProps(0)}
 							sx={{ fontFamily: "Poppins" }}
+							onClick={() => {
+								navigate("/signin");
+								signUp_reset();
+							}}
 						/>
 						<Tab
 							label="Sign Up"
 							{...allyProps(1)}
 							sx={{ fontFamily: "Poppins" }}
+							onClick={() => {
+								navigate("/signup");
+								signIn_reset();
+							}}
 						/>
 					</Tabs>
 					<CardContent>
 						{/* Sign IN */}
 						<CustomTabPanel value={value} index={0}>
-							<div className="flex flex-col gap-3 lg:px-10 md:py-5 py-3">
+							<div className="flex flex-col gap-3 lg:px-5 md:py-5 py-3">
 								{signInModal}
 								<h1>Email:</h1>
 								<TextField
@@ -252,7 +280,9 @@ export default function LOGIN_LOGOUT() {
 									/>
 								</FormControl>
 								<div
-									className={signInBarActive ? "flex gap-4 items-center" : ""}
+									className={
+										signInBar ? "flex items-center justify-between pr-5" : ""
+									}
 								>
 									<Button
 										variant="contained"
@@ -260,26 +290,21 @@ export default function LOGIN_LOGOUT() {
 											fontFamily: "Poppins",
 											textTransform: "none",
 											marginTop: 2,
-											width: !signInBarActive ? "100%" : "85%",
+											width: !signInBar ? "100%" : "85%",
 										}}
 										onClick={() => {
-											signIn_refetch();
+											signIn_mutate(existUserData || "");
 										}}
 									>
 										Log In
 									</Button>
-									{/* {signInBarActive && (
-										<div className="w-fit flex items-center justify-center mt-3">
-											<CircularProgress size={"30px"} />
-										</div>
-									)} */}
-									{signInBarActive}
+									{signInBar}
 								</div>
 							</div>
 						</CustomTabPanel>
 						{/* Sign UP */}
 						<CustomTabPanel value={value} index={1}>
-							<div className="flex flex-col gap-3 lg:px-10 md:py-5 py-3">
+							<div className="flex flex-col gap-3 lg:px-5 md:py-5 py-3">
 								{signUpModal}
 								<h1>Email:</h1>
 								<TextField
@@ -344,28 +369,22 @@ export default function LOGIN_LOGOUT() {
 										});
 									}}
 								/>
-								<div
-									className={isSignUpBarActive ? "flex gap-4 items-center" : ""}
-								>
+								<div className={signUpBar ? "flex gap-4 items-center" : ""}>
 									<Button
 										variant="contained"
 										sx={{
 											fontFamily: "Poppins",
 											textTransform: "none",
 											marginTop: 2,
-											width: !isSignUpBarActive ? "100%" : "85%",
+											width: !signUpBar ? "100%" : "85%",
 										}}
 										onClick={() => {
-											signUp_refetch();
+											signUp_mutate(newUserData || "");
 										}}
 									>
 										Create User
 									</Button>
-									{isSignUpBarActive && (
-										<div className="w-fit flex items-center justify-center mt-3">
-											<CircularProgress size={"30px"} />
-										</div>
-									)}
+									{signUpBar}
 								</div>
 							</div>
 						</CustomTabPanel>

@@ -23,8 +23,7 @@ export default function Auth() {
 						onClick={() => {
 							pb.authStore.clear();
 							localStorage.clear();
-							navigate("/auth");
-							// navigate(0);
+							navigate("/signin");
 						}}
 					>
 						<ExitToAppIcon fontSize="medium" />
@@ -36,7 +35,7 @@ export default function Auth() {
 					className="lg:!px-4 lg:!py-4 !px-6 !py-4 !text-xs xl:!text-base lg:!text-sm lg:w-48 !normal-case"
 					sx={{ fontFamily: "Poppins" }}
 					onClick={() => {
-						navigate("/auth");
+						navigate("/signin");
 					}}
 				>
 					SignIn / SignUp
