@@ -6,9 +6,9 @@ import { Button } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import { queryClient } from "../utils/query";
 import { updateTask, deleteTask } from "../utils/tasks";
-import { useNavigate } from "react-router-dom";
 const VisuallyHiddenInput = styled("input")({
 	clip: "rect(0 0 0 0)",
 	clipPath: "inset(50%)",
@@ -22,7 +22,6 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export default function EditorTask({ data, openDialog, setOpenDialog }) {
-	const navigator = useNavigate();
 	const titleRef = useRef(false);
 	const discRef = useRef(false);
 	const imgRef = useRef(false);
@@ -43,28 +42,25 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 	};
 	const {
 		data: updateTask_data,
-		refetch: updateTask_refetch,
-		isFetched: updateTask_fetched,
-	} = useQuery({
-		queryKey: ["updateTask"],
-		queryFn: () => updateTask(task.id, task),
-		enabled: false,
+		mutate: updateTask_mutate,
+		isSuccess: updateTask_success,
+	} = useMutation({
+		mutationFn: () => updateTask(task.id, task),
 	});
-	const [flag, setFlag] = useState(false);
-	if (updateTask_fetched && flag && updateTask_data) {
-		navigator(0);
+	if (updateTask_success && updateTask_data) {
+		queryClient.invalidateQueries(["tasks", data.Proj_title]);
+		setOpenDialog(false);
 	}
 	const {
 		data: deleteTask_data,
-		refetch: deleteTask_refetch,
-		isFetched: deleteTask_fetched,
-	} = useQuery({
-		queryKey: ["deleteTask"],
-		queryFn: () => deleteTask(task.id),
-		enabled: false,
+		mutate: deleteTask_mutate,
+		isSuccess: deleteTask_success,
+	} = useMutation({
+		mutationFn: () => deleteTask(task.id, task),
 	});
-	if (deleteTask_fetched && flag && deleteTask_data) {
-		navigator(0);
+	if (deleteTask_success && deleteTask_data) {
+		queryClient.invalidateQueries(["tasks", data.Proj_title]);
+		setOpenDialog(false);
 	}
 	let today = new Date().toISOString().split("T")[0];
 	return (
@@ -149,11 +145,7 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 								discRef.current.firstChild.firstChild.value ||
 								imgRef.current.value
 							) {
-								setFlag(true);
-								updateTask_refetch();
-							} else {
-								setFlag(false);
-								setOpenDialog(false);
+								updateTask_mutate();
 							}
 						}}
 					>
@@ -164,8 +156,7 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 						color="error"
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
 						onClick={() => {
-							setFlag(true);
-							deleteTask_refetch();
+							deleteTask_mutate();
 						}}
 					>
 						Delete Task

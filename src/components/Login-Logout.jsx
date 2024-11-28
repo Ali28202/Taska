@@ -239,7 +239,7 @@ export default function LOGIN_LOGOUT() {
 								{signInModal}
 								<h1>Email:</h1>
 								<TextField
-									label="Email *"
+									label="Email*"
 									variant="outlined"
 									className="w-full"
 									onChange={(e) => {
@@ -251,7 +251,7 @@ export default function LOGIN_LOGOUT() {
 								<h1>Password:</h1>
 								<FormControl variant="outlined">
 									<InputLabel htmlFor="outlined-adornment-password">
-										Password *
+										Password*
 									</InputLabel>
 									<OutlinedInput
 										id="outlined-adornment-password"
@@ -310,7 +310,7 @@ export default function LOGIN_LOGOUT() {
 								{signUpModal}
 								<h1>Email:</h1>
 								<TextField
-									label="Email *"
+									label="Email*"
 									type="email"
 									variant="outlined"
 									className="w-full"
@@ -327,7 +327,7 @@ export default function LOGIN_LOGOUT() {
 								<h1>Password:</h1>
 								<FormControl variant="outlined">
 									<InputLabel htmlFor="outlined-adornment-password">
-										Password *
+										Password*
 									</InputLabel>
 									<OutlinedInput
 										id="outlined-adornment-password"
@@ -363,7 +363,7 @@ export default function LOGIN_LOGOUT() {
 								</FormControl>
 								<h1>Your Name:</h1>
 								<TextField
-									label="Name *"
+									label="Name*"
 									variant="outlined"
 									onChange={(e) => {
 										setNewUserData((perv) => {
