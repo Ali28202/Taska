@@ -12,7 +12,8 @@ import SendToMobileIcon from "@mui/icons-material/SendToMobile";
 import SquareIcon from "@mui/icons-material/Square";
 import { pb } from "../utils/auth";
 import { postProject } from "../utils/project";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import { queryClient } from "../utils/query";
 export default function AddProject({ openDialog, setOpenDialog, projects }) {
 	const [value, setValue] = useState(0);
 	const [invisible, setInvisible] = useState([false, true, true, true]);
@@ -20,6 +21,7 @@ export default function AddProject({ openDialog, setOpenDialog, projects }) {
 		setValue(newValue);
 	};
 	const [textInput, setTextInput] = useState("");
+	let errModal;
 	let newProject = {
 		User_email: pb.authStore.model?.email,
 		title: textInput,
@@ -28,19 +30,33 @@ export default function AddProject({ openDialog, setOpenDialog, projects }) {
 		avatarId: invisible.indexOf(false),
 	};
 	const {
-		refetch: setProject_refetch,
-		isError: setProject_isError,
-		error: setProject_error,
-		isFetched: setProject_fetched,
-	} = useQuery({
-		queryKey: ["setProject"],
-		queryFn: () => postProject(newProject),
-		enabled: false,
+		mutate: setProject_mutate,
+		data: setProject_data,
+		isPending: setProject_pending,
+		isSuccess: setProject_success,
+		reset: setProject_reset,
+	} = useMutation({
+		mutationFn: postProject,
 	});
-	if (setProject_isError) console.log(setProject_error);
-	if (setProject_fetched) {
+	if (setProject_pending) errModal = <></>;
+	if (setProject_success && setProject_data.code) {
+		errModal = (
+			<div className="bg-red-600 h-fit md:w-72 w-full rounded-md border-[1px] px-5 py-3 border-red-800">
+				<div className="flex flex-col gap-1">
+					<span className="text-white sm:text-base text-sm font-bold">
+						Error
+					</span>
+					<span className="text-white sm:text-base text-xs mt-2">
+						{setProject_data.message}
+					</span>
+				</div>
+			</div>
+		);
+	}
+	if (setProject_success && !setProject_data.code) {
+		queryClient.invalidateQueries(["projects"]);
 		setOpenDialog(false);
-		window.location.reload();
+		setProject_reset();
 	}
 	return (
 		<>
@@ -55,6 +71,7 @@ export default function AddProject({ openDialog, setOpenDialog, projects }) {
 					<Tab label="Add Project" sx={{ fontFamily: "Poppins" }} />
 				</Tabs>
 				<div className="flex flex-col gap-5 md:px-14 px-10 md:py-12 py-10">
+					{errModal}
 					<label>Project Name:</label>
 					<TextField
 						label="Name"
@@ -140,10 +157,8 @@ export default function AddProject({ openDialog, setOpenDialog, projects }) {
 						variant="contained"
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
 						onClick={() => {
-							if (textInput) {
-								setProject_refetch();
-								setTextInput("");
-							}
+							setProject_mutate(newProject);
+							setTextInput("");
 						}}
 					>
 						Add Project

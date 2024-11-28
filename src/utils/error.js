@@ -20,6 +20,20 @@ export function errorPatchProj(error) {
 		};
 	}
 }
+export function errorPostProj(error) {
+	if (error.code === 400) {
+		return {
+			code: error.code,
+			message: "You Should Have Name For Your Project.",
+		};
+	}
+	if (error.code === 403) {
+		return {
+			code: error.code,
+			message: "You don't have permission to do this",
+		};
+	}
+}
 //Task
 export function errorPostTask(error) {
 	if (error.code === 400) {
