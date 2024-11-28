@@ -10,7 +10,7 @@ export async function fetchTasks(projTitle) {
 export async function searchTask(title) {
 	let userEmail = pb.authStore.model.email;
 	const records = await pb.collection("tasks").getFullList({
-		filter: `User_email = '${userEmail}' && title = '${title}'`,
+		filter: `User_email = '${userEmail}' && title ~ '${title}'`,
 	});
 	return records;
 }
