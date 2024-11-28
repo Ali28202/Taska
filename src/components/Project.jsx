@@ -18,14 +18,11 @@ export default function Project() {
 		queryKey: ["projects"],
 		queryFn: fetchProjects,
 	});
-	const {
-		data: tasks_data,
-		isFetched: tasks_fetched,
-		isFetchedAfterMount: tasks_fetchedAfterMount,
-	} = useQuery({
-		queryKey: ["tasks", title],
-		queryFn: () => fetchTasks(title),
-	});
+	const { data: tasks_data, isFetchedAfterMount: tasks_fetchedAfterMount } =
+		useQuery({
+			queryKey: ["tasks", title],
+			queryFn: () => fetchTasks(title),
+		});
 	const navigator = useNavigate();
 	const [tasks, setTasks] = useState([]);
 	const isProjectActive =

@@ -10,7 +10,6 @@ import { queryClient } from "../utils/query";
 import { useMutation } from "@tanstack/react-query";
 import { postTask } from "../utils/tasks";
 import { pb } from "../utils/auth";
-import { useNavigate } from "react-router-dom";
 const VisuallyHiddenInput = styled("input")({
 	clip: "rect(0 0 0 0)",
 	clipPath: "inset(50%)",
