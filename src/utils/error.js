@@ -25,6 +25,7 @@ export function errorSignIn(error) {
 export function errorSignUp(error) {
 	if (error.message === "Failed to create record.") {
 		if (error.code === 400) {
+			console.log(error.data);
 			return {
 				code: error.code,
 				message: "An Error occurred",
@@ -43,6 +44,6 @@ export function errorSignUp(error) {
 		return {
 			code: error.code,
 			data: Object.entries(error.data),
-			message: "You Should Fill The Important fields",
+			message: "You Should Fill The fields",
 		};
 }
