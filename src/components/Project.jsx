@@ -16,7 +16,7 @@ export default function Project() {
 	const { title } = useParams();
 	useEffect(() => {
 		if (pb.authStore.model) setTasks([]);
-		else navigator("/auth");
+		else navigator("/signin");
 	}, [title]);
 	const [projects, setProjects] = useState([]);
 	const { data: projects_data, isFetched: projects_fetched } = useQuery({
