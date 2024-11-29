@@ -44,23 +44,27 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 		data: updateTask_data,
 		mutate: updateTask_mutate,
 		isSuccess: updateTask_success,
+		reset: updateTask_reset,
 	} = useMutation({
 		mutationFn: () => updateTask(task.id, task),
 	});
 	if (updateTask_success && updateTask_data) {
 		queryClient.invalidateQueries(["tasks", data.Proj_title]);
 		setOpenDialog(false);
+		updateTask_reset();
 	}
 	const {
 		data: deleteTask_data,
 		mutate: deleteTask_mutate,
 		isSuccess: deleteTask_success,
+		reset: deleteTask_reset,
 	} = useMutation({
 		mutationFn: () => deleteTask(task.id, task),
 	});
 	if (deleteTask_success && deleteTask_data) {
 		queryClient.invalidateQueries(["tasks", data.Proj_title]);
 		setOpenDialog(false);
+		deleteTask_reset();
 	}
 	let today = new Date().toISOString().split("T")[0];
 	return (

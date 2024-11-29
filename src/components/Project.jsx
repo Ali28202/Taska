@@ -18,11 +18,14 @@ export default function Project() {
 		queryKey: ["projects"],
 		queryFn: fetchProjects,
 	});
-	const { data: tasks_data, isFetchedAfterMount: tasks_fetchedAfterMount } =
-		useQuery({
-			queryKey: ["tasks", title],
-			queryFn: () => fetchTasks(title),
-		});
+	const {
+		data: tasks_data,
+		isFetchedAfterMount: tasks_fetchedAfterMount,
+		isSuccess: tasks_success,
+	} = useQuery({
+		queryKey: ["tasks", title],
+		queryFn: () => fetchTasks(title),
+	});
 	const navigator = useNavigate();
 	const [tasks, setTasks] = useState([]);
 	const isProjectActive =
@@ -36,15 +39,11 @@ export default function Project() {
 		if (pb.authStore.model) setTasks([]);
 		else navigator("/signin");
 	}, [title]);
-	// need work
-	if (
-		!tasks_data?.code &&
-		!tasks?.length &&
-		tasks_data?.length &&
-		tasks_fetchedAfterMount
-	) {
-		setTasks(tasks_data);
-	}
+	useEffect(() => {
+		if (tasks_success && tasks_data) {
+			setTasks(tasks_data);
+		}
+	}, [tasks_data, tasks_success]);
 	return (
 		<>
 			<div className="flex flex-row-reverse w-screen">
