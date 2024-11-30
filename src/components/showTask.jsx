@@ -49,7 +49,7 @@ export default function ShowTask({ data, openDialog, setOpenDialog }) {
 				maxWidth={"md"}
 			>
 				<div
-					className="h-12 opacity-75 w-full"
+					className="h-8 opacity-75 w-full rounded-tl-sm rounded-tr-sm"
 					style={{ backgroundColor: bgStatusColor }}
 				></div>
 				<div className="flex flex-col gap-6 md:px-10 px-8 md:py-12 py-8">

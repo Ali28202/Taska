@@ -80,7 +80,7 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 					<Tab label="Edit/Delete Task" sx={{ fontFamily: "Poppins" }} />
 				</Tabs>
 				<div className="flex flex-col gap-4 md:px-14 px-8 md:py-12 py-8">
-					<label>Title:</label>
+					<h1>Title:</h1>
 					<TextField
 						ref={titleRef}
 						variant="outlined"
@@ -92,7 +92,7 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 							})
 						}
 					/>
-					<label>Description:</label>
+					<h1>Description:</h1>
 					<TextField
 						ref={discRef}
 						variant="outlined"
@@ -105,9 +105,9 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 							})
 						}
 					/>
-					<label>
+					<h1>
 						Image <span className="text-xs">(Optional)</span>:
-					</label>
+					</h1>
 					<Button
 						component="label"
 						variant="outlined"
@@ -127,7 +127,7 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 							}
 						/>
 					</Button>
-					<label>Schedule:</label>
+					<h1>Schedule:</h1>
 					<input
 						ref={timeRef}
 						type="date"

@@ -26,7 +26,7 @@ export default function Project() {
 		queryKey: ["tasks", title],
 		queryFn: () => fetchTasks(title),
 	});
-	const navigator = useNavigate();
+	const navigate = useNavigate();
 	const [tasks, setTasks] = useState([]);
 	const isProjectActive =
 		JSON.parse(localStorage.getItem("activeProject")) || [];
@@ -37,7 +37,7 @@ export default function Project() {
 	);
 	useEffect(() => {
 		if (pb.authStore.model) setTasks([]);
-		else navigator("/signin");
+		else navigate("/signin");
 	}, [title]);
 	useEffect(() => {
 		if (tasks_success && tasks_data) {

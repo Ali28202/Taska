@@ -57,8 +57,8 @@ export default function AddTask({
 	}
 	if (newTask_success && !newTask_data?.code) {
 		queryClient.invalidateQueries(["tasks", project_title]);
-		newTask_reset();
 		setOpenDialog(false);
+		newTask_reset();
 	}
 	if (newTask_success && newTask_data?.code) {
 		modal = (
@@ -73,7 +73,7 @@ export default function AddTask({
 					<span className="h-0.5 w-full my-2 bg-slate-300"></span>
 					<div className="flex flex-col gap-1 text-white sm:text-base text-sm">
 						{newTask_data.data?.map((t) => {
-							return <span>{t[0]}</span>;
+							return <span key={t[0]}>{t[0]}</span>;
 						})}
 					</div>
 				</div>
@@ -95,7 +95,7 @@ export default function AddTask({
 				</Tabs>
 				<div className="flex flex-col gap-4 md:px-14 px-8 md:py-8 py-8">
 					{modal}
-					<label>Title:</label>
+					<h1>Title:</h1>
 					<TextField
 						label="Title"
 						variant="outlined"
@@ -107,7 +107,7 @@ export default function AddTask({
 							});
 						}}
 					/>
-					<label>Description:</label>
+					<h1>Description:</h1>
 					<TextField
 						label="Description"
 						variant="outlined"
@@ -120,9 +120,9 @@ export default function AddTask({
 							});
 						}}
 					/>
-					<label>
+					<h1>
 						Image <span className="text-xs">(Optional)</span>:
-					</label>
+					</h1>
 					<Button
 						component="label"
 						variant="outlined"
@@ -144,7 +144,7 @@ export default function AddTask({
 							}}
 						/>
 					</Button>
-					<label>Schedule:</label>
+					<h1>Schedule:</h1>
 					<input
 						type="date"
 						min={today.toString()}
