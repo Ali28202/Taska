@@ -49,8 +49,8 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 		mutationFn: () => updateTask(data.id, task),
 	});
 	if (updateTask_success && updateTask_data) {
-		queryClient.invalidateQueries(["tasks", data.Proj_title]);
 		setOpenDialog(false);
+		queryClient.invalidateQueries(["tasks", data.Proj_title]);
 		updateTask_reset();
 	}
 	const {
@@ -62,8 +62,8 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 		mutationFn: () => deleteTask(data.id, task),
 	});
 	if (deleteTask_success && deleteTask_data) {
-		queryClient.invalidateQueries(["tasks", data.Proj_title]);
 		setOpenDialog(false);
+		queryClient.invalidateQueries(["tasks", data.Proj_title]);
 		deleteTask_reset();
 	}
 	let today = new Date().toISOString().split("T")[0];

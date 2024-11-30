@@ -62,7 +62,7 @@ export default function ProjectTitle({ projects, tasks }) {
 								archived&nbsp;
 							</span>
 						)}
-						{activeProject?.title || "Loading..."}
+						{activeProject?.title || "Not Found..."}
 					</h1>
 					<div className="flex flex-row items-center gap-4 md:gap-5">
 						<BorderLinearProgress
