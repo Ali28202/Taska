@@ -33,7 +33,7 @@ export default function Navbar({ projects }) {
 	}
 	if (isFetched && data?.length) {
 		content = (
-			<div className="flex flex-col mt-3 gap-3">
+			<div className="flex flex-col mt-3 gap-3 w-full">
 				{data?.map((t) => {
 					let statusColor =
 						t.status === "to do"
@@ -144,7 +144,7 @@ export default function Navbar({ projects }) {
 							<TextField
 								variant="outlined"
 								placeholder="Search by title"
-								className="bg-[#f7f7f7] w-54 duration-300 border-b-2 border-slate-300 !mt-5"
+								className="bg-[#f7f7f7] w-full duration-300 border-b-2 border-slate-300 !mt-5"
 								sx={{ fontFamily: "Poppins" }}
 								slotProps={{
 									input: {
