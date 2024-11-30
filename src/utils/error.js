@@ -58,6 +58,13 @@ export function errorFetchTask(error) {
 		};
 	}
 }
+export function errorSearchTask() {
+	return {
+		code: 400,
+		message: "Something Went Wrong during Search tasks",
+		data: [],
+	};
+}
 //Auth
 export function errorSignIn(error) {
 	if (error.code === 400) {

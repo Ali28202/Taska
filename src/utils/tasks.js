@@ -1,5 +1,5 @@
 import { pb } from "./auth";
-import { errorPostTask, errorFetchTask } from "./error";
+import { errorPostTask, errorFetchTask, errorSearchTask } from "./error";
 export async function fetchTasks(projTitle) {
 	let userEmail = pb.authStore.model.email;
 	try {
@@ -13,10 +13,14 @@ export async function fetchTasks(projTitle) {
 }
 export async function searchTask(title) {
 	let userEmail = pb.authStore.model.email;
-	const records = await pb.collection("tasks").getFullList({
-		filter: `User_email = '${userEmail}' && title ~ '${title}'`,
-	});
-	return records;
+	try {
+		const records = await pb.collection("tasks").getFullList({
+			filter: `User_email = '${userEmail}' && title ~ '${title}'`,
+		});
+		return records;
+	} catch (e) {
+		return errorSearchTask();
+	}
 }
 export async function postTask(data) {
 	try {

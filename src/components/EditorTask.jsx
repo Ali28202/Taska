@@ -46,7 +46,7 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 		isSuccess: updateTask_success,
 		reset: updateTask_reset,
 	} = useMutation({
-		mutationFn: () => updateTask(task.id, task),
+		mutationFn: () => updateTask(data.id, task),
 	});
 	if (updateTask_success && updateTask_data) {
 		queryClient.invalidateQueries(["tasks", data.Proj_title]);
@@ -59,7 +59,7 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 		isSuccess: deleteTask_success,
 		reset: deleteTask_reset,
 	} = useMutation({
-		mutationFn: () => deleteTask(task.id, task),
+		mutationFn: () => deleteTask(data.id, task),
 	});
 	if (deleteTask_success && deleteTask_data) {
 		queryClient.invalidateQueries(["tasks", data.Proj_title]);

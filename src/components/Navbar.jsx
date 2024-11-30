@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { searchTask } from "../utils/tasks";
 import ShowTask from "./showTask";
 export default function Navbar({ projects, isProjectActive }) {
-	const [searchTerm, setSerachTerm] = useState(null);
+	const [searchTerm, setSerachTerm] = useState("");
 	const [selectedData, setSelectedData] = useState(null);
 	const [showTask, toggleTask] = useState(false);
 	const [open, setOpen] = useState(false);
@@ -26,7 +26,7 @@ export default function Navbar({ projects, isProjectActive }) {
 	const { data, isFetched, isPending } = useQuery({
 		queryKey: ["searchTask", { search: searchTerm }],
 		queryFn: () => searchTask(searchTerm),
-		enabled: searchTerm !== null,
+		enabled: searchTerm !== "",
 	});
 	if (isPending) {
 		content = <CircularProgress />;

@@ -57,8 +57,8 @@ export default function AddTask({
 	}
 	if (newTask_success && !newTask_data?.code) {
 		queryClient.invalidateQueries(["tasks", project_title]);
-		setOpenDialog(false);
 		newTask_reset();
+		setOpenDialog(false);
 	}
 	if (newTask_success && newTask_data?.code) {
 		modal = (
