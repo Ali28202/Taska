@@ -14,7 +14,7 @@ import { pb } from "../utils/auth";
 import { useQuery } from "@tanstack/react-query";
 import { searchTask } from "../utils/tasks";
 import ShowTask from "./showTask";
-export default function Navbar({ projects, isProjectActive }) {
+export default function Navbar({ projects }) {
 	const [searchTerm, setSerachTerm] = useState("");
 	const [selectedData, setSelectedData] = useState(null);
 	const [showTask, toggleTask] = useState(false);
@@ -168,7 +168,6 @@ export default function Navbar({ projects, isProjectActive }) {
 							<ProjectsContainer
 								className={"lg:hidden flex"}
 								projects={projects}
-								isProjectActive={isProjectActive}
 							/>
 						) : (
 							<span className="flex items-center justify-center pt-40 w-64 text-center text-gray-400">

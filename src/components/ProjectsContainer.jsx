@@ -10,11 +10,7 @@ import SendToMobileIcon from "@mui/icons-material/SendToMobile";
 import SquareIcon from "@mui/icons-material/Square";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import CloseIcon from "@mui/icons-material/Close";
-export default function ProjectsContainer({
-	className,
-	projects,
-	isProjectActive,
-}) {
+export default function ProjectsContainer({ className, projects }) {
 	const [openDialog, setOpenDialog] = useState(false);
 	const [openArchive, setOpenArchive] = useState(false);
 	let avatars = [
@@ -76,12 +72,7 @@ export default function ProjectsContainer({
 										})
 										.map((t) => {
 											return (
-												<EachProject
-													isActive={isProjectActive}
-													data={t}
-													avatars={avatars}
-													key={t.index}
-												/>
+												<EachProject data={t} avatars={avatars} key={t.index} />
 											);
 										})
 								) : (
@@ -101,12 +92,7 @@ export default function ProjectsContainer({
 								})
 								.map((t) => {
 									return (
-										<EachProject
-											isActive={isProjectActive}
-											data={t}
-											avatars={avatars}
-											key={t.index}
-										/>
+										<EachProject data={t} avatars={avatars} key={t.index} />
 									);
 								})
 						) : (

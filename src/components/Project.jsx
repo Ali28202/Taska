@@ -28,8 +28,6 @@ export default function Project() {
 	});
 	const navigate = useNavigate();
 	const [tasks, setTasks] = useState([]);
-	const isProjectActive =
-		JSON.parse(localStorage.getItem("activeProject")) || [];
 	let projectBar = (
 		<div className="lg:flex hidden items-center justify-center 2xl:w-[25%] xl:w-[25%] lg:w-[35%] w-full">
 			<CircularProgress />
@@ -48,16 +46,12 @@ export default function Project() {
 		<>
 			<div className="flex flex-row-reverse w-screen">
 				<div className="2xl:w-[75%] xl:w-[75%] lg:w-[65%] w-full lg:border-l-2 border-slate-200">
-					<Navbar projects={projects_data} isProjectActive={isProjectActive} />
+					<Navbar projects={projects_data} />
 					<div className="flex flex-col">
 						{tasks_fetchedAfterMount ? (
-							isProjectActive?.indexOf(1) !== -1 ? (
+							title ? (
 								<>
-									<ProjectTitle
-										projects={projects_data}
-										idxActiveProject={isProjectActive?.indexOf(1)}
-										tasks={tasks}
-									/>
+									<ProjectTitle projects={projects_data} tasks={tasks} />
 									<TaskContainer
 										tasks={tasks}
 										setTasks={setTasks}
@@ -82,7 +76,6 @@ export default function Project() {
 					<ProjectsContainer
 						className={"lg:flex hidden"}
 						projects={projects_data}
-						isProjectActive={isProjectActive}
 					/>
 				)}
 			</div>

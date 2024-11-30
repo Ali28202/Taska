@@ -4,10 +4,12 @@ import Tooltip from "@mui/material/Tooltip";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
 import { useMutation } from "@tanstack/react-query";
 import { updateProject } from "../utils/project";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { queryClient } from "../utils/query";
-export default function EachProject({ isActive, data, avatars }) {
+export default function EachProject({ data, avatars }) {
 	let navigate = useNavigate();
+	const { title } = useParams();
+	const isActive = data.title === title ? true : false;
 	const {
 		mutate: updateProj_mutate,
 		data: updateProj_data,
@@ -23,18 +25,12 @@ export default function EachProject({ isActive, data, avatars }) {
 			<Button
 				className="!rounded-xl !p-0 flex !justify-between !shadow-none !border-slate-300 !pr-3"
 				style={
-					isActive[data.index]
+					isActive
 						? { backgroundColor: "#365efe", fontFamily: "Poppins" }
 						: { backgroundColor: "white", fontFamily: "Poppins" }
 				}
 				onClick={() => {
-					if (!isActive[data.index]) {
-						let newArr = new Array(isActive?.length);
-						newArr.fill(0);
-						newArr[data.index] = 1;
-						localStorage.setItem("activeProject", JSON.stringify(newArr));
-						navigate("/project/" + data.title);
-					}
+					navigate("/project/" + data.title);
 				}}
 				variant="outlined"
 			>
@@ -42,9 +38,7 @@ export default function EachProject({ isActive, data, avatars }) {
 					{avatars[data.avatarId]}
 					<h2
 						className="lg:text-base text-sm normal-case font-medium text-left xl:w-36"
-						style={
-							isActive[data.index] ? { color: "white" } : { color: "black" }
-						}
+						style={isActive ? { color: "white" } : { color: "black" }}
 					>
 						{data.title}
 					</h2>
@@ -60,16 +54,12 @@ export default function EachProject({ isActive, data, avatars }) {
 					>
 						{data.archive ? (
 							<UnarchiveIcon
-								sx={
-									isActive[data.index] ? { color: "white" } : { color: "black" }
-								}
+								sx={isActive ? { color: "white" } : { color: "black" }}
 								fontSize="small"
 							/>
 						) : (
 							<ArchiveIcon
-								sx={
-									isActive[data.index] ? { color: "white" } : { color: "black" }
-								}
+								sx={isActive ? { color: "white" } : { color: "black" }}
 								fontSize="small"
 							/>
 						)}

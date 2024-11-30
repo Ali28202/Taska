@@ -7,6 +7,7 @@ import SendToMobileIcon from "@mui/icons-material/SendToMobile";
 import SquareIcon from "@mui/icons-material/Square";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useParams } from "react-router-dom";
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 	height: 10,
 	borderRadius: 3,
@@ -19,7 +20,11 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 	},
 }));
 
-export default function ProjectTitle({ projects, idxActiveProject, tasks }) {
+export default function ProjectTitle({ projects, tasks }) {
+	const { title } = useParams();
+	const activeProject = projects.find((p) => {
+		return p.title === title;
+	});
 	let avatars = [
 		// building
 		<div className="bg-[#c5d8e7] md:p-4 p-3 rounded-xl w-fit h-fit">
@@ -49,17 +54,15 @@ export default function ProjectTitle({ projects, idxActiveProject, tasks }) {
 	return (
 		<>
 			<div className="flex items-center md:justify-normal justify-center lg:gap-8 gap-5 md:px-6 lg:py-0 lg:pb-4 md:py-4 py-4 border-b-2 border-slate-200">
-				{avatars[projects?.[idxActiveProject]?.avatarId] || (
-					<CircularProgress />
-				)}
+				{avatars[activeProject?.avatarId] || <CircularProgress />}
 				<div className="flex flex-col lg:gap-2 md:gap-3 gap-1">
 					<h1 className="font-medium xl:text-2xl text-lg">
-						{projects?.[idxActiveProject]?.archive && (
+						{activeProject?.archive && (
 							<span className="text-slate-400 md:text-sm text-xs">
 								archived&nbsp;
 							</span>
 						)}
-						{projects?.[idxActiveProject]?.title || "Loading..."}
+						{activeProject?.title || "Loading..."}
 					</h1>
 					<div className="flex flex-row items-center gap-4 md:gap-5">
 						<BorderLinearProgress
