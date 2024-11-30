@@ -22,7 +22,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 
 export default function ProjectTitle({ projects, tasks }) {
 	const { title } = useParams();
-	const activeProject = projects.find((p) => {
+	const activeProject = projects?.find((p) => {
 		return p.title === title;
 	});
 	let avatars = [
