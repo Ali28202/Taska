@@ -18,7 +18,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useMutation } from "@tanstack/react-query";
 import { pb, signIn, signUp } from "../utils/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { queryClient } from "../utils/query";
 function CustomTabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -46,6 +46,7 @@ function allyProps(index) {
 	};
 }
 export default function LOGIN_LOGOUT() {
+	const { auth } = useParams();
 	// getting data from signup page
 	const [newUserData, setNewUserData] = useState(null);
 	// getting data from signin page
@@ -80,6 +81,9 @@ export default function LOGIN_LOGOUT() {
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
+	useEffect(() => {
+		auth === "signin" ? setValue(0) : setValue(1);
+	}, [auth]);
 	const [showPassword, setShowPassword] = useState(false);
 	let signInBar = false;
 	let signUpBar = false;
@@ -239,6 +243,7 @@ export default function LOGIN_LOGOUT() {
 								{signInModal}
 								<h1>Email:</h1>
 								<TextField
+									id="signinEmail"
 									label="Email*"
 									variant="outlined"
 									className="w-full"
@@ -254,7 +259,7 @@ export default function LOGIN_LOGOUT() {
 										Password*
 									</InputLabel>
 									<OutlinedInput
-										id="outlined-adornment-password"
+										id="signinPassword"
 										type={showPassword ? "text" : "password"}
 										onChange={(e) => {
 											getExistUserData((perv) => {
@@ -287,6 +292,7 @@ export default function LOGIN_LOGOUT() {
 									}
 								>
 									<Button
+										id="submitSignin"
 										variant="contained"
 										sx={{
 											fontFamily: "Poppins",
@@ -310,6 +316,7 @@ export default function LOGIN_LOGOUT() {
 								{signUpModal}
 								<h1>Email:</h1>
 								<TextField
+									id="signupEmail"
 									label="Email*"
 									type="email"
 									variant="outlined"
@@ -330,7 +337,7 @@ export default function LOGIN_LOGOUT() {
 										Password*
 									</InputLabel>
 									<OutlinedInput
-										id="outlined-adornment-password"
+										id="signupPassword"
 										type={showPassword ? "text" : "password"}
 										onChange={(e) => {
 											setNewUserData((perv) => {
@@ -363,6 +370,7 @@ export default function LOGIN_LOGOUT() {
 								</FormControl>
 								<h1>Your Name:</h1>
 								<TextField
+									id="signupName"
 									label="Name*"
 									variant="outlined"
 									onChange={(e) => {
@@ -377,6 +385,7 @@ export default function LOGIN_LOGOUT() {
 									}
 								>
 									<Button
+										id="submitSignup"
 										variant="contained"
 										sx={{
 											fontFamily: "Poppins",
