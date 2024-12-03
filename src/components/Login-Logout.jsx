@@ -157,7 +157,10 @@ export default function LOGIN_LOGOUT() {
 	} else signUpBar = false;
 	if (signUp_data?.code && !signUp_pending) {
 		signUpModal = (
-			<div className="bg-red-600 h-fit w-full rounded-md border-[1px] px-5 py-3 border-red-800">
+			<div
+				className="bg-red-600 h-fit w-full rounded-md border-[1px] px-5 py-3 border-red-800"
+				id="signupError"
+			>
 				<div className="flex flex-col gap-1">
 					<span className="text-white sm:text-base text-sm font-bold">
 						Error
