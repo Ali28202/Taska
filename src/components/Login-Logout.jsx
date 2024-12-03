@@ -98,7 +98,10 @@ export default function LOGIN_LOGOUT() {
 	} else signInBar = false;
 	if (signIn_data?.code && !signIn_pending) {
 		signInModal = (
-			<div className="bg-red-600 h-fit w-full rounded-md border-[1px] px-5 py-3 border-red-800">
+			<div
+				className="bg-red-600 h-fit w-full rounded-md border-[1px] px-5 py-3 border-red-800"
+				id="signinError"
+			>
 				<div className="flex flex-col gap-1">
 					<span className="text-white sm:text-base text-sm font-bold">
 						Error
