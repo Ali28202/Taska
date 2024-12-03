@@ -41,7 +41,10 @@ export default function AddProject({ openDialog, setOpenDialog, projects }) {
 	if (setProject_pending) errModal = <></>;
 	if (setProject_success && setProject_data.code) {
 		errModal = (
-			<div className="bg-red-600 h-fit md:w-72 w-full rounded-md border-[1px] px-5 py-3 border-red-800">
+			<div
+				className="bg-red-600 h-fit md:w-72 w-full rounded-md border-[1px] px-5 py-3 border-red-800"
+				id="projectError"
+			>
 				<div className="flex flex-col gap-1">
 					<span className="text-white sm:text-base text-sm font-bold">
 						Error
@@ -74,6 +77,7 @@ export default function AddProject({ openDialog, setOpenDialog, projects }) {
 					{errModal}
 					<label>Project Name:</label>
 					<TextField
+						id="projectName"
 						label="Name"
 						variant="outlined"
 						className="md:w-72 w-full"
@@ -154,6 +158,7 @@ export default function AddProject({ openDialog, setOpenDialog, projects }) {
 						</Badge>
 					</div>
 					<Button
+						id="createProject"
 						variant="contained"
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
 						onClick={() => {

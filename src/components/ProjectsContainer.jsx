@@ -35,6 +35,7 @@ export default function ProjectsContainer({ className, projects }) {
 		<>
 			<div
 				className={`${className} 2xl:w-[25%] xl:w-[25%] lg:w-[35%] w-full flex-col px-10 lg:pt-9 pt-3 justify-between`}
+				id="projectContainer"
 			>
 				<div>
 					<div className="flex items-center justify-between">
@@ -84,7 +85,10 @@ export default function ProjectsContainer({ className, projects }) {
 						</Drawer>
 					</div>
 					{/* Not Archived Projects */}
-					<div className="mt-12 flex flex-col gap-3 overflow-scroll 2xl:h-[26rem] xl:h-[25rem] lg:h-[24rem] sm:h-80 h-72">
+					<div
+						className="mt-12 flex flex-col gap-3 overflow-scroll 2xl:h-[26rem] xl:h-[25rem] lg:h-[24rem] sm:h-80 h-72"
+						id="listOfProjects"
+					>
 						{projects?.length ? (
 							projects
 								.filter((t) => {
@@ -103,6 +107,7 @@ export default function ProjectsContainer({ className, projects }) {
 					</div>
 				</div>
 				<Button
+					id="addProject"
 					variant="outlined"
 					style={{ fontFamily: "Poppins", borderStyle: "dashed" }}
 					className="w-full !normal-case lg:!mb-5 flex gap-1 lg:!mt-0 md:!mt-16 !mt-24"
