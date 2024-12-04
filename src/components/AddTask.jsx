@@ -62,7 +62,10 @@ export default function AddTask({
 	}
 	if (newTask_success && newTask_data?.code) {
 		modal = (
-			<div className="bg-red-600 h-fit w-full rounded-md border-[1px] px-5 py-3 border-red-800">
+			<div
+				className="bg-red-600 h-fit w-full rounded-md border-[1px] px-5 py-3 border-red-800"
+				id="errModal"
+			>
 				<div className="flex flex-col gap-1">
 					<span className="text-white sm:text-base text-sm font-bold">
 						Error
@@ -93,10 +96,14 @@ export default function AddTask({
 				>
 					<Tab label="Add Task" sx={{ fontFamily: "Poppins" }} />
 				</Tabs>
-				<div className="flex flex-col gap-4 md:px-14 px-8 md:py-8 py-8">
+				<div
+					className="flex flex-col gap-4 md:px-14 px-8 md:py-8 py-8"
+					id="addTaskForm"
+				>
 					{modal}
 					<h1>Title:</h1>
 					<TextField
+						id="title"
 						label="Title"
 						variant="outlined"
 						className="md:w-72 w-full"
@@ -109,6 +116,7 @@ export default function AddTask({
 					/>
 					<h1>Description:</h1>
 					<TextField
+						id="description"
 						label="Description"
 						variant="outlined"
 						className="md:w-72 w-full"
@@ -146,6 +154,7 @@ export default function AddTask({
 					</Button>
 					<h1>Schedule:</h1>
 					<input
+						id="date"
 						type="date"
 						min={today.toString()}
 						max="2025-07-13"

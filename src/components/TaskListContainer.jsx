@@ -36,7 +36,10 @@ export default function TaskListContainer({
 	});
 	return (
 		<>
-			<div className="w-max flex flex-col gap-5">
+			<div
+				className="w-max flex flex-col gap-5"
+				id={`taskListContainer-${name.replace(/ +/g, "")}`}
+			>
 				<div className="flex justify-between 2xl:w-96 xl:w-80 w-72">
 					<div className="flex items-center gap-3">
 						<CircleIcon
@@ -54,6 +57,7 @@ export default function TaskListContainer({
 					</IconButton>
 				</div>
 				<Button
+					id="addTask"
 					variant="outlined"
 					style={{
 						fontFamily: "Poppins",

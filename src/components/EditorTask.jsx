@@ -69,7 +69,11 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 	let today = new Date().toISOString().split("T")[0];
 	return (
 		<>
-			<Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+			<Dialog
+				open={openDialog}
+				onClose={() => setOpenDialog(false)}
+				id="editorDialog"
+			>
 				<Tabs
 					value={value}
 					onChange={handleChange}
@@ -79,9 +83,13 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 				>
 					<Tab label="Edit/Delete Task" sx={{ fontFamily: "Poppins" }} />
 				</Tabs>
-				<div className="flex flex-col gap-4 md:px-14 px-8 md:py-12 py-8">
+				<div
+					className="flex flex-col gap-4 md:px-14 px-8 md:py-12 py-8"
+					id="editorForm"
+				>
 					<h1>Title:</h1>
 					<TextField
+						id="title"
 						ref={titleRef}
 						variant="outlined"
 						className="md:w-72 w-full"
@@ -94,6 +102,7 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 					/>
 					<h1>Description:</h1>
 					<TextField
+						id="description"
 						ref={discRef}
 						variant="outlined"
 						className="md:w-72 w-full"
@@ -129,6 +138,7 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 					</Button>
 					<h1>Schedule:</h1>
 					<input
+						id="date"
 						ref={timeRef}
 						type="date"
 						min={today.toString()}
@@ -140,6 +150,7 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 						}
 					/>
 					<Button
+						id="submitEdit"
 						variant="contained"
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}
 						onClick={() => {
@@ -156,6 +167,7 @@ export default function EditorTask({ data, openDialog, setOpenDialog }) {
 						Edit Task
 					</Button>
 					<Button
+						id="submitDelete"
 						variant="contained"
 						color="error"
 						sx={{ fontFamily: "Poppins", textTransform: "none" }}

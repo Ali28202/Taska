@@ -27,7 +27,10 @@ export default function TaskContainer({ tasks, setTasks, project_title }) {
 			<DndProvider
 				backend={window.innerWidth < 770 ? TouchBackend : HTML5Backend}
 			>
-				<div className="bg-[#f7f7f7] pt-10 2xl:px-20 lg:px-8 sm:px-8 px-4 gap-y-10 flex items-start justify-between overflow-x-scroll lg:gap-8 gap-4">
+				<div
+					className="bg-[#f7f7f7] pt-10 2xl:px-20 lg:px-8 sm:px-8 px-4 gap-y-10 flex items-start justify-between overflow-x-scroll lg:gap-8 gap-4"
+					id="TaskContainer"
+				>
 					<TaskListContainer
 						title={"To Do"}
 						name="to do"
