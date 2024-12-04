@@ -75,7 +75,7 @@ export default function AddProject({ openDialog, setOpenDialog, projects }) {
 				</Tabs>
 				<div className="flex flex-col gap-5 md:px-14 px-10 md:py-12 py-10">
 					{errModal}
-					<label>Project Name:</label>
+					<h1>Project Name:</h1>
 					<TextField
 						id="projectName"
 						label="Name"
@@ -86,9 +86,17 @@ export default function AddProject({ openDialog, setOpenDialog, projects }) {
 							setTextInput(e.target.value);
 						}}
 					/>
-					<label>Select Your Avatar:</label>
-					<div className="flex flex-wrap sm:justify-normal justify-start items-center gap-4">
-						<Badge variant="dot" color="success" invisible={invisible[0]}>
+					<h1>Select Your Avatar:</h1>
+					<div
+						className="flex flex-wrap sm:justify-normal justify-start items-center gap-4"
+						id="avatarContainer"
+					>
+						<Badge
+							variant="dot"
+							color="success"
+							invisible={invisible[0]}
+							id="avatar-1"
+						>
 							<IconButton
 								sx={{ padding: 0 }}
 								onClick={() => {
@@ -105,7 +113,12 @@ export default function AddProject({ openDialog, setOpenDialog, projects }) {
 								</div>
 							</IconButton>
 						</Badge>
-						<Badge variant="dot" color="success" invisible={invisible[1]}>
+						<Badge
+							variant="dot"
+							color="success"
+							invisible={invisible[1]}
+							id="avatar-2"
+						>
 							<IconButton
 								sx={{ padding: 0 }}
 								onClick={() => {
@@ -122,7 +135,12 @@ export default function AddProject({ openDialog, setOpenDialog, projects }) {
 								</div>
 							</IconButton>
 						</Badge>
-						<Badge variant="dot" color="success" invisible={invisible[2]}>
+						<Badge
+							variant="dot"
+							color="success"
+							invisible={invisible[2]}
+							id="avatar-3"
+						>
 							<IconButton
 								sx={{ padding: 0 }}
 								onClick={() => {
@@ -139,7 +157,12 @@ export default function AddProject({ openDialog, setOpenDialog, projects }) {
 								</div>
 							</IconButton>
 						</Badge>
-						<Badge variant="dot" color="success" invisible={invisible[3]}>
+						<Badge
+							variant="dot"
+							color="success"
+							invisible={invisible[3]}
+							id="avatar-4"
+						>
 							<IconButton
 								sx={{ padding: 0 }}
 								onClick={() => {
