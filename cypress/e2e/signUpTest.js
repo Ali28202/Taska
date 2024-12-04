@@ -4,6 +4,15 @@ describe("SignUp Flow", () => {
 	beforeEach(() => {
 		cy.visit("/signup");
 	});
+	it("Success Signup", () => {
+		cy.get("input#signupEmail").type(
+			`${Math.floor(Math.random() * 100000)}@gmail.com`
+		);
+		cy.get("input#signupPassword").type("test1234");
+		cy.get("input#signupName").type("test");
+		cy.get("button#submitSignup").click();
+		cy.url().should("contain", "/project");
+	});
 	it("Failed Signup with empty email field", () => {
 		cy.get("input#signupPassword").type("aaaaaaaa");
 		cy.get("input#signupName").type("aaaaaaaa");
@@ -19,6 +28,25 @@ describe("SignUp Flow", () => {
 	it("Failed Signup with empty Name field", () => {
 		cy.get("input#signupEmail").type("aaaaa@aaaaa.com");
 		cy.get("input#signupPassword").type("aaaaaaaa");
+		cy.get("button#submitSignup").click();
+		cy.get("div#signupError");
+	});
+	it("Failed Signup with empty email & password field", () => {
+		cy.get("input#signupName").type("aaaaaaaa");
+		cy.get("button#submitSignup").click();
+		cy.get("div#signupError");
+	});
+	it("Failed Signup with empty name & password field", () => {
+		cy.get("input#signupEmail").type("aaaaa@aaaaa.com");
+		cy.get("button#submitSignup").click();
+		cy.get("div#signupError");
+	});
+	it("Failed Signup with empty email & name field", () => {
+		cy.get("input#signupPassword").type("aaaaaaaa");
+		cy.get("button#submitSignup").click();
+		cy.get("div#signupError");
+	});
+	it("Failed Signup with all empty field", () => {
 		cy.get("button#submitSignup").click();
 		cy.get("div#signupError");
 	});

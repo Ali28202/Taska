@@ -1,6 +1,12 @@
 import PocketBase from "pocketbase";
 import { errorSignIn, errorSignUp } from "./error";
-const pb = new PocketBase("https://taska.liara.run");
+const isCypress = window.Cypress;
+const pb = new PocketBase(
+	isCypress
+		? process.env.REACT_APP_POCKETBASE_TEST_URL
+		: process.env.REACT_APP_POCKETBASE_PROD_URL
+);
+
 export async function signUp(data) {
 	try {
 		const record = await pb.collection("users").create(data);
