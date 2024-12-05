@@ -23,8 +23,7 @@ jobs:
       # Step 4: Start the application server
       - name: Start application
         run: npm run start &
-        env:
-          CI: true
+        
 
       # Step 5: Wait for the server to be ready
       - name: Wait for server to be ready
