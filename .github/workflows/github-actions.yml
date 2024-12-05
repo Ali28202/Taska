@@ -1,11 +1,38 @@
 name: End-to-end tests
 on: push
+
 jobs:
   cypress-run:
     runs-on: ubuntu-22.04
+
     steps:
+      # Step 1: Checkout the repository
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Cypress run
+      # Step 2: Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Start the application server
+      - name: Start application
+        run: npm run start &
+        env:
+          CI: true
+
+      # Step 5: Wait for the server to be ready
+      - name: Wait for server to be ready
+        run: npx wait-on http://localhost:3000
+
+      # Step 6: Run Cypress tests
+      - name: Run Cypress
         uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          headless: true
