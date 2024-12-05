@@ -1,25 +1,13 @@
 /// <reference types="cypress" />
 
-describe("Task Management Flow", () => {
+describe("Create Task Flow", () => {
 	beforeEach(() => {
-		cy.login();
+		cy.signup();
+		cy.createProject();
 		cy.get("div#listOfProjects").find("button").first().click();
 	});
-	//CREATE TASK
-	it.only("Success Creating Task", () => {
-		cy.get("div#taskListContainer-todo").find("button#addTask").click();
-		// title
-		cy.get("div#addTaskForm").find("div").first().find("input").type("test");
-		// description
-		cy.get("div#addTaskForm")
-			.find("div")
-			.last()
-			.find("textarea")
-			.first()
-			.type("test");
-		// date
-		cy.get("div#addTaskForm").find("input").last().type("2025-03-10");
-		cy.get("div#addTaskForm").find("button").last().click();
+	it("Success Creating Task", () => {
+		cy.createTask();
 	});
 	it("failed creation Task with all fields empty ", () => {
 		cy.get("div#taskListContainer-todo").find("button#addTask").click();
@@ -89,8 +77,14 @@ describe("Task Management Flow", () => {
 		cy.get("div#addTaskForm").find("button").last().click();
 		cy.get("div#errModal");
 	});
-
-	// EDIT TASK
+});
+describe("Edit/Delete Task Flow", () => {
+	beforeEach(() => {
+		cy.signup();
+		cy.createProject();
+		cy.get("div#listOfProjects").find("button").first().click();
+		cy.createTask();
+	});
 	it("Success edit title", () => {
 		cy.get("div#taskListContainer-todo")
 			.find("section")
@@ -189,21 +183,49 @@ describe("Task Management Flow", () => {
 		cy.get("div#editorForm").find("button#submitEdit").click();
 		cy.get("#editorDialog");
 	});
-	//DELETE TASK
-	// it.only("Success delete task", () => {
-	// 	cy.get("div#taskListContainer-todo")
-	// 		.find("section")
-	// 		.first()
-	// 		.find("button#editButton")
-	// 		.click();
-	// 	cy.get("div#editorForm").find("button#submitDelete").click();
-	// 	cy.get("div#taskListContainer-todo")
-	// 		.find("section")
-	// 		.children()
-	// 		.children()
-	// 		.children()
-	// 		.then((tst) => {
-	// 			expect(tst.length).to.be.equal(2);
-	// 		});
-	// });
+	it("Success delete task", () => {
+		cy.get("div#taskListContainer-todo")
+			.find("section")
+			.first()
+			.find("button#editButton")
+			.click();
+		cy.get("div#editorForm").find("button#submitDelete").click();
+		cy.get("div#taskListContainer-todo")
+			.find("section")
+			.children()
+			.should("have.property", "length", 0);
+	});
+});
+describe("Show/Move Task Flow", () => {
+	beforeEach(() => {
+		cy.signup();
+		cy.createProject();
+		cy.get("div#listOfProjects").find("button").first().click();
+		cy.createTask();
+	});
+	it("should move task from todo to in progress", () => {
+		cy.get("div#taskListContainer-todo section div").eq(1).trigger("dragstart");
+		cy.get("div#taskListContainer-inprogress section").trigger("drop");
+		cy.get("div#taskListContainer-inprogress section").should(
+			"have.length.greaterThan",
+			0
+		);
+	});
+	it("should move task from todo to done", () => {
+		cy.get("div#taskListContainer-todo section div").eq(1).trigger("dragstart");
+		cy.get("div#taskListContainer-done section").trigger("drop");
+		cy.get("div#taskListContainer-done section").should(
+			"have.length.greaterThan",
+			0
+		);
+	});
+	it("should show task", () => {
+		cy.get("div#taskListContainer-todo section div").eq(1).click();
+		cy.get("[role=dialog]");
+	});
+	it("should close task", () => {
+		cy.get("div#taskListContainer-todo section div").eq(1).click();
+		cy.get("[role=dialog]").find("button").click();
+		cy.get("[role=dialog]").not();
+	});
 });

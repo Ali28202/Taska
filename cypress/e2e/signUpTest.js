@@ -5,13 +5,7 @@ describe("SignUp Flow", () => {
 		cy.visit("/signup");
 	});
 	it("Success Signup", () => {
-		cy.get("input#signupEmail").type(
-			`${Math.floor(Math.random() * 1000000)}@gmail.com`
-		);
-		cy.get("input#signupPassword").type("test1234");
-		cy.get("input#signupName").type("test");
-		cy.get("button#submitSignup").click();
-		cy.url().should("contain", "/project");
+		cy.signup();
 	});
 	it("Failed Signup with empty email field", () => {
 		cy.get("input#signupPassword").type("aaaaaaaa");
