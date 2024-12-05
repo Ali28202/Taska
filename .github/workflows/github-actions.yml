@@ -29,5 +29,8 @@ jobs:
         env:
           NODE_ENV: test
 
+      - name: Wait for the application to be ready
+        run: npx wait-on http://localhost:3000
+
       - name: Run Cypress tests
         run: npx cypress run
