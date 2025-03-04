@@ -11,5 +11,9 @@ module.exports = defineConfig({
 		setupNodeEvents(on, config) {
 			// implement node event listeners here
 		},
+		retries: 2,
+		env: {
+			REACT_APP_POCKETBASE_TEST_URL: process.env.REACT_APP_POCKETBASE_TEST_URL,
+		},
 	},
 });

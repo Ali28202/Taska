@@ -2,7 +2,9 @@ Cypress.Commands.add("login", () => {
 	cy.visit("/signin");
 	cy.intercept(
 		"POST",
-		"https://taska-test.liara.run/api/collections/users/auth-with-password"
+		`${Cypress.env(
+			"REACT_APP_POCKETBASE_TEST_URL"
+		)}/api/collections/users/auth-with-password`
 	).as("postUser");
 	cy.get("input#signinEmail").type("test@test.com");
 	cy.get("input#signinPassword").type("test1234");
