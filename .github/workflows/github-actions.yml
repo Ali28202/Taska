@@ -11,7 +11,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         env:
-          REACT_APP_POCKETBASE_TEST_URL: https://taska-test.liara.run
+          REACT_APP_POCKETBASE_TEST_URL: ${{secrets.REACT_APP_POCKETBASE_TEST_URL}}
         with:
           start: npm start
       - uses: actions/upload-artifact@v4
