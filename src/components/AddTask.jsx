@@ -157,7 +157,6 @@ export default function AddTask({
 						id="date"
 						type="date"
 						min={today.toString()}
-						max="2025-07-13"
 						required
 						onChange={(e) =>
 							addNewTask((perv) => {
